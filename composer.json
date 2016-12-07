@@ -1,0 +1,13 @@
+{
+    "name": "thehink/linkify",
+    "description": "Rest Api for reddit clone",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "thehink",
+            "email": "benja280@gmail.com"
+        }
+    ],
+    "require": {}
+}
