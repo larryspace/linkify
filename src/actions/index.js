@@ -1,5 +1,1 @@
-import * as AuthenticationActions from './Authentication';
-
-export default {
-  AuthenticationActions
-}
+export * from './Authentication';

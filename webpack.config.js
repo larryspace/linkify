@@ -15,126 +15,146 @@ process.env.REACT_WEBPACK_ENV = env;
 
 let port = 3000;
 
-let config = {
-  extensions: [ '', '.js', '.jsx' ],
-  entry: [
-    './src/index'
-  ],
-  output: {
-    path: path.join(__dirname, './dist/assets'),
-    filename: 'app.js',
-    publicPath: '/assets/'
+const sourcePath = path.join(__dirname, './src');
+const staticsPath = path.join(__dirname, './dist/assets');
+
+const plugins = [
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: Infinity,
+    filename: 'vendor.bundle.js'
+  }),
+  new webpack.DefinePlugin({
+    'process.env': { NODE_ENV: JSON.stringify(env) }
+  }),
+  //new webpack.NamedModulesPlugin(),
+];
+
+const config = {
+  devtool: 'source-map',
+  context: sourcePath,
+  entry: {
+    app: './index.js',
+    vendor: ['react']
   },
-  plugins: [],
+  output: {
+    path: staticsPath,
+    filename: '[name].bundle.js',
+    publicPath: '/assets/',
+  },
   module: {
-    preLoaders: [
+    rules: [
+      /*{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        enforce: "pre",
+        use: "eslint-loader"
+      },*/
       {
         test: /\.(js|jsx)$/,
-        include: './src/',
-        loader: 'eslint-loader'
-      }
-    ],
-    loaders: [
+        exclude: /node_modules/,
+        use: [
+          'babel-loader'
+        ],
+      },
       {
         test: /\.html$/,
-        loader: "file?name=[name].[ext]",
+        use: 'file-loader',
+        query: {
+          name: '[name].[ext]'
+        }
       },
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.png$/, loader: "url-loader?limit=100000" },
       {
-  		  test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-  		  loader: "url?limit=10000&mimetype=application/font-woff"
-  		},
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
       {
-  		  test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-  		  loader: "url?limit=10000&mimetype=application/font-woff"
-  		},
-      {
-  		  test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-  		  loader: "url?limit=10000&mimetype=application/octet-stream"
-  		},
-      {
-  		  test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-  		  loader: "file"
-  		},
-      {
-  		  test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-  		  loader: "url?limit=10000&mimetype=image/svg+xml"
-  		},
-      {
-        test: /\.(mp4|ogg|svg|jpg)$/,
-        loader: 'file-loader'
-      }
+  		  test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        use: ['file-loader']
+  		}
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    modules: [
+      path.resolve(__dirname, 'node_modules'),
+      sourcePath
     ]
   },
-}
+  plugins
+};
 
 if(env === 'dev'){
-  Object.assign(config, {
-    entry: [
-      //'webpack-dev-server/client?http://localhost:' + port,
-      //'webpack/hot/only-dev-server',
-      'webpack/hot/dev-server',
-      'webpack-hot-middleware/client',
-      './src/index'
-    ],
-    port: port,
-    devServer: {
-      contentBase: './src/',
-      historyApiFallback: true,
-      hot: true,
-      port:port,
-      publicPath: '/assets/',
-      noInfo: false
-    },
-    cache: true,
-    devtool: 'eval-source-map',
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
-    ]
-  });
+  plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  );
+  config.entry.app = './hot.js';
+  config.entry.vendor.push(
+    'react-hot-loader/patch',
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client'
+  );
 
-  config.module.loaders.push({
-    test: /\.(js|jsx)$/,
-    loader: 'react-hot!babel-loader',
-    include: path.join(__dirname, 'src')
+  Object.assign(config, {
+    devtool: 'inline-source-map',
+    devServer: {
+      contentBase: './src',
+      publicPath: '/assets/',
+      historyApiFallback: true,
+      port: 3000,
+      compress: false,
+      inline: true,
+      hot: true,
+      stats: {
+        assets: true,
+        children: false,
+        chunks: false,
+        hash: false,
+        modules: false,
+        publicPath: false,
+        timings: true,
+        version: false,
+        warnings: true,
+        colors: {
+          green: '\u001b[32m',
+        }
+      },
+    }
   });
 }
 
 if(env === 'dist'){
+  plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
+      },
+      output: {
+        comments: false
+      },
+    })
+  );
+
   Object.assign(config, {
-    entry: [
-      './src/index'
-    ],
-    port: port,
-    devServer: {
-      contentBase: './src/',
-      historyApiFallback: true,
-      hot: true,
-      port:port,
-      publicPath: '/assets/',
-      noInfo: false
-    },
-    cache: false,
-    devtool: false,
-    plugins: [
-      new webpack.optimize.DedupePlugin(),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"'
-      }),
-      new webpack.optimize.UglifyJsPlugin(),
-      new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.optimize.AggressiveMergingPlugin(),
-      new webpack.NoErrorsPlugin()
-    ]
-  });
-  config.module.loaders.push({
-    test: /\.(js|jsx)$/,
-    loader: 'babel',
-    include: path.join(__dirname, 'src')
+
   });
 }
-
 
 module.exports = config;

@@ -1,7 +1,10 @@
 import 'babel-polyfill';
 import 'core-js/fn/object/assign';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
+
+import { AppContainer } from 'react-hot-loader';
+
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -23,16 +26,21 @@ const store = createStore(
   applyMiddleware(thunk, api)
 )
 
-ReactDOM.render(
+const routes = (
+<Route path='/' component={ App }>
+  <IndexRoute component={ Home } />
+  <Route path='about' component={ About } />
+  <Route path='login' component={ LoginContainer } />
+  <Route path='*' component={ NotFound } />
+</Route>
+);
+
+export const Root = () => (
   <Provider store={store}>
     <Router history={ browserHistory }>
-      <Route path='/' component={ App }>
-        <IndexRoute component={ Home } />
-        <Route path='about' component={ About } />
-        <Route path='login' component={ LoginContainer } />
-        <Route path='*' component={ NotFound } />
-      </Route>
+      { routes }
     </Router>
-  </Provider>,
-  document.getElementById('app')
-);
+  </Provider>
+)
+
+if (!module.hot) render(<Root />, document.getElementById('app'));

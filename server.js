@@ -10,26 +10,25 @@ webpack = require('webpack');
 webpackDevMiddleware = require('webpack-dev-middleware');
 webpackHotMiddleware = require('webpack-hot-middleware');
 webpackConfig = require('./webpack.config');
+
 bundler = webpack(webpackConfig);
 
 browserSync({
     server: {
-        baseDir: './dist/',
-
+        baseDir: 'src',
         middleware: [
             webpackDevMiddleware(bundler, {
                 publicPath: webpackConfig.output.publicPath,
                 noInfo: false,
-                quiet: false,
+                quiet: true,
                 stats: {
                     colors: true
                 }
             }),
             webpackHotMiddleware(bundler)
+        ],
+        files: [
+          'src/*.html'
         ]
-    },
-
-    files: [
-        './dist/assets/*.css'
-    ]
+    }
 });
