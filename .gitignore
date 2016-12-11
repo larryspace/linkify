@@ -36,5 +36,11 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
+build
+dist
+*.env
+phinx.yml
+.php_cs.cache
+
 /vendor/
 composer.lock
