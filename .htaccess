@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+RewriteRule ^api/(.*)$ api/index.php [L,QSA]
+RewriteRule favicon.ico dist/favicon.ico [L]
+RewriteRule ^(.*)$ dist/index.html [L]
