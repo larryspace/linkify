@@ -72,6 +72,14 @@ const config = {
         ]
       },
       {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
   		  test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         use: ['file-loader']
   		}
@@ -92,7 +100,6 @@ if(env === 'development'){
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   );
-  config.entry.app = './hot.js';
   config.entry.vendor.push(
     'react-hot-loader/patch',
     'webpack/hot/dev-server',
