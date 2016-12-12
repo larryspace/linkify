@@ -102,7 +102,7 @@ if(env === 'development'){
   Object.assign(config, {
     devtool: 'inline-source-map',
     devServer: {
-      contentBase: './src',
+      contentBase: './',
       publicPath: '/assets/',
       historyApiFallback: true,
       port: 3000,

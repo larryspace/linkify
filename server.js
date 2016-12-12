@@ -10,6 +10,7 @@ webpack = require('webpack');
 webpackDevMiddleware = require('webpack-dev-middleware');
 webpackHotMiddleware = require('webpack-hot-middleware');
 webpackConfig = require('./webpack.config');
+const connectHistoryApiFallback = require('connect-history-api-fallback');
 
 bundler = webpack(webpackConfig);
 
@@ -25,7 +26,10 @@ browserSync({
                     colors: true
                 }
             }),
-            webpackHotMiddleware(bundler)
+            webpackHotMiddleware(bundler),
+            connectHistoryApiFallback({
+              index: './',
+            })
         ],
         files: [
           'src/*.html'
