@@ -1,11 +1,10 @@
-require('bootstrap/dist/css/bootstrap.min.css');
-require('font-awesome/css/font-awesome.min.css');
-require('../styles/app.css');
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import '../styles/app.scss';
 
 import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss } from 'react-router';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import { loginUser } from '../actions';
 
@@ -15,7 +14,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import LoginContainer from './LoginContainer';
 
 import Home from '../components/Home/home';
-import NotFound from '../components/NotFound';
+import NotFound from '../components/notFound';
 
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';

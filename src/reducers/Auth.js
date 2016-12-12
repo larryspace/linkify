@@ -21,13 +21,13 @@ export default function Auth(state = initialState, action) {
 
     case LOGIN_USER_SUCCESS:
       return {
-        state,
-        isAuthenticating: true
+        ...state,
+        isAuthenticating: false
       }
 
     case LOGIN_USER_FAILURE:
       return {
-        state,
+        ...state,
         isAuthenticating: false
       }
     default:
