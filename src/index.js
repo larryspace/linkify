@@ -2,34 +2,28 @@ import 'babel-polyfill';
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM, { render } from 'react-dom';
-
 import { AppContainer } from 'react-hot-loader';
 
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import reducers from './reducers';
-import api from './middleware/api';
+import configureStore from './store';
 
-import App from './containers/App';
+import RootContainer from './containers/Root';
 
-import Home from './components/Home/home';
-import About from './components/About/about';
-import NotFound from './components/notFound';
+const Root = RootContainer.default;
 
-import LoginContainer from './containers/LoginContainer';
+const store = configureStore();
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+render(
+  <AppContainer><Root store={ store } /></AppContainer>,
+  document.getElementById('root')
+);
 
-const store = createStore(
-  reducers,
-  applyMiddleware(thunk, api)
-)
-
-export const Root = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-)
-
-if (!module.hot) render(<Root />, document.getElementById('app'));
+if (module.hot) {
+  module.hot.accept('./containers/Root', () => {
+    const NewRoot = require('./containers/Root').default;
+    render(
+      <AppContainer><Root store={ store } /></AppContainer>,
+      document.getElementById('root')
+    );
+  });
+}
