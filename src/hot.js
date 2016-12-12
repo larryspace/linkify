@@ -5,9 +5,10 @@ import { AppContainer } from 'react-hot-loader';
 import { Root } from './index';
 
 const render = () => {
+  const NextRootLayout = require('./index');
   ReactDOM.render(<AppContainer><Root /></AppContainer>, document.getElementById('app'));
 }
 
 render();
 
-module.hot.accept('./', render);
+module.hot.accept('./index', render);

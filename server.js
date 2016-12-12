@@ -1,18 +1,11 @@
-var browserSync,
-    webpack,
-    webpackDevMiddleware,
-    webpackHotMiddleware,
-    webpackConfig,
-    bundler;
-
-browserSync = require('browser-sync');
-webpack = require('webpack');
-webpackDevMiddleware = require('webpack-dev-middleware');
-webpackHotMiddleware = require('webpack-hot-middleware');
-webpackConfig = require('./webpack.config');
+const browserSync = require('browser-sync');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('./webpack.config');
 const connectHistoryApiFallback = require('connect-history-api-fallback');
 
-bundler = webpack(webpackConfig);
+const bundler = webpack(webpackConfig);
 
 browserSync({
     server: {
