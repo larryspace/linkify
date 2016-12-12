@@ -26,20 +26,9 @@ const store = createStore(
   applyMiddleware(thunk, api)
 )
 
-const routes = (
-<Route path='/' component={ App }>
-  <IndexRoute component={ Home } />
-  <Route path='about' component={ About } />
-  <Route path='login' component={ LoginContainer } />
-  <Route path='*' component={ NotFound } />
-</Route>
-);
-
 export const Root = () => (
   <Provider store={store}>
-    <Router history={ browserHistory }>
-      { routes }
-    </Router>
+    <App />
   </Provider>
 )
 
