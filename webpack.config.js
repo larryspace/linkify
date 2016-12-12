@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const args = require('minimist')(process.argv.slice(2));
 
-const allowedEnvs = ['dev', 'dist', 'test'];
+const allowedEnvs = ['development', 'production', 'test'];
 let env;
 if (args._.length > 0 && args._.indexOf('start') !== -1) {
   env = 'test';
@@ -11,7 +11,7 @@ if (args._.length > 0 && args._.indexOf('start') !== -1) {
 } else {
   env = 'dev';
 }
-process.env.REACT_WEBPACK_ENV = env;
+process.env.NODE_ENV = env;
 
 let port = 3000;
 
@@ -35,7 +35,7 @@ const config = {
   context: sourcePath,
   entry: {
     app: './index.js',
-    vendor: ['react']
+    vendor: ['react', 'react-dom']
   },
   output: {
     path: staticsPath,
@@ -87,7 +87,7 @@ const config = {
   plugins
 };
 
-if(env === 'dev'){
+if(env === 'development'){
   plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
@@ -127,7 +127,7 @@ if(env === 'dev'){
   });
 }
 
-if(env === 'dist'){
+if(env === 'production'){
   plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
