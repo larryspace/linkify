@@ -38,4 +38,15 @@ class Authentication
     static function requireLogin($data){
 
     }
+
+    static function login(){
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, TRUE);
+        if(!$input)
+          throw new Exception('Invalid login data!', 400);
+
+
+
+        return $input;
+    }
 }
