@@ -121,6 +121,16 @@ class miniRoute
         header("Access-Control-Allow-Origin: *");
         header('Content-Type: application/json');
         http_response_code($status);
+
+        if($status > 200){
+            echo json_encode([
+              'status' => $status,
+              'message' => $response
+            ]);
+            return;
+        }
+
+
         echo json_encode([
           'status' => $status,
           'response' => $response
@@ -152,38 +162,38 @@ class miniRoute
         $userPath = preg_replace('/\/api/', '', $_SERVER['REQUEST_URI']);
         $requestMethod = $this->getRequestMethod();
 
-    //check if request method is supported or display an error
-    if (!$requestMethod) {
-        $this->output(405, 'Request Method not supported');
-        exit;
-    }
-
-    //Loop through stored endpoints and try match the user path
-    foreach ($this->paths[$requestMethod] as $path => $funcs) {
-        if ($this->matchPath($path, $userPath)) {
-            try {
-                $matches = $this->parsePath($path, $userPath);
-                $response = [];
-                $middleware = null;
-
-                  //call middle predefined middleware method if it exists
-                if (is_callable($funcs['middleware'])) {
-                  $middleware = call_user_func($funcs['middleware'], $matches);
-                }
-
-                //call the method defined for the path if it exists
-                if (is_callable($funcs['method'])) {
-                  $response = call_user_func_array($funcs['method'], [$matches, $middleware]);
-                }
-
-                $this->output(200, $response);
-            } catch (Exception $e) {
-                //output error to client if an exception was cought
-                $this->output($e->getCode(), $e->getMessage());
-            }
+        //check if request method is supported or display an error
+        if (!$requestMethod) {
+            $this->output(405, 'Request Method not supported');
             exit;
         }
-    }
-        $this->output(404, "This endpoint doesn't exist!");
+
+        //Loop through stored endpoints and try match the user path
+        foreach ($this->paths[$requestMethod] as $path => $funcs) {
+            if ($this->matchPath($path, $userPath)) {
+                try {
+                    $matches = $this->parsePath($path, $userPath);
+                    $response = [];
+                    $middleware = null;
+
+                      //call middle predefined middleware method if it exists
+                    if (is_callable($funcs['middleware'])) {
+                      $middleware = call_user_func($funcs['middleware'], $matches);
+                    }
+
+                    //call the method defined for the path if it exists
+                    if (is_callable($funcs['method'])) {
+                      $response = call_user_func_array($funcs['method'], [$matches, $middleware]);
+                    }
+
+                    $this->output(200, $response);
+                } catch (Exception $e) {
+                    //output error to client if an exception was cought
+                    $this->output($e->getCode(), $e->getMessage());
+                }
+                exit;
+            }
+        }
+        $this->output(404, "Endpoint $userPath does not exist.");
     }
 }
