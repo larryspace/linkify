@@ -25,6 +25,9 @@ class Header extends React.Component {
                 </NavItem>
               </Nav>
               <Nav className="float-sm-right float-xs-left" navbar>
+              <NavItem>
+                <Link to={'/register'} className="nav-link">Register</Link>
+              </NavItem>
                 <NavItem>
                   <Link to={'/login'} className="nav-link">Login</Link>
                 </NavItem>

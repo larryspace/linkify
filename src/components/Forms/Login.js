@@ -1,12 +1,12 @@
-import './LoginForm.css';
+import './forms.scss';
 
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import {Link} from 'react-router';
 import FontAwesome from 'react-fontawesome';
-import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup } from 'reactstrap';
+import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup, Alert} from 'reactstrap';
 
-import Container from '../page';
+import Container from '../Container';
 
 
 class LoginForm extends Component {
@@ -16,6 +16,18 @@ class LoginForm extends Component {
     const username = findDOMNode(this.refs.username).value;
     const password = findDOMNode(this.refs.password).value;
     this.props.loginUser(username, password);
+  }
+
+  renderError(){
+    if(!this.props.error){
+      return null;
+    }
+
+    return (
+      <Alert color="danger">
+        <strong>Error</strong> { this.props.error }
+      </Alert>
+    );
   }
 
   render() {
@@ -44,6 +56,7 @@ class LoginForm extends Component {
             <Button type="submit" color="primary">Login</Button>
           </ButtonGroup>
         </Form>
+        { this.renderError() }
      </Container>
     );
   }

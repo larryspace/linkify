@@ -1,23 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import '../styles/app.scss';
+import './app.scss';
 
 import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss } from 'react-router';
 import { connect } from 'react-redux';
 
-import { loginUser } from '../actions';
+import { loginUser } from '../../actions';
 
 import FontAwesome from 'react-fontawesome';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
-import LoginContainer from './LoginContainer';
+import LoginContainer from './../Login';
+import RegisterContainer from './../Register';
 
-import Home from '../components/Home/home';
-import NotFound from '../components/notFound';
+import Home from '../../components/Home';
+import NotFound from '../../components/NotFound';
 
-import Header from '../components/header/Header';
-import Footer from '../components/footer/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 class App extends React.Component {
   render() {
@@ -27,6 +28,7 @@ class App extends React.Component {
           <Header />
           <Match exactly pattern="/" component={Home}/>
           <Match exactly pattern="/login" component={LoginContainer}/>
+          <Match exactly pattern="/register" component={RegisterContainer}/>
           <Miss component={NotFound}/>
           <Footer />
         </app>
