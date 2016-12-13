@@ -35,7 +35,7 @@ const config = {
   context: sourcePath,
   entry: {
     app: './index.js',
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom', 'react-fontawesome', 'react-router', 'redux']
   },
   output: {
     path: staticsPath,
