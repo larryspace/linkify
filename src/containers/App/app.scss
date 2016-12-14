@@ -5,3 +5,8 @@ body {
 .container{
   max-width:60em;
 }
+
+
+.collapse.active {
+  display: block;
+}
