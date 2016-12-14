@@ -6,32 +6,28 @@ import FontAwesome from 'react-fontawesome';
 import { Form, Input, FormGroup, Col, Label,
   Button, ButtonGroup, Alert, FormFeedback} from 'reactstrap';
 
-const required = value => value ? undefined : 'Required'
-const maxLength = max => value =>
-  value && value.length > max ? `Must be ${max} characters or less` : undefined
-const maxLength15 = maxLength(15)
-const number = value => value && isNaN(Number(value)) ? 'Must be a number' : undefined
-const minValue = min => value =>
-  value && value < min ? `Must be at least ${min}` : undefined
-const minValue18 = minValue(18)
-const email = value =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
-  'Invalid email address' : undefined
+import { required, email, minLength } from './validate';
 
-class RegisterForm extends Component {
 
-  submitForm(e){
-    e.preventDefault();
+const validate = ({password, repeatPassword}) => {
+  const errors = {};
+
+  if(password != repeatPassword){
+    errors.repeatPassword = 'Must equal password';
   }
 
+  return errors;
+}
+
+class RegisterForm extends Component {
   renderError(){
-    if(!this.props.error){
+    if(!this.props.registerError){
       return null;
     }
 
     return (
       <Alert color="danger">
-        <strong>Error</strong> { this.props.error }
+        <strong>Error</strong> { this.props.registerError }
       </Alert>
     );
   }
@@ -48,11 +44,6 @@ class RegisterForm extends Component {
   }
 
   render() {
-
-    if(this.props.isAuthenticating){
-      return (<Container>Authenticating...</Container>);
-    }
-
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
@@ -63,11 +54,11 @@ class RegisterForm extends Component {
           />
           <Field name="password" type="password" label="Password"
             component={this.renderField}
-            validate={[ required ]}
+            validate={[ required, minLength(6) ]}
           />
           <Field name="repeatPassword" type="password" label="Repeat Password"
             component={this.renderField}
-            validate={[ required ]}
+            validate={[  ]}
           />
           <Field name="email" type="text" label="Email"
             component={this.renderField}
@@ -76,6 +67,7 @@ class RegisterForm extends Component {
           <ButtonGroup>
             <Button type="submit" color="primary" disabled={submitting}>Register</Button>
           </ButtonGroup>
+          { this.props.isRegistering ? 'Processing...' : ''}
           { this.renderError() }
         </Form>
     );
@@ -83,5 +75,6 @@ class RegisterForm extends Component {
 }
 
 export default reduxForm({
-  form: 'registerForm'
+  form: 'registerForm',
+  validate
 })(RegisterForm);

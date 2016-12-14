@@ -22,7 +22,7 @@ class RegisterContainer extends Component {
         <h2>Register</h2>
         <RegisterForm
             onSubmit = { register }
-            error = { this.props.error }
+            registerError = { this.props.error }
             isRegistering = { this.props.isRegistering }
         />
       </Container>
