@@ -40,8 +40,7 @@ class Authentication
     }
 
     static function login(){
-        $inputJSON = file_get_contents('php://input');
-        $input = json_decode($inputJSON, TRUE);
+        $input = get_json_body();
         if(!$input)
           throw new Exception('Invalid login data!', 400);
 
