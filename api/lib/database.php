@@ -1,21 +1,28 @@
 <?php
-namespace app;
-
-use \PDO;
+//use \PDO;
 
 require_once  __DIR__ . '/../models/token.php';
 require_once  __DIR__ . '/../models/user.php';
-
-$db = new PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-global $db;
 
 /**
  *
  */
 class Database
 {
+
+  static $db = null;
+
+  static function get(){
+      if(self::$db){
+          return self::$db;
+      }
+
+      self::$db = new PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+      self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      self::$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+      return self::$db;
+  }
+
   static function save($table, $values, $where){
     $sql = "UPDATE $table SET ";
     foreach ($values as $key => $value) {
@@ -28,7 +35,7 @@ class Database
     }
     $sql = rtrim($sql, "AND ");
 
-    $stmt = $db->prepare($sql);
+    $stmt = self::get()->prepare($sql);
 
     return $stmt->execute(array_merge($values, $where));
   }
@@ -40,12 +47,12 @@ class Database
     }
     $sql = rtrim($sql, "AND ");
 
-    $stmt = $db->prepare($sql);
+    $stmt = self::get()->prepare($sql);
 
     return $stmt->execute($where);
   }
 
-  static function get($table, $values, $where, $class){
+  static function fetch($table, $values, $where, $class){
     $sql = "SELECT ";
     foreach ($values as $key) {
       $sql .= "$key, ";
@@ -57,7 +64,7 @@ class Database
     }
     $sql = rtrim($sql, "AND ");
 
-    $stmt = $db->prepare($sql);
+    $stmt = self::get()->prepare($sql);
 
     $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
     $stmt->execute(array_merge($values, $where));
@@ -81,9 +88,9 @@ class Database
     $sql = rtrim($sql, ", ");
     $sql .= ")";
 
-    $stmt = $db->prepare($sql);
+    $stmt = self::get()->prepare($sql);
 
     $stmt->execute($values);
-    return $db->lastInsertId();
+    return self::get()->lastInsertId();
   }
 }
