@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/scss/bootstrap.scss';
 import 'font-awesome/css/font-awesome.min.css';
 import './app.scss';
 
@@ -7,9 +7,6 @@ import { BrowserRouter, Match, Link, Miss } from 'react-router';
 import { connect } from 'react-redux';
 
 import { loginUser } from '../../actions';
-
-import FontAwesome from 'react-fontawesome';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
@@ -24,14 +21,14 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <app>
-          <Header />
-          <Match exactly pattern="/" component={Home}/>
-          <Match exactly pattern="/login" component={LoginContainer}/>
-          <Match exactly pattern="/register" component={RegisterContainer}/>
-          <Miss component={NotFound}/>
-          <Footer />
-        </app>
+          <app>
+            <Header />
+            <Match exactly pattern="/" component={Home}/>
+            <Match exactly pattern="/login" component={LoginContainer}/>
+            <Match exactly pattern="/register" component={RegisterContainer}/>
+            <Miss component={NotFound}/>
+            <Footer />
+          </app>
       </BrowserRouter>
     );
   }

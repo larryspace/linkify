@@ -9,6 +9,7 @@ import FontAwesome from 'react-fontawesome';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 
+import Container from '../components/Container';
 import LoginForm from '../components/Forms/Login';
 
 class LoginContainer extends Component {
@@ -21,19 +22,18 @@ class LoginContainer extends Component {
 
   }
 
-  loginUser(username, password){
-    this.props.loginUser(username, password);
-  }
-
   render() {
-    const loginUserFunction = (username, password) => this.loginUser(username, password);
+    const register = (values) => this.props.loginUser(values);
 
     return (
-      <LoginForm
-          loginUser = {loginUserFunction}
-          error = { this.props.error }
-          isAuthenticating = { this.props.isAuthenticating }
-      />
+      <Container>
+        <h2>Login</h2>
+        <LoginForm
+            onSubmit = { register }
+            loginError = { this.props.error }
+            isAuthenticating = { this.props.isAuthenticating }
+        />
+      </Container>
     );
   }
 }

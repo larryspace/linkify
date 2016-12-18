@@ -21,7 +21,7 @@ const registerUserRequest = ({username, email, password}) => ({
   }
 });
 
-const loginUserRequest = (username, password) => ({
+const loginUserRequest = ({username, password}) => ({
   [CALL_API]: {
     types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
     endpoint: `login`,
@@ -34,8 +34,8 @@ const loginUserRequest = (username, password) => ({
 });
 
 
-export const loginUser = (username, password) => (dispatch, getState) =>  {
-  return dispatch(loginUserRequest(username, password));
+export const loginUser = (values) => (dispatch, getState) =>  {
+  return dispatch(loginUserRequest(values));
 };
 
 export const registerUser = (values) => (dispatch, getState) =>  {

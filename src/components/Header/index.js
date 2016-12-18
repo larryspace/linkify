@@ -1,3 +1,4 @@
+import './header.scss';
 import React from 'react';
 import {Link} from 'react-router';
 
@@ -12,7 +13,7 @@ class Header extends React.Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+      collapsed: false
     };
   }
 
@@ -23,16 +24,16 @@ class Header extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <header>
         <Navbar color="inverse" dark full>
-          <NavbarToggler className="hidden-sm-up pull-right collapsed" onClick={this.toggleNavbar} />
+          <NavbarToggler className="hidden-md-up pull-right collapsed" onClick={this.toggleNavbar} />
 
           <div className="container">
               <Link to={'/'} className="navbar-brand">Linkify</Link>
-              <Collapse className="navbar-toggleable-md" isOpen={true}>
-                <Nav navbar>
+              <Collapse className="navlinks navbar-toggleable-sm" isOpen={this.state.collapsed}>
+              <div className="divider"></div>
+                <Nav navbar className="float-sm-left">
                   <NavItem>
                     <Link to={'/'} className="nav-link">Home</Link>
                   </NavItem>
@@ -40,7 +41,7 @@ class Header extends React.Component {
                     <Link to={'/about'} className="nav-link">About</Link>
                   </NavItem>
                 </Nav>
-                <Nav className="float-sm-right float-xs-left" navbar>
+                <Nav className="float-md-right float-sm-left" navbar>
                 <NavItem>
                   <Link to={'/register'} className="nav-link">Register</Link>
                 </NavItem>

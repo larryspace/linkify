@@ -2,11 +2,15 @@ import './forms.scss';
 
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
+import { Field, reduxForm } from 'redux-form';
 import {Link} from 'react-router';
 import FontAwesome from 'react-fontawesome';
 import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup, Alert} from 'reactstrap';
 
 import Container from '../Container';
+
+import { required, email, minLength } from './validate';
+import renderField from './renderField';
 
 
 class LoginForm extends Component {
@@ -19,47 +23,45 @@ class LoginForm extends Component {
   }
 
   renderError(){
-    if(!this.props.error){
+    if(!this.props.loginError){
       return null;
     }
 
     return (
       <Alert color="danger">
-        <strong>Error</strong> { this.props.error }
+        <strong>Error</strong> { this.props.loginError }
       </Alert>
     );
   }
 
   render() {
 
-    if(this.props.isAuthenticating){
-      return (<Container>Authenticating...</Container>);
-    }
+    const { handleSubmit,
+            pristine,
+            reset,
+            submitting } = this.props;
 
     return (
-      <Container>
-        <h2>Login</h2>
-        <Form onSubmit={e => this.submitLogin(e)}>
-          <FormGroup row>
-            <Label for="email" sm={2}>Email</Label>
-            <Col sm={10}>
-              <Input type="text" ref="username" name="username" id="username" placeholder="Username" />
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label for="password" sm={2}>Password</Label>
-            <Col sm={10}>
-              <Input type="password" ref="password" name="password" id="password" placeholder="Password" />
-            </Col>
-          </FormGroup>
-          <ButtonGroup>
-            <Button type="submit" color="primary">Login</Button>
-          </ButtonGroup>
-        </Form>
+      <Form onSubmit={handleSubmit}>
+        <Field name="username" type="text" label="Username"
+          component={renderField}
+          validate={[ required ]}
+        />
+        <Field name="password" type="password" label="Password"
+          component={renderField}
+          validate={[ required ]}
+        />
+        <ButtonGroup>
+          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+        </ButtonGroup>
+        { this.props.isAuthenticating ? 'Processing...' : ''}
         { this.renderError() }
-     </Container>
+      </Form>
     );
   }
 }
 
-export default LoginForm;
+export default reduxForm({
+  form: 'loginForm',
+  destroyOnUnmount: false
+})(LoginForm);
