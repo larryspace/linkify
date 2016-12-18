@@ -15,7 +15,7 @@ class Token extends Model
       'expires' => $this->expires
     ]);
 
-    $encrypted = openssl_encrypt($data, _TOKEN_ENCRYPTION_ALG_, base64_decode(_TOKEN_ENCRYPTION_KEY_), OPENSSL_RAW_DATA, base64_decode(_TOKEN_ENCRYPTION_IV_));
+    $encrypted = openssl_encrypt($data, $_ENV['TOKEN_ENCRYPTION_ALG'], base64_decode($_ENV['TOKEN_ENCRYPTION_KEY']), OPENSSL_RAW_DATA, base64_decode($_ENV['TOKEN_ENCRYPTION_IV']));
     $encryptedBase64 = base64url_encode($encrypted);
 
     $this->base64String = $encryptedBase64;
@@ -49,7 +49,7 @@ class Token extends Model
   }
 
   static function get($token){
-    $data = openssl_decrypt(base64url_decode($token), _TOKEN_ENCRYPTION_ALG_, base64_decode(_TOKEN_ENCRYPTION_KEY_), false, base64_decode(_TOKEN_ENCRYPTION_IV_));
+    $data = openssl_decrypt(base64url_decode($token), $_ENV['TOKEN_ENCRYPTION_ALG'], base64_decode($_ENV['TOKEN_ENCRYPTION_KEY']), false, base64_decode($_ENV['TOKEN_ENCRYPTION_IV']));
     if(!$data){
       //throw new Exception("Couldn't decrypt token");
       return false;
