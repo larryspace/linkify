@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/lib/autoload.php';
 require_once __DIR__ . '/controllers/authentication.php';
+require_once __DIR__ . '/controllers/user.php';
+require_once __DIR__ . '/stores/user.php';
 
 $router = new miniRoute();
 
@@ -33,7 +35,7 @@ $router->GET("/posts(/:page)", 'PostStore::getPosts');
 $router->POST("/user", 'UserStore::updateUser', 'Authentication::requireAuth');
 $router->GET("/user(/:id)", 'UserStore::getUser');
 
-$router->POST("/register", 'Authentication::register');
+$router->POST("/register", 'app\controllers\User::register');
 $router->POST("/login", 'app\controllers\Authentication::login');
 $router->GET("/logout", 'Authentication::logout', 'Authentication::requireAuth');
 $router->GET("/user/auth", 'Authentication::auth');
