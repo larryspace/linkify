@@ -17,6 +17,10 @@ class User
             'email' => $email]);
     }
 
+    static function fetchByName($username, $values){
+        return \Database::fetch('users', $values, ['username' => $username], '\app\models\User');
+    }
+
     static function get($id){
 
     }

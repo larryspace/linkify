@@ -116,23 +116,26 @@ class miniRoute
       return !empty($isMatched);
   }
 
-    public function output($status, $response='')
+    public function output($response = '')
     {
+        header("Access-Control-Allow-Origin: *");
+        header('Content-Type: application/json');
+        http_response_code(200);
+
+        echo json_encode([
+          'status' => 'ok',
+          'response' => $response
+        ]);
+    }
+
+    public function error($status, $message, $response = []){
         header("Access-Control-Allow-Origin: *");
         header('Content-Type: application/json');
         http_response_code($status);
 
-        if($status > 200){
-            echo json_encode([
-              'status' => $status,
-              'message' => $response
-            ]);
-            return;
-        }
-
-
         echo json_encode([
-          'status' => $status,
+          'status' => 'error',
+          'message' => $message,
           'response' => $response
         ]);
     }
@@ -186,10 +189,10 @@ class miniRoute
                       $response = call_user_func_array($funcs['method'], [$matches, $middleware]);
                     }
 
-                    $this->output(200, $response);
-                } catch (Exception $e) {
+                    $this->output($response);
+                } catch (ApiException $e) {
                     //output error to client if an exception was cought
-                    $this->output($e->getCode(), $e->getMessage());
+                    $this->error($e->getStatus(), $e->getMessage(), $e->getResponse());
                 }
                 exit;
             }

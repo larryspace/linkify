@@ -11,7 +11,7 @@ class Token extends Model
     $data = json_encode([
       'id' => $this->id,
       'hash' => $this->hash,
-      'user_id' => $this->userId,
+      'user_id' => $this->user_id,
       'expires' => $this->expires
     ]);
 
@@ -28,14 +28,14 @@ class Token extends Model
   static function create($userId, $type, $expires){
     $hash = md5(uniqid('', true));
 
-    Database::create('tokens', [
+    \Database::create('tokens', [
       'hash' => $hash,
       'user_id' => $userId,
       'expires' => $expires,
       'type' => $type
     ]);
 
-    return self::getById($db->lastInsertId(), $hash);
+    return self::getById(\Database::get()->lastInsertId(), $hash);
   }
 
   static function getById($id, $hash){
@@ -43,7 +43,7 @@ class Token extends Model
     $select = ['id', 'hash', 'user_id', 'type', 'expires'];
     $where = ['id' => $id, 'hash'=>$hash];
 
-    $token = Database::get('tokens', $select, $where, 'app\models\token');
+    $token = \Database::fetch('tokens', $select, $where, '\app\models\Token');
 
     return $token;
   }

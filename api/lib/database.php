@@ -53,6 +53,11 @@ class Database
   }
 
   static function fetch($table, $values, $where, $class){
+
+    if(!in_array('id', $values)){
+        array_push($values, 'id');
+    }
+
     $sql = "SELECT ";
     foreach ($values as $key) {
       $sql .= "$key, ";
@@ -67,7 +72,7 @@ class Database
     $stmt = self::get()->prepare($sql);
 
     $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
-    $stmt->execute(array_merge($values, $where));
+    $stmt->execute($where);
 
     return $stmt->fetch();
   }
