@@ -7,9 +7,8 @@ import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 
-import RootContainer from './containers/Root';
+import Root from './containers/Root';
 
-const Root = RootContainer.default;
 
 const store = configureStore();
 
