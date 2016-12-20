@@ -51,7 +51,7 @@ class RegisterForm extends Component {
           />
           <Field name="repeatPassword" type="password" label="Repeat Password"
             component={renderField}
-            validate={[  ]}
+            validate={[ required ]}
           />
           <Field name="email" type="text" label="Email"
             component={renderField}

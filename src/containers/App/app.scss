@@ -2,6 +2,8 @@ body {
   background-color: #EEE;
 }
 
-.container{
-  max-width:60em;
+.wrapper{
+  &.pad-left{
+    padding-left: 256px;
+  }
 }
