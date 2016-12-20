@@ -10,7 +10,7 @@ function base64url_decode($data) {
 function get_json_body($assoc = false){
     $inputJSON = file_get_contents('php://input');
     $input = json_decode($inputJSON, $assoc);
-    if(!$input){
+    if($input === false){
         throw new Exception('Invalid JSON data!', 400);
     }
     return $input;

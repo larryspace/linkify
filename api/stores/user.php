@@ -21,6 +21,16 @@ class User
         return \Database::fetch('users', $values, ['username' => $username], '\app\models\User');
     }
 
+    static function getFullUserInfo($userId){
+        return \Database::fetch('users', [
+            'id',
+            'username',
+            'email',
+            'first_name',
+            'last_name'
+        ], ['id' => $userId], '\app\models\User');
+    }
+
     static function get($id){
 
     }

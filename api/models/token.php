@@ -49,7 +49,7 @@ class Token extends Model
   }
 
   static function get($token){
-    $data = openssl_decrypt(base64url_decode($token), $_ENV['TOKEN_ENCRYPTION_ALG'], base64_decode($_ENV['TOKEN_ENCRYPTION_KEY']), false, base64_decode($_ENV['TOKEN_ENCRYPTION_IV']));
+    $data = openssl_decrypt(base64url_decode($token), $_ENV['TOKEN_ENCRYPTION_ALG'], base64_decode($_ENV['TOKEN_ENCRYPTION_KEY']), OPENSSL_RAW_DATA, base64_decode($_ENV['TOKEN_ENCRYPTION_IV']));
     if(!$data){
       //throw new Exception("Couldn't decrypt token");
       return false;

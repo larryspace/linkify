@@ -23,6 +23,27 @@ class Header extends React.Component {
     });
   }
 
+  renderLoginButton(){
+    return (
+    <NavItem>
+      <Link to={'/login'} className="nav-link">Login</Link>
+    </NavItem>);
+  }
+
+  renderRegisterButton(){
+    return (
+    <NavItem>
+      <Link to={'/register'} className="nav-link">Register</Link>
+    </NavItem>);
+  }
+
+  renderLogoutButton(){
+    return (
+    <NavItem>
+      <Link to={'/logout'} className="nav-link">Logout</Link>
+    </NavItem>);
+  }
+
   render() {
     return (
       <header>
@@ -42,12 +63,9 @@ class Header extends React.Component {
                   </NavItem>
                 </Nav>
                 <Nav className="float-md-right float-sm-left" navbar>
-                <NavItem>
-                  <Link to={'/register'} className="nav-link">Register</Link>
-                </NavItem>
-                  <NavItem>
-                    <Link to={'/login'} className="nav-link">Login</Link>
-                  </NavItem>
+                {this.props.isAuthenticated && this.renderLogoutButton()}
+                {!this.props.isAuthenticated && this.renderRegisterButton()}
+                {!this.props.isAuthenticated && this.renderLoginButton()}
                 </Nav>
               </Collapse>
             </div>

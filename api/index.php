@@ -31,12 +31,12 @@ $router->POST("/post/:id", 'PostStore::updatePost', 'Authentication::requireAuth
 $router->DELETE("/post/:id", 'PostStore::deletePost', 'Authentication::requireAuth');
 $router->GET("/posts(/:page)", 'PostStore::getPosts');
 
-$router->POST("/user", 'UserStore::updateUser', 'Authentication::requireAuth');
-$router->GET("/user(/:id)", 'UserStore::getUser');
-
 $router->POST("/register", 'app\controllers\User::register');
 $router->POST("/login", 'app\controllers\User::login');
-$router->GET("/logout", 'app\controllers\User::logout', 'Authentication::requireAuth');
-$router->GET("/user/auth", 'Authentication::auth');
+$router->GET("/logout", 'app\controllers\User::logout', '\Authentication::requireAuth');
+$router->GET("/user/auth", 'app\controllers\User::getUserInfo', '\Authentication::requireAuth');
+
+$router->POST("/user", 'UserStore::updateUser', 'Authentication::requireAuth');
+$router->GET("/user(/:id)", 'UserStore::getUser');
 
 $router->route();

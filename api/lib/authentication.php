@@ -10,8 +10,8 @@ class Authentication
     static function checkLogin(){
         $headers = getallheaders();
 
-        if(!isset($headers['token'])){
-            throw new Exception("Unauthorized", 401);
+        if(!isset($headers['authorization'])){
+            throw new ApiException("Unauthorized", 401);
         }
 
         $matches = array();
@@ -20,23 +20,23 @@ class Authentication
             $token = $matches[1];
         }
 
-        $token = Token::get($headers['token']);
+        $token = \app\models\Token::get($token);
 
         if(!$token){
-            throw new Exception("Unauthorized", 401);
+            throw new ApiException("Unauthorized", 401);
         }
 
-        if($token->type !== 'login'){
-            throw new Exception("Unauthorized", 401);
+        if($token->type !== 'auth'){
+            throw new ApiException("Invalid Token Type", 401);
         }
 
-        $user = UserStore::get($token->user_id);
+        $user = \app\stores\User::getFullUserInfo($token->user_id);
         self::$isLoggedIn = true;
         return $user;
     }
 
-    static function requireLogin($data){
-
+    static function requireAuth(){
+        return self::checkLogin();
     }
 
     static function login($username, $password){

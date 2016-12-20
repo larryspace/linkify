@@ -10,7 +10,7 @@ const apiFetch = (endpoint, method = 'GET', body) => {
   const token = localStorage.getItem('token');
 
   if(token){
-    headers.append('Authentication', 'Token ' + token);
+    headers.append('Authorization', 'Token ' + token);
   }
 
   const options = {
@@ -56,7 +56,7 @@ export default store => next => action => {
 
   return apiFetch(endpoint, method, body).then(
     response => next(actionWith({
-      response,
+      response: response.response,
       type: successType
     })),
     error => next(actionWith({

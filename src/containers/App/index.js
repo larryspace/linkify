@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss } from 'react-router';
 import { connect } from 'react-redux';
 
-import { loginUser } from '../../actions';
+import { authUser } from '../../actions';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
@@ -18,11 +18,20 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 class App extends React.Component {
+  componentDidMount() {
+    if(localStorage.getItem('token')){
+      this.props.authUser();
+    }
+  }
+
   render() {
     return (
       <BrowserRouter>
           <app>
-            <Header />
+            <Header
+              userInfo={this.props.userInfo}
+              isAuthenticated={this.props.isAuthenticated}
+             />
             <Match exactly pattern="/" component={Home}/>
             <Match exactly pattern="/login" component={LoginContainer}/>
             <Match exactly pattern="/register" component={RegisterContainer}/>
@@ -35,12 +44,13 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticating: state.isAuthenticating,
+  userInfo: state.Auth.userInfo,
+  isAuthenticated: state.Auth.isAuthenticated,
 })
 
 
 export default connect(mapStateToProps,
   {
-    loginUser
+    authUser,
   }
 )(App)

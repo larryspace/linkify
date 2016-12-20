@@ -6,6 +6,13 @@ namespace app\controllers;
  */
 class User
 {
+
+    static function getUserInfo($params, $userInfo){
+        return [
+            'userInfo' => $userInfo
+        ];
+    }
+
     static function Register(){
         $postBody = get_json_body(true);
 
@@ -55,7 +62,10 @@ class User
                 throw new \ApiException('Couldn\'t login for some reason', 400);
             }
 
-            return ['token' => $token->toString()];
+            return [
+                'userInfo' => \app\stores\User::getFullUserInfo($token->user_id),
+                'token' => $token->toString()
+            ];
 
         } catch (Exception $e) {
             throw new \ApiException('Couldn\'t login for some reason', 400);
