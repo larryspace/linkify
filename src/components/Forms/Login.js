@@ -43,11 +43,19 @@ class LoginForm extends Component {
 
     return (
       <Form onSubmit={handleSubmit}>
-        <Field name="username" type="text" label="Username"
+        <Field
+          icon="user"
+          name="username"
+          type="text"
+          label="Username"
           component={renderField}
           validate={[ required ]}
         />
-        <Field name="password" type="password" label="Password"
+        <Field
+          icon="lock"
+          name="password"
+          type="password"
+          label="Password"
           component={renderField}
           validate={[ required ]}
         />
