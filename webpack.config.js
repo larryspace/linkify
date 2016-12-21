@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const args = require('minimist')(process.argv.slice(2));
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const allowedEnvs = ['development', 'production', 'test'];
 let env;
@@ -26,8 +27,7 @@ const plugins = [
   }),
   new webpack.DefinePlugin({
     'process.env': { NODE_ENV: JSON.stringify(env) }
-  }),
-  //new webpack.NamedModulesPlugin(),
+  })
 ];
 
 const config = {
@@ -35,7 +35,7 @@ const config = {
   context: sourcePath,
   entry: {
     app: './index.js',
-    vendor: ['react', 'react-dom', 'react-router', 'redux']
+    vendor: ['react', 'react-dom', 'react-router', 'redux', 'react-redux']
   },
   output: {
     path: staticsPath,
@@ -65,21 +65,6 @@ const config = {
         }
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
   		  test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         use: ['file-loader']
   		}
@@ -105,6 +90,23 @@ if(env === 'development'){
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client'
   );
+
+  config.module.rules.push(
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader'
+      ]
+    },
+    {
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'sass-loader'
+      ]
+    });
 
   Object.assign(config, {
     devtool: 'inline-source-map',
@@ -136,6 +138,7 @@ if(env === 'development'){
 
 if(env === 'production'){
   plugins.push(
+    new ExtractTextPlugin({ filename: 'bundle.css', disable: false, allChunks: true }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
@@ -158,6 +161,22 @@ if(env === 'production'){
       },
     })
   );
+
+  config.module.rules.push(
+  {
+    test: /\.css$/,
+    loader: ExtractTextPlugin.extract({
+            notExtractLoader: "style-loader",
+            loader: "css-loader"
+          })
+  },
+  {
+    test: /\.scss$/,
+    loader: ExtractTextPlugin.extract({
+            notExtractLoader: "style-loader",
+            loader: ["css-loader", "sass-loader"]
+          })
+  });
 
   Object.assign(config, {
 
