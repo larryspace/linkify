@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { ListGroup, ListGroupItem, Tag } from 'reactstrap';
 
 import './navigation.scss';
 
@@ -15,6 +16,18 @@ export default class NavigationDrawer extends Component {
     return (
       <aside className={"navigation-drawer " + (!this.props.open && !this.props.fixed && "closed" || "")}>
       <h2>Linkify</h2>
+      <ul className="list-group">
+        <li className="sub-header">Default Reddits</li>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <li className="sub-header">Subscribed</li>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+      </ul>
       </aside>
     );
   }
