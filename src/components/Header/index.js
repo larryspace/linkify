@@ -48,7 +48,7 @@ class Header extends React.Component {
     return (
       <header>
         <Navbar color="inverse" dark full>
-            <NavbarToggler className="hidden-md-up pull-left collapsed" onClick={this.props.onHamburgerClick} />
+            <button className="navbar-toggler hidden-md-up pull-left" type="button" onClick={this.props.onHamburgerClick}></button>
             <Nav navbar className="pull-right">
               {this.props.isAuthenticated && this.renderLogoutButton()}
               {!this.props.isAuthenticated && this.renderRegisterButton()}
