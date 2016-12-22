@@ -18,6 +18,10 @@ class LoginContainer extends Component {
 
   }
 
+  componentDidMount() {
+    console.log(this);
+  }
+
   componentWillReceiveProps(nextProps) {
 
   }

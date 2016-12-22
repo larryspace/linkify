@@ -34,6 +34,10 @@ class App extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log('component will recieve props', nextProps);
+  }
+
   updateDimensions(){
     if(window.innerWidth > 767){
       this.setState({fixedDrawer: true});
@@ -48,9 +52,6 @@ class App extends Component {
   }
 
   render() {
-
-
-
     return (
       <BrowserRouter>
           <app>
