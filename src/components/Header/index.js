@@ -58,6 +58,7 @@ class Header extends React.Component {
     return (
       <header>
         <Navbar color="inverse" dark full>
+            <span className="navbar-brand">{ this.props.title }</span>
             <button className="navbar-toggler hidden-md-up pull-left" type="button" onClick={this.props.onHamburgerClick}></button>
             <Nav navbar className="pull-right">
               {this.props.isAuthenticated && this.renderDropdownMenu()}
