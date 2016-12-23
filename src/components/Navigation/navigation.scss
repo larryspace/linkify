@@ -5,7 +5,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0,0,0,.5);
-  z-index: 99999;
+  z-index: 9999;
 }
 
 .navigation-drawer {
@@ -15,7 +15,7 @@
   width: 256px;
   background: #FFF;
   box-shadow: 0 1px 4px rgba(0,0,0,0.6);
-  z-index: 99999;
+  z-index: 9999;
   overflow: auto;
   & > h2{
     height:56px;
