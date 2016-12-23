@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
-
-
-import { loginUser } from '../actions';
-
-import FontAwesome from 'react-fontawesome';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-
+import { loginUser, setPageInfo } from '../actions';
 
 import Container from '../components/Container';
 import LoginForm from '../components/Forms/Login';
@@ -20,6 +14,7 @@ class LoginContainer extends Component {
 
   componentDidMount() {
     console.log(this);
+    this.props.setPageInfo({ title: 'Login' });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps,
   {
-    loginUser
+    loginUser,
+    setPageInfo
   }
 )(LoginContainer);
