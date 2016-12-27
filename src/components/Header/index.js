@@ -40,16 +40,26 @@ class Header extends React.Component {
   }
 
   renderDropdownMenu(){
+
+    const accountMenu = [
+      ['/account/settings', 'Account Info'],
+      ['/account/avatar', 'Avatar'],
+      ['/account/password', 'Password']
+    ];
+
     return (
     <NavDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
-      <DropdownToggle nav>
+      <DropdownToggle nav className="account-menu-toggler">
         <FontAwesome name="ellipsis-v" />
       </DropdownToggle>
       <DropdownMenu right>
-        <DropdownItem>Profile</DropdownItem>
-        <DropdownItem>Settings</DropdownItem>
+        <Link to={'/profile'} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
+        <DropdownItem header>Settings</DropdownItem>
+        {accountMenu.map(item => (
+          <Link key={item[0]} to={item[0]} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>{item[1]}</Link>
+        ))}
         <DropdownItem divider />
-        <DropdownItem>Logout</DropdownItem>
+        <Link to={'/logout'} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Logout</Link>
       </DropdownMenu>
     </NavDropdown>);
   }
