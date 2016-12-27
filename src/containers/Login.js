@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Link} from 'react-router';
+import { Link, Redirect} from 'react-router';
 import { connect } from 'react-redux';
 import { loginUser, setPageInfo } from '../actions';
 
@@ -13,12 +13,13 @@ class LoginContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this);
     this.props.setPageInfo({ title: 'Login' });
   }
 
-  componentWillReceiveProps(nextProps) {
-
+  redirectIfAuthenticated(nextProps) {
+    if(this.props.isAuthenticated){
+      return (<Redirect to="/home" />);
+    }
   }
 
   render() {
@@ -26,7 +27,6 @@ class LoginContainer extends Component {
 
     return (
       <Container>
-        <h2>Login</h2>
         <LoginForm
             onSubmit = { register }
             loginError = { this.props.error }
@@ -40,6 +40,7 @@ class LoginContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     isAuthenticating: state.Auth.isAuthenticating,
+    isAuthenticated: state.Auth.isAuthenticated,
     error: state.Auth.error,
   }
 }
