@@ -3,7 +3,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import './app.scss';
 
 import React, { Component, PropTypes } from 'react';
-import { BrowserRouter, Match, Link, Miss } from 'react-router';
+import { BrowserRouter, Match, Link, Miss, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
 import { authUser } from '../../actions';
@@ -11,6 +11,7 @@ import { authUser } from '../../actions';
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
 import ProfileContainer from './../Profile';
+import AccountContainer from './../Account';
 
 
 import Home from '../../components/Home';
@@ -20,6 +21,7 @@ import NavigationDrawer from '../../components/Navigation';
 import Container from '../../components/Container';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Spinner from '../../components/Spinner';
 
 class App extends Component {
   state = {
@@ -27,7 +29,7 @@ class App extends Component {
     fixedDrawer: false
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
 
@@ -54,6 +56,26 @@ class App extends Component {
   }
 
   render() {
+    const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
+      <Match {...rest} render={props => (
+        this.props.isAuthenticated ? (
+          <Component {...props}/>
+        ) : this.props.isAuthenticating ? (
+          <Spinner />
+        ) : (
+          <NotFound />
+        )
+      )}/>
+    )
+
+    const LogoutComponent = ({ component: Component, ...rest }) => {
+      return (
+        <Redirect to={{
+          pathname: '/'
+        }}/>
+    )}
+
+
     return (
       <BrowserRouter>
           <app>
@@ -70,9 +92,11 @@ class App extends Component {
                 onHamburgerClick={this.toggleDrawer.bind(this)}
                />
               <Match exactly pattern="/" component={Home}/>
-              <Match exactly pattern="/user" component={ProfileContainer}/>
+              <Match exactly pattern="/profile" component={ProfileContainer}/>
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
+              <Match exactly pattern="/logout" component={LogoutComponent}/>
+              <MatchWhenAuthorized pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
               <Footer />
             </div>
@@ -86,6 +110,7 @@ const mapStateToProps = state => ({
   title: state.Page.title,
   userInfo: state.Auth.userInfo,
   isAuthenticated: state.Auth.isAuthenticated,
+  isAuthenticating: state.Auth.isAuthenticating,
 })
 
 
