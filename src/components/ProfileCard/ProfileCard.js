@@ -8,7 +8,7 @@ export default class ProfileCard extends Component {
       <div className="profile-card">
         <div className="profile-card-pic">
         </div>
-        <span className="profile-card-name">Thehink <span className="tag tag-default">321</span></span>
+        <span className="profile-card-name">{ this.props.username } <span className="tag tag-default">321</span></span>
         <ul className="profile-card-info">
           <li>
             <a href="">

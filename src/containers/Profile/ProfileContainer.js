@@ -18,7 +18,9 @@ class ProfileContainer extends Component {
 
     return (
       <Container>
-      <ProfileCard />
+      <ProfileCard
+        username={ this.props.userInfo.username }
+      />
       </Container>
     );
   }
@@ -26,7 +28,7 @@ class ProfileContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-
+    userInfo: state.Auth.userInfo || {},
   }
 }
 
