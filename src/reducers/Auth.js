@@ -4,7 +4,9 @@ import {
   LOGIN_USER_FAILURE,
   LOGOUT_USER,
   AUTH_USER_REQUEST,
-  AUTH_USER_SUCCESS } from '../constants/ActionTypes'
+  AUTH_USER_SUCCESS,
+  AUTH_USER_FAILURE
+} from '../constants/ActionTypes'
 
 const initialState = {
   userInfo: null,
@@ -26,12 +28,29 @@ export default function Auth(state = initialState, action) {
         error: null
       }
 
-    case LOGIN_USER_REQUEST || AUTH_USER_REQUEST:
+    case AUTH_USER_FAILURE:
+      return {
+        ...state,
+        isAuthenticated: false,
+        isAuthenticating: false,
+        error: action.error
+      }
+
+    case AUTH_USER_REQUEST:
       return {
         ...state,
         isAuthenticating: true,
         error: null
       }
+
+    case LOGIN_USER_REQUEST:
+      return {
+        ...state,
+        isAuthenticating: true,
+        error: null
+      }
+
+
 
     case LOGIN_USER_SUCCESS:
       localStorage.setItem('token', action.response.token);
