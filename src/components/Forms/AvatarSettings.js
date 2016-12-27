@@ -49,7 +49,7 @@ class AvatarSettings extends Component {
 
     return (
       <Form onSubmit={handleSubmit}>
-        <img src={this.state.avatarSrc} />
+        <img className="avatar-image" src={this.state.avatarSrc} />
         <Field
           name="avatar"
           type="file"

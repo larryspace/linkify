@@ -3,9 +3,7 @@
 const API_ROOT = 'http://' + window.location.hostname + '/api/';
 const apiFetch = (endpoint, method = 'GET', body) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
-  const headers = new Headers({
-    'Content-Type': 'application/json'
-  });
+  const headers = new Headers();
 
   const token = localStorage.getItem('token');
 
@@ -19,7 +17,11 @@ const apiFetch = (endpoint, method = 'GET', body) => {
   };
 
   if(body){
-    options.body = JSON.stringify(body);
+    if(body instanceof FormData){
+      options.body = body;
+    }else{
+      options.body = JSON.stringify(body);
+    }
   }
 
   return fetch(fullUrl, options)

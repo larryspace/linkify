@@ -44,3 +44,5 @@ phinx.yml
 
 /vendor/
 composer.lock
+
+api/uploads

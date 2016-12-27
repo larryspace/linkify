@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Match, Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { setPageInfo } from '../../actions';
+import { setPageInfo, updateAvatar } from '../../actions';
 
 import Container from '../../components/Container';
 import AccountSettingsForm from '../../components/Forms/AccountSettings';
@@ -14,10 +14,6 @@ class AccountContainer extends Component {
     this.props.setPageInfo({ title: 'Account' });
   }
 
-  updateAvatar(values){
-    console.log('updateAvatar', values);
-  }
-
   render() {
 
     return (
@@ -25,7 +21,7 @@ class AccountContainer extends Component {
       <Match exactly pattern="/account/settings" component={AccountSettingsForm}/>
       <Match exactly pattern="/account/avatar" render={(matchProps) => (
         <AvatarSettingsForm
-          onSubmit = { this.updateAvatar }
+          onSubmit = { this.props.updateAvatar }
           {...matchProps}
         />
       )}/>
@@ -44,6 +40,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps,
   {
-    setPageInfo
+    setPageInfo,
+    updateAvatar
   }
 )(AccountContainer);
