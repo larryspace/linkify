@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './wrapper.scss';
+
 class Container extends Component {
   render() {
     return (
