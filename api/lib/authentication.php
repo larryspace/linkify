@@ -7,7 +7,7 @@ class Authentication
 {
     static $isLoggedIn = false;
 
-    static function checkLogin(){
+    static function getToken(){
         $headers = getallheaders();
 
         if(!isset($headers['authorization'])){
@@ -21,6 +21,11 @@ class Authentication
         }
 
         $token = \app\models\Token::get($token);
+        return $token;
+    }
+
+    static function checkLogin(){
+        $token = self::getToken();
 
         if(!$token){
             throw new ApiException("Unauthorized", 401);

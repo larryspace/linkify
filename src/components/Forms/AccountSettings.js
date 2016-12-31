@@ -65,6 +65,5 @@ class AccountSettings extends Component {
 }
 
 export default reduxForm({
-  form: 'accountSettings',
-  destroyOnUnmount: false
+  form: 'accountSettings'
 })(AccountSettings);

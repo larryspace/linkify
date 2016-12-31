@@ -2,7 +2,7 @@ import {
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
-  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
   AUTH_USER_REQUEST,
   AUTH_USER_SUCCESS,
   AUTH_USER_FAILURE
@@ -72,7 +72,7 @@ export default function Auth(state = initialState, action) {
         error: action.error
       }
 
-    case LOGOUT_USER:
+    case LOGOUT_USER_SUCCESS:
       localStorage.removeItem('token');
       return {
         ...initialState

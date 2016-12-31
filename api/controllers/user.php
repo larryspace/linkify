@@ -12,8 +12,12 @@ class User
             'userInfo' => $userInfo
         ];
     }
+    static function logout($params, $user){
+        $token = \Authentication::getToken();
+        $token->_delete();
+    }
 
-    static function Register(){
+    static function register(){
         $postBody = get_json_body(true);
 
         $errors = \FormValidator::validate($postBody,
@@ -40,7 +44,7 @@ class User
         return;
     }
 
-    static function Login(){
+    static function login(){
         $postBody = get_json_body(true);
 
         $errors = \FormValidator::validate($postBody,

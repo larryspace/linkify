@@ -69,6 +69,5 @@ class AvatarSettings extends Component {
 }
 
 export default reduxForm({
-  form: 'avatarSettings',
-  destroyOnUnmount: false
+  form: 'avatarSettings'
 })(AvatarSettings);

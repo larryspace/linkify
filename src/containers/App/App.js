@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { authUser } from '../../actions';
+import { authUser, logoutUser } from '../../actions';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
@@ -69,6 +69,9 @@ class App extends Component {
     )
 
     const LogoutComponent = ({ component: Component, ...rest }) => {
+
+      this.props.logoutUser();
+
       return (
         <Redirect to={{
           pathname: '/'
@@ -117,5 +120,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps,
   {
     authUser,
+    logoutUser
   }
 )(App)
