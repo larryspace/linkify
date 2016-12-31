@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { Match, Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { setPageInfo, updateInfo, updateAvatar } from '../../actions';
+import { setPageInfo, updateInfo, updateAvatar, updatePassword } from '../../actions';
 
 import Container from '../../components/Container';
 import AccountSettingsForm from '../../components/Forms/AccountSettings';
 import AvatarSettingsForm from '../../components/Forms/AvatarSettings';
+import ChangePasswordForm from '../../components/Forms/ChangePassword';
 
 class AccountContainer extends Component {
 
@@ -31,7 +32,12 @@ class AccountContainer extends Component {
           {...matchProps}
         />
       )}/>
-      <Match exactly pattern="/account/password" component={AccountSettingsForm}/>
+      <Match exactly pattern="/account/password" render={(matchProps) => (
+        <ChangePasswordForm
+          onSubmit = { this.props.updatePassword }
+          {...matchProps}
+        />
+      )}/>
       </Container>
     );
   }
@@ -48,6 +54,7 @@ export default connect(mapStateToProps,
   {
     setPageInfo,
     updateInfo,
-    updateAvatar
+    updateAvatar,
+    updatePassword
   }
 )(AccountContainer);

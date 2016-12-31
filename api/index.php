@@ -34,7 +34,7 @@ $router->GET("/posts(/:page)", 'PostStore::getPosts');
 
 $router->POST("/account/info", 'app\controllers\UserSettings::updateInfo', '\Authentication::requireAuth');
 $router->POST("/account/avatar", 'app\controllers\UserSettings::updateAvatar', '\Authentication::requireAuth');
-
+$router->POST("/account/password", 'app\controllers\UserSettings::updatePassword', '\Authentication::requireAuth');
 
 $router->POST("/register", 'app\controllers\User::register');
 $router->POST("/login", 'app\controllers\User::login');

@@ -28,6 +28,18 @@ const updateUserRequest = ({username, first_name, last_name}) => ({
   }
 });
 
+const updatePasswordRequest = ({current_password, new_password}) => ({
+  [CALL_API]: {
+    types: [ UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE ],
+    endpoint: `account/password`,
+    method: 'POST',
+    body: {
+      current_password,
+      new_password
+    }
+  }
+});
+
 export const updateAvatar = (values) => (dispatch, getState) =>  {
   const file = values.avatar[0];
 
@@ -42,12 +54,15 @@ export const updateAvatar = (values) => (dispatch, getState) =>  {
 };
 
 export const updateInfo = (values) => (dispatch, getState) =>  {
-  const file = values.avatar[0];
-
-  var formData = new FormData();
-  formData.append("username", file);
-
   return dispatch(updateUserRequest(values)).then(response => {
+    if(response.error){
+      throw new SubmissionError(response.response);
+    }
+  });
+};
+
+export const updatePassword = (values) => (dispatch, getState) =>  {
+  return dispatch(updatePasswordRequest(values)).then(response => {
     if(response.error){
       throw new SubmissionError(response.response);
     }

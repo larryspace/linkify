@@ -90,4 +90,28 @@ class UserSettings
 
         return;
     }
+
+    static function updatePassword($params, $user){
+        $postBody = get_json_body(true);
+
+        $userPw = \app\stores\User::fetch($user->id, ['password']);
+
+        $errors = \FormValidator::validate($postBody,
+          [
+              'current_password' => 'required|verify_password:' . $userPw->password,
+              'new_password' => 'required|password'
+          ]);
+
+        if($errors){
+            throw new \ApiException('FormError', 400, $errors);
+        }
+
+        $newPasswordHash = password_hash($postBody['new_password'], PASSWORD_BCRYPT);
+
+        $user->_save([
+            'password' => $newPasswordHash
+        ]);
+
+        return;
+    }
 }
