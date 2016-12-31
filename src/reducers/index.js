@@ -1,9 +1,10 @@
 import {combineReducers} from "redux";
-import { reducer as formReducer } from 'redux-form';
+
 
 import Auth from './Auth';
 import Register from './Register';
 import Page from './Page';
+import formReducer from './FormReducer';
 
 
 export default combineReducers({
