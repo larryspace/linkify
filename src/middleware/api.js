@@ -1,5 +1,4 @@
 'use strict';
-
 const API_ROOT = 'http://' + window.location.hostname + '/api/';
 const apiFetch = (endpoint, method = 'GET', body) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
@@ -63,6 +62,7 @@ export default store => next => action => {
     })),
     error => next(actionWith({
       type: failureType,
+      response: error.response,
       error: error.message || 'Something bad happened'
     }))
   );
