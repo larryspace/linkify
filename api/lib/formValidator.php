@@ -10,6 +10,7 @@ class FormValidator {
     'recaptcha' => 'FormValidator::validateRecaptcha',
     'regex' => 'FormValidator::validateRegex',
     'confirm' => 'FormValidator::validateConfirm',
+    'verify_password' => 'FormValidator::verifyPassword',
   ];
 
   public static function validate($arr, $validation){
@@ -49,6 +50,14 @@ class FormValidator {
   public static function validateConfirm($value, $confirmPost){
     if($value !== $_POST[$confirmPost]){
       return 'THIS_FIELD_NEED_TO_BE_IDENTICAL_TO_' . $confirmPost;
+    }
+
+    return false;
+  }
+
+  public static function verifyPassword($password, $hash){
+    if(!password_verify ($password, $hash )){
+        return 'Password doesnt match';
     }
 
     return false;
