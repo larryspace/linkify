@@ -14,15 +14,15 @@ class Model
   }
 
   function _save($values){
-    return Database::save(get_class($this)::$table, $values, ['id' => $this->id]);
+    return \Database::save(get_class($this)::$table, $values, ['id' => $this->id]);
   }
 
   function _delete(){
-    return Database::delete(get_class($this)::$table, ['id' => $this->id]);
+    return \Database::delete(get_class($this)::$table, ['id' => $this->id]);
   }
 
   static function _get($id, $values){
-      return Database::get(get_class($this)::$table, $values, ['id' => $id], self::$table);
+      return \Database::get(get_class($this)::$table, $values, ['id' => $id], self::$table);
   }
 
 }
