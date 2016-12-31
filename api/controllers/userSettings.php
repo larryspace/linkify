@@ -66,4 +66,28 @@ class UserSettings
 
         return ['avatar' => $newPath];
     }
+
+    static function updateInfo($params, $user){
+        $postBody = get_json_body(true);
+
+        $errors = \FormValidator::validate($postBody,
+          [
+              'username' => 'required|string',
+              'first_name' => 'required|string',
+              'last_name' => 'required|string'
+          ]);
+
+        if($errors){
+            throw new \ApiException('FormError', 400, $errors);
+        }
+
+
+        $user->_save([
+            'username' => $postBody['username'],
+            'first_name' => $postBody['first_name'],
+            'last_name' => $postBody['last_name']
+        ]);
+
+        return;
+    }
 }

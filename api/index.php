@@ -32,7 +32,9 @@ $router->POST("/post/:id", 'PostStore::updatePost', 'Authentication::requireAuth
 $router->DELETE("/post/:id", 'PostStore::deletePost', 'Authentication::requireAuth');
 $router->GET("/posts(/:page)", 'PostStore::getPosts');
 
+$router->POST("/account/info", 'app\controllers\UserSettings::updateInfo', '\Authentication::requireAuth');
 $router->POST("/account/avatar", 'app\controllers\UserSettings::updateAvatar', '\Authentication::requireAuth');
+
 
 $router->POST("/register", 'app\controllers\User::register');
 $router->POST("/login", 'app\controllers\User::login');

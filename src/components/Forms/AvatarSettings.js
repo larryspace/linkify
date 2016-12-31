@@ -11,7 +11,7 @@ import renderField from './renderField';
 class AvatarSettings extends Component {
 
   state = {
-    avatarSrc: '',
+    avatarSrc: null,
   }
 
   renderError(){
@@ -49,7 +49,7 @@ class AvatarSettings extends Component {
 
     return (
       <Form onSubmit={handleSubmit}>
-        <img className="avatar-image" src={this.state.avatarSrc} />
+        <img className="avatar-image" src={this.state.avatarSrc || this.props.avatar} />
         <Field
           name="avatar"
           type="file"

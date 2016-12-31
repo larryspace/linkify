@@ -1,5 +1,10 @@
-import {UPDATE_AVATAR_REQUEST, UPDATE_AVATAR_FAILURE, UPDATE_AVATAR_SUCCESS} from '../constants/ActionTypes';
+import { SubmissionError } from 'redux-form';
+import {
+  UPDATE_AVATAR_REQUEST, UPDATE_AVATAR_FAILURE, UPDATE_AVATAR_SUCCESS,
+  UPDATE_USER_REQUEST, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS
+} from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
+
 
 const updateAvatarRequest = (formData) => ({
   [CALL_API]: {
@@ -10,21 +15,18 @@ const updateAvatarRequest = (formData) => ({
   }
 });
 
-const loadBinaryFile = file => {
-  return new Promise((resolve, reject) => {
-    const fr = new FileReader();
-
-    fr.addEventListener("loadend", function (evt) {
-        resolve(evt.target.result);
-    });
-
-    fr.addEventListener("error", function (err) {
-        reject(err);
-    });
-
-    fr.readAsBinaryString(file);
-  });
-}
+const updateUserRequest = ({username, first_name, last_name}) => ({
+  [CALL_API]: {
+    types: [ UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE ],
+    endpoint: `account/info`,
+    method: 'POST',
+    body: {
+      username: username,
+      first_name: first_name,
+      last_name: last_name
+    }
+  }
+});
 
 export const updateAvatar = (values) => (dispatch, getState) =>  {
   const file = values.avatar[0];
@@ -32,5 +34,22 @@ export const updateAvatar = (values) => (dispatch, getState) =>  {
   var formData = new FormData();
   formData.append("avatar", file);
 
-  dispatch(updateAvatarRequest(formData))
+  return dispatch(updateAvatarRequest(formData)).then(response => {
+    if(response.error){
+      throw new SubmissionError(response.response);
+    }
+  });
+};
+
+export const updateInfo = (values) => (dispatch, getState) =>  {
+  const file = values.avatar[0];
+
+  var formData = new FormData();
+  formData.append("username", file);
+
+  return dispatch(updateUserRequest(values)).then(response => {
+    if(response.error){
+      throw new SubmissionError(response.response);
+    }
+  });
 };
