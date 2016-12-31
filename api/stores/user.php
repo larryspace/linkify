@@ -27,7 +27,8 @@ class User
             'username',
             'email',
             'first_name',
-            'last_name'
+            'last_name',
+            'avatar'
         ], ['id' => $userId], '\app\models\User');
     }
 
