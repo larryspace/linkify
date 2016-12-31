@@ -6,6 +6,9 @@ use app\Model;
 
 class Token extends Model
 {
+
+  static $table = "tokens";
+
   function __construct()
   {
     $data = json_encode([
