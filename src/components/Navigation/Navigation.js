@@ -12,21 +12,19 @@ export default class NavigationDrawer extends Component {
     onClose: PropTypes.func
   }
 
+  renderLink({ name }){
+    return (<Link key={ name } to={'/s/' + name.toLowerCase()} className="list-group-item-action list-group-item">{ name }</Link>);
+  }
+
   renderDrawer(){
     return (
       <aside className={"navigation-drawer " + (!this.props.open && !this.props.fixed && "closed" || "")}>
       <h2>Linkify</h2>
       <ul className="list-group">
-        <li className="sub-header">Default Reddits</li>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
+        <li className="sub-header">Default Subs</li>
+        <Link to={'/s/all'} className="list-group-item-action list-group-item">All</Link>
+        { this.props.defaultDirectories.map(this.renderLink) }
         <li className="sub-header">Subscribed</li>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
-        <Link to={'/home'} className="list-group-item-action list-group-item">Home</Link>
       </ul>
       </aside>
     );

@@ -6,12 +6,13 @@ import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { authUser, logoutUser } from '../../actions';
+import { authUser, logoutUser, getDefaultDirectories } from '../../actions';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
 import ProfileContainer from './../Profile';
 import AccountContainer from './../Account';
+import SubContainer from './../Sub';
 
 
 import Home from '../../components/Home';
@@ -32,6 +33,8 @@ class App extends Component {
   componentWillMount() {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
+
+    this.props.getDefaultDirectories();
 
     if(localStorage.getItem('token')){
       this.props.authUser();
@@ -83,6 +86,7 @@ class App extends Component {
       <BrowserRouter>
           <app>
             <NavigationDrawer
+              defaultDirectories={this.props.defaultDirectories}
               fixed={this.state.fixedDrawer}
               open={this.state.navOpen}
               onClose={this.toggleDrawer.bind(this)}
@@ -99,6 +103,7 @@ class App extends Component {
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/logout" component={LogoutComponent}/>
+              <Match exactly pattern="/s/:sub" component={SubContainer}/>
               <MatchWhenAuthorized pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
               <Footer />
@@ -114,12 +119,14 @@ const mapStateToProps = state => ({
   userInfo: state.Auth.userInfo,
   isAuthenticated: state.Auth.isAuthenticated,
   isAuthenticating: state.Auth.isAuthenticating,
+  defaultDirectories: state.Directories.default || []
 })
 
 
 export default connect(mapStateToProps,
   {
     authUser,
-    logoutUser
+    logoutUser,
+    getDefaultDirectories
   }
 )(App)
