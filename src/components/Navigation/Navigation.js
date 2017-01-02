@@ -21,10 +21,10 @@ export default class NavigationDrawer extends Component {
       <aside className={"navigation-drawer " + (!this.props.open && !this.props.fixed && "closed" || "")}>
       <h2>Linkify</h2>
       <ul className="list-group">
-        <li className="sub-header">Default Subs</li>
+        <li className="sub-header dropdown-header">Default Subs</li>
         <Link to={'/s/all'} className="list-group-item-action list-group-item">All</Link>
         { this.props.defaultDirectories.map(this.renderLink) }
-        <li className="sub-header">Subscribed</li>
+        <li className="sub-header dropdown-header">Subscribed</li>
       </ul>
       </aside>
     );
