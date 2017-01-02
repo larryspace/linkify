@@ -1,0 +1,95 @@
+.sub-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sub-list-item{
+  background: rgba(0,0,0,.05);
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.sub-list-vote{
+  width: 50px;
+  border-right: 1px solid #ccc;
+
+  & > button{
+    display: block;
+    width: 100%;
+    border: none;
+    background: rgba(0,0,0,.05);
+    cursor: pointer;
+    height: calc(50% - 15px);
+
+    &:hover{
+      background: rgba(0,0,0,.1);
+    }
+  }
+
+  & > .upvote-count{
+    display: block;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.sub-list-image{
+  float: left;
+  height: 100%;
+  width: 82px;
+  background: #333;
+  margin-right: 5px;
+}
+
+.sub-list-item-link{
+  display: block;
+  width: calc(100% - 150px);
+  &:hover{
+    background: rgba(0,0,0,.05);
+    text-decoration:none;
+  }
+
+  & > .link-title{
+    padding: 0 5px;
+    font-size: 24px;
+  }
+
+  &:hover > .link-title{
+    text-decoration: underline;
+  }
+
+  & > .link-desc{
+    padding: 0 5px;
+    text-decoration: none;
+  }
+}
+
+.sub-list-item-comments{
+  width: 100px;
+  border-left: 1px solid #CCC;
+  color: #333;
+
+  &:hover{
+    text-decoration: none;
+    background: rgba(0,0,0,.05);
+    color: #333;
+  }
+
+  & > .comments-count{
+    display: block;
+    height: 70%;
+    text-align: center;
+    font-size: 30px;
+    padding-top: 5%;
+    border-bottom: 1px solid #CCC;
+  }
+
+  & > .comments-button{
+    display: block;
+    height: 30%;
+    text-align: center;
+    border-top: 1px solid #EEE;
+  }
+}
