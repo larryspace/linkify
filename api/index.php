@@ -2,7 +2,7 @@
 require_once __DIR__ . '/lib/autoload.php';
 require_once __DIR__ . '/controllers/user.php';
 require_once __DIR__ . '/controllers/userSettings.php';
-require_once __DIR__ . '/stores/user.php';
+require_once __DIR__ . '/controllers/directory.php';
 
 $router = new miniRoute();
 
@@ -31,6 +31,8 @@ $router->POST("/post/:id/vote", 'PostStore::votePost', 'Authentication::requireA
 $router->POST("/post/:id", 'PostStore::updatePost', 'Authentication::requireAuth');
 $router->DELETE("/post/:id", 'PostStore::deletePost', 'Authentication::requireAuth');
 $router->GET("/posts(/:page)", 'PostStore::getPosts');
+
+$router->GET("/directories", 'app\controllers\Directory::getDefaultDirectories');
 
 $router->POST("/account/info", 'app\controllers\UserSettings::updateInfo', '\Authentication::requireAuth');
 $router->POST("/account/avatar", 'app\controllers\UserSettings::updateAvatar', '\Authentication::requireAuth');

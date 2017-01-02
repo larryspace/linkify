@@ -3,6 +3,10 @@
 
 require_once  __DIR__ . '/../models/token.php';
 require_once  __DIR__ . '/../models/user.php';
+require_once  __DIR__ . '/../models/directory.php';
+
+require_once __DIR__ . '/../stores/user.php';
+require_once __DIR__ . '/../stores/directory.php';
 
 /**
  *
@@ -17,7 +21,7 @@ class Database
           return self::$db;
       }
 
-      self::$db = new PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+      self::$db = new PDO('mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';charset=utf8', getenv('DB_USER'), getenv('DB_PASSWORD'));
       self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       self::$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       return self::$db;
@@ -75,6 +79,31 @@ class Database
     $stmt->execute($where);
 
     return $stmt->fetch();
+  }
+
+  static function fetchAll($table, $values, $where, $class){
+
+    if(!in_array('id', $values)){
+        array_push($values, 'id');
+    }
+
+    $sql = "SELECT ";
+    foreach ($values as $key) {
+      $sql .= "`$key`, ";
+    }
+    $sql = rtrim($sql, ", ");
+    $sql .= " FROM $table  WHERE ";
+    foreach ($where as $key => $value) {
+      $sql .= "`$key` = :$key AND ";
+    }
+    $sql = rtrim($sql, "AND ");
+
+    $stmt = self::get()->prepare($sql);
+
+    $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+    $stmt->execute($where);
+
+    return $stmt->fetchAll();
   }
 
   static function create($table, $values){
