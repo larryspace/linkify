@@ -29,6 +29,25 @@ class Database
       return self::$db;
   }
 
+  static function query($table, $sql, $values){
+      $stmt = self::get()->prepare($sql);
+      return $stmt->execute($values);
+  }
+
+  static function queryFetchAll($sql, $values, $class){
+      $stmt = self::get()->prepare($sql);
+      $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+      $stmt->execute($values);
+      return $stmt->fetchAll();
+  }
+
+  static function queryFetch($sql, $values, $class){
+      $stmt = self::get()->prepare($sql);
+      $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+      $stmt->execute($values);
+      return $stmt->fetchAll();
+  }
+
   static function save($table, $values, $where){
     $sql = "UPDATE $table SET ";
     foreach ($values as $key => $value) {
@@ -94,11 +113,15 @@ class Database
       $sql .= "`$key`, ";
     }
     $sql = rtrim($sql, ", ");
-    $sql .= " FROM $table  WHERE ";
-    foreach ($where as $key => $value) {
-      $sql .= "`$key` = :$key AND ";
+    $sql .= " FROM $table";
+    if($where){
+        $sql .= " WHERE ";
+        foreach ($where as $key => $value) {
+          $sql .= "`$key` = :$key AND ";
+        }
+        $sql = rtrim($sql, "AND ");
     }
-    $sql = rtrim($sql, "AND ");
+
 
     $stmt = self::get()->prepare($sql);
 

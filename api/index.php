@@ -35,6 +35,7 @@ $router->GET("/posts(/:page)", 'PostStore::getPosts');
 
 $router->GET("/directories", 'app\controllers\Directory::getDefaultDirectories');
 
+$router->GET("/d/:directory", 'app\controllers\Links::getLinks');
 $router->POST("/d/:directory/new", 'app\controllers\Links::newLink', '\Authentication::requireAuth');
 
 $router->POST("/account/info", 'app\controllers\UserSettings::updateInfo', '\Authentication::requireAuth');

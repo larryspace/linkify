@@ -36,4 +36,22 @@ class Links
 
         return $link;
     }
+
+    static function getLinks($params){
+        if($params['directory'] === 'all'){
+            return \app\stores\Links::getLinksAllLinks();
+        }
+
+
+        $directory = \app\stores\Directory::getDirectory($params['directory']);
+
+        if(!$directory){
+            throw new \ApiException('Directory does not exist', 404);
+        }
+
+        $links = \app\stores\Links::getLinksByDirectory($directory->id);
+
+        return $links;
+
+    }
 }

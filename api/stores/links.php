@@ -26,4 +26,26 @@ class Links
             'created_at'
         ], ['id' => $id], '\app\models\Link');
     }
+
+    static function getLinksByDirectory($directoryId){
+        return \Database::fetchAll('links', [
+            'title',
+            'url',
+            'image',
+            'directory_id',
+            'user_id',
+            'created_at'
+        ], ['directory_id' => $directoryId], '\app\models\Link');
+    }
+
+    static function getLinksAllLinks(){
+        return \Database::fetchAll('links', [
+            'title',
+            'url',
+            'image',
+            'directory_id',
+            'user_id',
+            'created_at'
+        ], NULL, '\app\models\Link');
+    }
 }
