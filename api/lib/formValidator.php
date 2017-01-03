@@ -11,6 +11,7 @@ class FormValidator {
     'regex' => 'FormValidator::validateRegex',
     'confirm' => 'FormValidator::validateConfirm',
     'verify_password' => 'FormValidator::verifyPassword',
+    'url' => 'FormValidator::validateUrl'
   ];
 
   public static function validate($arr, $validation){
@@ -97,8 +98,22 @@ class FormValidator {
     }
   }
 
-  public static function validateString($value){
+  public static function validateString($value, $meta){
+      $arr = explode(',', $meta);
 
+      $min = $arr[0];
+      $max = $arr[1] ?? NULL;
+
+      if($min && $min > strlen($value)){
+          return "A minimum of $min characters is required!";
+      }
+
+      if($max && $max < strlen($value)){
+          return "A maximum of $max characters is required!";
+      }
+  }
+
+  public static function validateUrl($value){
   }
 
   public static function validateEmail($value){
