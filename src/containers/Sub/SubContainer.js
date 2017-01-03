@@ -39,9 +39,7 @@ class SubContainer extends Component {
 
     return this.props.postNewLink(data)
     .then(action => {
-      if(!action.error){
-        this.toggle();
-      }
+      this.toggleModal();
     });
   }
 
