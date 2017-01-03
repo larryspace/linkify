@@ -42,7 +42,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log('component will recieve props', nextProps);
+    //console.log('component will recieve props', nextProps);
   }
 
   updateDimensions(){
@@ -103,7 +103,7 @@ class App extends Component {
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/logout" component={LogoutComponent}/>
-              <Match exactly pattern="/s/:sub" component={SubContainer}/>
+              <Match exactly pattern="/s/:directory" component={SubContainer}/>
               <MatchWhenAuthorized pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
               <Footer />
