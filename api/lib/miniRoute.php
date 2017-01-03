@@ -197,6 +197,6 @@ class miniRoute
                 exit;
             }
         }
-        $this->output(404, "Endpoint $userPath does not exist.");
+        $this->error(404, "Endpoint $userPath does not exist.");
     }
 }
