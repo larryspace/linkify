@@ -64,12 +64,12 @@ class Database
 
     $sql = "SELECT ";
     foreach ($values as $key) {
-      $sql .= "$key, ";
+      $sql .= "`$key`, ";
     }
     $sql = rtrim($sql, ", ");
     $sql .= " FROM $table  WHERE ";
     foreach ($where as $key => $value) {
-      $sql .= "$key = :$key AND ";
+      $sql .= "`$key` = :$key AND ";
     }
     $sql = rtrim($sql, "AND ");
 
