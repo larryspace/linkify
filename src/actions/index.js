@@ -4,3 +4,4 @@ export * from './Page';
 export * from './AccountSettings';
 export * from './Directories';
 export * from './Links';
+export * from './Form';
