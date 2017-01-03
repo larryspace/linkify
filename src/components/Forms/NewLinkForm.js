@@ -8,12 +8,22 @@ import { required, email, minLength, url } from './validate';
 import renderField from './renderField';
 
 class NewLinkForm extends Component {
+
+  renderError(error) {
+    return (
+      <Alert color="danger">
+        <strong>{ error }</strong>
+      </Alert>
+    );
+  }
+
   render() {
 
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            error } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -33,6 +43,8 @@ class NewLinkForm extends Component {
           component={renderField}
           validate={[ required, url ]}
         />
+
+        {error && this.renderError(error)}
       </Form>
     );
   }

@@ -1,3 +1,4 @@
+import { SubmissionError } from 'redux-form';
 import {
   GET_LINKS_REQUEST, GET_LINKS_FAILURE, GET_LINKS_SUCCESS,
   POST_NEW_LINK_REQUEST, POST_NEW_LINK_FAILURE, POST_NEW_LINK_SUCCESS
@@ -29,5 +30,10 @@ export const loadLinks = (values) => (dispatch, getState) =>  {
 };
 
 export const postNewLink = (values) => (dispatch, getState) =>  {
-  return dispatch(postNewLinkRequest(values));
+  return dispatch(postNewLinkRequest(values))
+  .then(response => {
+    if(response.error){
+      throw new SubmissionError(response.response);
+    }
+  });
 };
