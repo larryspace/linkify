@@ -2,9 +2,16 @@
   background: #CCC url('http://localhost/uploads/headers/optica_pattern_11.png') 50% no-repeat;
   background-size: cover;
   height: 150px;
+
+  & > .btn-group{
+    margin-top: 100px;
+    margin-right: 20px;
+  }
+
 }
 
 .app-sub-header-title{
+  display: inline-block;
   padding: 30px 30px;
   color: rgba(0,0,0,.6);
   font-size: 60px;
