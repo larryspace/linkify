@@ -4,9 +4,11 @@
 require_once  __DIR__ . '/../models/token.php';
 require_once  __DIR__ . '/../models/user.php';
 require_once  __DIR__ . '/../models/directory.php';
+require_once  __DIR__ . '/../models/link.php';
 
 require_once __DIR__ . '/../stores/user.php';
 require_once __DIR__ . '/../stores/directory.php';
+require_once __DIR__ . '/../stores/links.php';
 
 /**
  *
@@ -30,12 +32,12 @@ class Database
   static function save($table, $values, $where){
     $sql = "UPDATE $table SET ";
     foreach ($values as $key => $value) {
-      $sql .= "$key = :$key, ";
+      $sql .= "`$key` = :$key, ";
     }
     $sql = rtrim($sql, ", ");
     $sql .= "  WHERE ";
     foreach ($where as $key => $value) {
-      $sql .= "$key = :$key AND ";
+      $sql .= "`$key` = :$key AND ";
     }
     $sql = rtrim($sql, "AND ");
 
@@ -47,7 +49,7 @@ class Database
   static function delete($table, $where){
     $sql = "DELETE FROM $table WHERE ";
     foreach ($where as $key => $value) {
-      $sql .= "$key = :$key AND ";
+      $sql .= "`$key` = :$key AND ";
     }
     $sql = rtrim($sql, "AND ");
 
@@ -110,7 +112,7 @@ class Database
     $sql = "INSERT INTO $table (";
 
     foreach ($values as $key => $value) {
-      $sql .= "$key, ";
+      $sql .= "`$key`, ";
     }
 
     $sql = rtrim($sql, ", ");
