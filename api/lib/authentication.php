@@ -6,6 +6,7 @@
 class Authentication
 {
     static $isLoggedIn = false;
+    static $user = null;
 
     static function getToken(){
         $headers = getallheaders();
@@ -38,6 +39,22 @@ class Authentication
         $user = \app\stores\User::getFullUserInfo($token->user_id);
         self::$isLoggedIn = true;
         return $user;
+    }
+
+    static function getUser(){
+        if(self::$user){
+            return $user;
+        }else if(self::$user === false){
+            return;
+        }
+
+        try {
+            self::$user = self::checkLogin();
+            return self::$user;
+        } catch (\ApiException $e) {
+            self::$user = false;
+            return;
+        }
     }
 
     static function requireAuth(){
