@@ -1,7 +1,8 @@
 import { SubmissionError } from 'redux-form';
 import {
   GET_LINKS_REQUEST, GET_LINKS_FAILURE, GET_LINKS_SUCCESS,
-  POST_NEW_LINK_REQUEST, POST_NEW_LINK_FAILURE, POST_NEW_LINK_SUCCESS
+  POST_NEW_LINK_REQUEST, POST_NEW_LINK_FAILURE, POST_NEW_LINK_SUCCESS,
+  VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE
 } from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
 
@@ -24,6 +25,19 @@ const postNewLinkRequest = ({ title, link, directory }) => ({
     }
   }
 });
+
+const voteLinkRequest = ({ id, vote }) => ({
+  [CALL_API]: {
+    types: [ VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE ],
+    endpoint: `d/link/${id}/${vote}`,
+    method: 'POST',
+    body: {}
+  }
+});
+
+export const voteLink = (values) => (dispatch, getState) =>  {
+  return dispatch(voteLinkRequest(values));
+};
 
 export const loadLinks = (values, loadMore) => (dispatch, getState) =>  {
 
