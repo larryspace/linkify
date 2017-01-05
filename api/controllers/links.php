@@ -38,20 +38,42 @@ class Links
     }
 
     static function getLinks($params){
+        $page = (int)($params['page'] ?? 1);
+        if(!$page) $page = 1;
+
+        $links = [];
         if($params['directory'] === 'all'){
-            return \app\stores\Links::getLinksAllLinks();
+            $links = \app\stores\Links::getLinksAllLinks($page);
+        }else{
+            $directory = \app\stores\Directory::getDirectory($params['directory']);
+
+            if(!$directory){
+                throw new \ApiException('Directory does not exist', 404);
+            }
+
+            $links = \app\stores\Links::getLinksByDirectory($directory->id, $page);
         }
 
-
-        $directory = \app\stores\Directory::getDirectory($params['directory']);
-
-        if(!$directory){
-            throw new \ApiException('Directory does not exist', 404);
+        foreach ($links as $key => $value) {
+            $link = $links[$key];
+            $links[$key] = [
+                'id' => $link->id,
+                'title' => $link->title,
+                'url' => $link->url,
+                'image' => $link->image,
+                'votes' => $link->votes,
+                'directory_id' => $link->directory_id,
+                'upvoted' => $link->upvoted ? true : false,
+                'downvoted' => $link->downvoted ? true : false,
+                'user_id' => $link->user_id,
+                'created_at' => $link->created_at
+            ];
         }
 
-        $links = \app\stores\Links::getLinksByDirectory($directory->id);
-
-        return $links;
+        return [
+            'directory' => $params['directory'],
+            'page' => $page,
+            'links' => $links];
 
     }
 }
