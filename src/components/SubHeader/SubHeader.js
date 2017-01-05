@@ -8,7 +8,7 @@ export default class SubHeader extends Component {
   render() {
     return (
       <div className="app-sub-header">
-        <h3 className="app-sub-header-title">Title</h3>
+        <h3 className="app-sub-header-title">{ this.props.title }</h3>
         <ButtonGroup className="pull-right">
          <Button onClick={ this.props.onNewLinkClick } color="primary">
           <FontAwesome name="plus" style={{ color: 'rgba(0,0,0,.5)' }} /> New Link

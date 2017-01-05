@@ -5,10 +5,10 @@ import {
 } from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
 
-const getLinksRequest = ({ directory }) => ({
+const getLinksRequest = ({ directory, page }) => ({
   [CALL_API]: {
     types: [ GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE ],
-    endpoint: `d/${directory}`,
+    endpoint: `d/${directory}/${page}`,
     method: 'GET'
   }
 });
@@ -25,7 +25,20 @@ const postNewLinkRequest = ({ title, link, directory }) => ({
   }
 });
 
-export const loadLinks = (values) => (dispatch, getState) =>  {
+export const loadLinks = (values, loadMore) => (dispatch, getState) =>  {
+
+  const {
+    page = 0,
+    items,
+  } = getState().Links.links[values.directory] || {};
+
+
+  if(items && !loadMore || getState().Links.loading){
+    return;
+  }
+
+  values.page = page + 1;
+
   return dispatch(getLinksRequest(values));
 };
 
