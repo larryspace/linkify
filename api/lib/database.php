@@ -5,10 +5,12 @@ require_once  __DIR__ . '/../models/token.php';
 require_once  __DIR__ . '/../models/user.php';
 require_once  __DIR__ . '/../models/directory.php';
 require_once  __DIR__ . '/../models/link.php';
+require_once  __DIR__ . '/../models/vote.php';
 
 require_once __DIR__ . '/../stores/user.php';
 require_once __DIR__ . '/../stores/directory.php';
 require_once __DIR__ . '/../stores/links.php';
+require_once __DIR__ . '/../stores/votes.php';
 
 /**
  *
@@ -29,7 +31,7 @@ class Database
       return self::$db;
   }
 
-  static function query($table, $sql, $values){
+  static function query($sql, $values){
       $stmt = self::get()->prepare($sql);
       return $stmt->execute($values);
   }
@@ -45,7 +47,7 @@ class Database
       $stmt = self::get()->prepare($sql);
       $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
       $stmt->execute($values);
-      return $stmt->fetchAll();
+      return $stmt->fetch();
   }
 
   static function save($table, $values, $where){

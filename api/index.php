@@ -37,6 +37,7 @@ $router->GET("/directories", 'app\controllers\Directory::getDefaultDirectories')
 
 $router->GET("/d/:directory/:page", 'app\controllers\Links::getLinks');
 $router->POST("/d/:directory/new", 'app\controllers\Links::newLink', '\Authentication::requireAuth');
+$router->POST("/d/link/:id/:vote", 'app\controllers\Links::voteLink', '\Authentication::requireAuth');
 
 $router->POST("/account/info", 'app\controllers\UserSettings::updateInfo', '\Authentication::requireAuth');
 $router->POST("/account/avatar", 'app\controllers\UserSettings::updateAvatar', '\Authentication::requireAuth');

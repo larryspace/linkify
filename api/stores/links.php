@@ -28,7 +28,7 @@ class Links
             links.directory_id,
             links.user_id,
             links.created_at,
-            (links.upvotes - links.downvotes) as score,
+            (links.upvotes - links.downvotes) as votes,
             (votes.vote = 1) as upvoted,
             (votes.vote = 0) as downvoted
         FROM `links`
