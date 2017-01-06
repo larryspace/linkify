@@ -41,9 +41,11 @@ class Links
         $page = (int)($params['page'] ?? 1);
         if(!$page) $page = 1;
 
+        $sortBy = $params['sort'] === 'hot' ? 'score' : 'created_at';
+
         $links = [];
         if($params['directory'] === 'all'){
-            $links = \app\stores\Links::getLinksAllLinks($page);
+            $links = \app\stores\Links::getLinks('all', $page, $sortBy);
         }else{
             $directory = \app\stores\Directory::getDirectory($params['directory']);
 
@@ -51,7 +53,7 @@ class Links
                 throw new \ApiException('Directory does not exist', 404);
             }
 
-            $links = \app\stores\Links::getLinksByDirectory($directory->id, $page);
+            $links = \app\stores\Links::getLinks($directory->id, $page, $sortBy);
         }
 
         foreach ($links as $key => $value) {
@@ -61,6 +63,7 @@ class Links
         return [
             'directory' => $params['directory'],
             'page' => $page,
+            'sort' => $params['sort'],
             'links' => $links];
 
     }
