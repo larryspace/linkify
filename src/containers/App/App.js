@@ -103,7 +103,7 @@ class App extends Component {
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/logout" component={LogoutComponent}/>
-              <Match exactly pattern="/s/:directory" component={SubContainer}/>
+              <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={SubContainer}/>
               <MatchWhenAuthorized pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
               <Footer />

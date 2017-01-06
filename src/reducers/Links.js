@@ -4,7 +4,8 @@ import union from 'lodash/union';
 
 import {
   GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE,
-  POST_NEW_LINK_SUCCESS
+  POST_NEW_LINK_SUCCESS,
+  VOTE_LINK_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -25,20 +26,31 @@ export default function Links(state = initialState, action) {
 
     case GET_LINKS_SUCCESS:
 
-      const items = state.links[action.response.directory] && state.links[action.response.directory].items;
+      const {
+        directory,
+        page,
+        sort,
+        links,
+      } = action.response;
+
+      const items = state.links[directory] && state.links[directory][sort] && state.links[directory][sort].items;
 
       const asd = {
-        page: action.response.page,
-        canLoadMore: action.response.links.length < 5,
-        items: uniqBy(union(items || [], action.response.links), 'id'),
+        page: page,
+        canLoadMore: links.length < 5,
+        items: uniqBy(union(page > 1 ? items || [] : [], links), 'id'),
       }
 
       return {
         ...state,
         links: {
-          ...state.links,
-          [action.response.directory]: asd,
+          //...state.links,
+          [directory]: {
+            [sort]: asd
+          },
         },
+        directory,
+        sort,
         loading: false,
         error: null
       }
@@ -51,12 +63,42 @@ export default function Links(state = initialState, action) {
       }
 
     case POST_NEW_LINK_SUCCESS:
-
-
-
       return {
         ...state,
       }
+    case VOTE_LINK_SUCCESS:
+
+      const dir = state.directory;
+      const srt = state.sort;
+
+      if(!dir || !srt){
+        return {
+          ...state,
+        }
+      }
+
+      const bucket = state.links[dir] && state.links[dir][srt] && state.links[dir][srt];
+      const itemIndex = bucket.items.findIndex(item => item.id === action.response.id);
+
+      const newBucket = {
+        ...bucket,
+        items: [...bucket.items]
+      }
+
+      newBucket.items[itemIndex].upvoted = action.response.upvoted;
+      newBucket.items[itemIndex].downvoted = action.response.downvoted;
+      newBucket.items[itemIndex].votes = action.response.votes;
+
+      return {
+        ...state,
+        links: {
+          //...state.links,
+          [dir]: {
+            [srt]: newBucket
+          },
+        },
+      }
+
 
     default:
       return state

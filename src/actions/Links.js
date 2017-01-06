@@ -6,10 +6,10 @@ import {
 } from '../constants/ActionTypes';
 import { CALL_API } from '../middleware/api';
 
-const getLinksRequest = ({ directory, page }) => ({
+const getLinksRequest = ({ directory, page, sortBy }) => ({
   [CALL_API]: {
     types: [ GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE ],
-    endpoint: `d/${directory}/${page}`,
+    endpoint: `d/${directory}/${page}/${sortBy}`,
     method: 'GET'
   }
 });
@@ -39,19 +39,23 @@ export const voteLink = (values) => (dispatch, getState) =>  {
   return dispatch(voteLinkRequest(values));
 };
 
-export const loadLinks = (values, loadMore) => (dispatch, getState) =>  {
+export const loadLinks = (values, loadMore, refresh) => (dispatch, getState) =>  {
 
   const {
     page = 0,
     items,
-  } = getState().Links.links[values.directory] || {};
+  } = getState().Links.links[values.directory] && getState().Links.links[values.directory][values.sortBy] || {};
 
 
-  if(items && !loadMore || getState().Links.loading){
+  if(!refresh && (items && !loadMore || getState().Links.loading)){
     return;
   }
 
   values.page = page + 1;
+
+  if(refresh){
+    values.page = 1;
+  }
 
   return dispatch(getLinksRequest(values));
 };

@@ -4,8 +4,9 @@
   height: 150px;
 
   & > .btn-group{
+    position: absolute;
     margin-top: 100px;
-    margin-right: 20px;
+    right: 20px;
   }
 
 }

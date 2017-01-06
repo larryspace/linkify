@@ -13,6 +13,9 @@ import Spinner from '../../components/Spinner';
 import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink } from '../../actions';
 
 class SubContainer extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
   state = {
     formOpen: false,
@@ -21,14 +24,25 @@ class SubContainer extends Component {
   componentDidMount() {
     const directory = this.props.params.directory;
     this.props.setPageInfo({ title: '', directory: directory });
-    this.props.loadLinks({ directory });
+    this.props.loadLinks({
+      directory,
+      sortBy: this.props.params.sort || 'hot'
+    });
   }
 
   componentWillReceiveProps(nextProps){
-    const newDirectory = nextProps.params.directory;
-    if(this.props.params.directory != newDirectory){
-      this.props.setPageInfo({ title: '', directory: newDirectory });
-      this.props.loadLinks({ directory: newDirectory });
+    const {
+      directory,
+      sort = 'hot'
+    } = nextProps.params;
+
+
+    if(this.props.params.directory != directory || (this.props.params.sort || 'hot') !== sort){
+      this.props.setPageInfo({ title: '', directory });
+      this.props.loadLinks({
+        directory,
+        sortBy: sort
+      });
     }
   }
 
@@ -42,6 +56,17 @@ class SubContainer extends Component {
     return this.props.postNewLink(data)
     .then(action => {
       this.toggleModal();
+
+      const newPath = `/s/${directory}/latest`;
+
+      if(this.props.pathname === newPath){
+        this.props.loadLinks({
+          directory: this.props.params.directory,
+          sortBy: this.props.params.sort || 'hot'
+        }, false, true);
+      }else{
+        this.context.router.transitionTo(newPath);
+      }
     });
   }
 
@@ -54,7 +79,10 @@ class SubContainer extends Component {
   }
 
   loadMore(){
-    this.props.loadLinks({ directory: this.props.params.directory }, true);
+    this.props.loadLinks({
+      directory: this.props.params.directory,
+      sortBy: this.props.params.sort || 'hot'
+    }, true);
   }
 
   renderLink({ id, directory, title, url, score, votes, image, upvoted, downvoted }){
@@ -76,6 +104,7 @@ class SubContainer extends Component {
   }
 
   render() {
+
     return (
       <div>
       <ModalForm
@@ -88,7 +117,9 @@ class SubContainer extends Component {
        />
       <SubHeader
         title={ this.props.params.directory }
-        onNewLinkClick={this.toggleModal.bind(this)}
+        onNewLinkClick={ this.toggleModal.bind(this) }
+        directory={ this.props.params.directory }
+        sortOption={ this.props.params.sort || 'hot' }
       />
       <Container>
          <SubList
@@ -106,7 +137,12 @@ class SubContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 
-  const links = state.Links.links[ownProps.params.directory] && state.Links.links[ownProps.params.directory].items || [];
+  const {
+    directory,
+    sort = 'hot'
+  } = ownProps.params;
+
+  const links = state.Links.links[directory] && state.Links.links[directory][sort] && state.Links.links[directory][sort].items || [];
 
   return {
     loading: state.Links.loading,
