@@ -27,6 +27,8 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            users.username,
+            directories.name AS directory,
             links.created_at,
             (links.upvotes - links.downvotes) as votes,
             (votes.vote = 1) as upvoted,
@@ -36,6 +38,10 @@ class Links
             votes.user_id = :user_id AND
             votes.type = :type AND
             content_id = links.id
+        LEFT JOIN `users` ON
+            links.user_id = users.id
+        LEFT JOIN `directories` ON
+            links.directory_id = directories.id
         WHERE links.id = :id
         ', [
             'id' => $id,
@@ -71,9 +77,11 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            users.username,
+            directories.name AS directory,
             links.created_at,
             (links.upvotes - links.downvotes) as votes,
-            ((links.upvotes - links.downvotes)/ (TIMESTAMPDIFF(MINUTE, links.created_at, CURRENT_TIMESTAMP())/(60*24))) as score,
+            ((links.upvotes - links.downvotes)/ (TIMESTAMPDIFF(SECOND, links.created_at, CURRENT_TIMESTAMP())/(60*60*24))) as score,
             (votes.vote = 1) as upvoted,
             (votes.vote = 0) as downvoted
         FROM `links`
@@ -81,6 +89,10 @@ class Links
             votes.user_id = :user_id AND
             votes.type = :type AND
             content_id = links.id
+        LEFT JOIN `users` ON
+            links.user_id = users.id
+        INNER JOIN `directories` ON
+            links.directory_id = directories.id
         $whereSql
         ORDER BY $sortBy DESC
         LIMIT :start_index, :end_index

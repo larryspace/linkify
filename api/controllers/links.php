@@ -76,9 +76,11 @@ class Links
             'image' => $link->image,
             'votes' => $link->votes,
             'directory_id' => $link->directory_id,
+            'directory' => strtolower($link->directory),
             'upvoted' => $link->upvoted ? true : false,
             'downvoted' => $link->downvoted ? true : false,
             'user_id' => $link->user_id,
+            'username' => $link->username,
             'created_at' => $link->created_at
         ];
     }
