@@ -1,18 +1,67 @@
 import { SubmissionError } from 'redux-form';
 import {
-  GET_LINKS_REQUEST, GET_LINKS_FAILURE, GET_LINKS_SUCCESS,
+  GET_LINKS_REQUEST, GET_LINKS_FAILURE, GET_LINKS_SUCCESS, GET_LINKS_REFRESH,
   POST_NEW_LINK_REQUEST, POST_NEW_LINK_FAILURE, POST_NEW_LINK_SUCCESS,
-  VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE
+  VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE,
+  LOAD_LINK_REQUEST, LOAD_LINK_SUCCESS, LOAD_LINK_FAILURE
 } from '../constants/ActionTypes';
-import { CALL_API } from '../middleware/api';
+import { CALL_API, Schemas } from '../middleware/api';
 
-const getLinksRequest = ({ directory, page, sortBy }) => ({
+const loadLinkRequest = ({ link }) => ({
   [CALL_API]: {
-    types: [ GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE ],
-    endpoint: `d/${directory}/${page}/${sortBy}`,
+    types: [ LOAD_LINK_REQUEST, LOAD_LINK_SUCCESS, LOAD_LINK_FAILURE ],
+    endpoint: `d/link/${link}`,
     method: 'GET'
   }
 });
+
+export const loadLink = (values) => (dispatch, getState) =>  {
+  const {
+    links,
+  } = getState().Links || [];
+
+  const link = links.find(item => item.id == values.link);
+  if(link){
+    return;
+  }
+
+  return dispatch(loadLinkRequest(values));
+};
+
+const loadLinksRequest = ({ directory, page, sortBy }) => ({
+  directory,
+  [CALL_API]: {
+    types: [ GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE ],
+    endpoint: `d/${directory}/${page}/${sortBy}`,
+    method: 'GET',
+    schema: Schemas.LINK_ARRAY
+  }
+});
+
+export const loadLinks = ({ directory, sortBy }, refresh) => (dispatch, getState) =>  {
+  const {
+    [directory]: {
+      isFetching,
+      pageCount = 1
+    } = {}
+  } = getState().paginations.linksByDirectory || { [directory]: {} };
+
+  if(isFetching){
+    return;
+  }
+
+  let page = pageCount;
+
+  if(refresh){
+    page = 1;
+    dispatch({
+      type: GET_LINKS_REFRESH,
+      directory
+    });
+  }
+
+  return dispatch(loadLinksRequest({ directory, page, sortBy }));
+};
 
 const postNewLinkRequest = ({ title, link, directory }) => ({
   [CALL_API]: {
@@ -26,40 +75,6 @@ const postNewLinkRequest = ({ title, link, directory }) => ({
   }
 });
 
-const voteLinkRequest = ({ id, vote }) => ({
-  [CALL_API]: {
-    types: [ VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE ],
-    endpoint: `d/link/${id}/${vote}`,
-    method: 'POST',
-    body: {}
-  }
-});
-
-export const voteLink = (values) => (dispatch, getState) =>  {
-  return dispatch(voteLinkRequest(values));
-};
-
-export const loadLinks = (values, loadMore, refresh) => (dispatch, getState) =>  {
-
-  const {
-    page = 0,
-    items,
-  } = getState().Links.links[values.directory] && getState().Links.links[values.directory][values.sortBy] || {};
-
-
-  if(!refresh && (items && !loadMore || getState().Links.loading)){
-    return;
-  }
-
-  values.page = page + 1;
-
-  if(refresh){
-    values.page = 1;
-  }
-
-  return dispatch(getLinksRequest(values));
-};
-
 export const postNewLink = (values) => (dispatch, getState) =>  {
   return dispatch(postNewLinkRequest(values))
   .then(response => {
@@ -67,4 +82,19 @@ export const postNewLink = (values) => (dispatch, getState) =>  {
       throw new SubmissionError(response.response);
     }
   });
+};
+
+
+const voteLinkRequest = ({ id, vote }) => ({
+  [CALL_API]: {
+    types: [ VOTE_LINK_REQUEST, VOTE_LINK_SUCCESS, VOTE_LINK_FAILURE ],
+    endpoint: `d/link/${id}/${vote}`,
+    method: 'POST',
+    schema: Schemas.LINK,
+    body: {}
+  }
+});
+
+export const voteLink = (values) => (dispatch, getState) =>  {
+  return dispatch(voteLinkRequest(values));
 };

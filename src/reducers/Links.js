@@ -5,11 +5,13 @@ import union from 'lodash/union';
 import {
   GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE,
   POST_NEW_LINK_SUCCESS,
-  VOTE_LINK_SUCCESS
+  VOTE_LINK_SUCCESS,
+  LOAD_LINK_REQUEST, LOAD_LINK_SUCCESS, LOAD_LINK_FAILURE,
+  ON_REFRESH_LINKS
 } from '../constants/ActionTypes';
 
 const initialState = {
-  links: {},
+  links: [],
   loading: false,
   error: null
 }
@@ -33,22 +35,11 @@ export default function Links(state = initialState, action) {
         links,
       } = action.response;
 
-      const items = state.links[directory] && state.links[directory][sort] && state.links[directory][sort].items;
-
-      const asd = {
-        page: page,
-        canLoadMore: links.length < 5,
-        items: uniqBy(union(page > 1 ? items || [] : [], links), 'id'),
-      }
-
       return {
         ...state,
-        links: {
-          //...state.links,
-          [directory]: {
-            [sort]: asd
-          },
-        },
+        page: page,
+        links: uniqBy(union(page > 1 ? state.links : [], links), 'id'),
+        canLoadMore: links.length === 10,
         directory,
         sort,
         loading: false,
@@ -66,37 +57,51 @@ export default function Links(state = initialState, action) {
       return {
         ...state,
       }
+
+    case LOAD_LINK_REQUEST:
+      return {
+        ...state,
+        loadingLink: true
+      }
+    case LOAD_LINK_SUCCESS:
+      return {
+        ...state,
+        loadingLink: false,
+        links: uniqBy(union(state.links, [action.response]), 'id')
+      }
+    case LOAD_LINK_FAILURE:
+      return {
+        ...state,
+        loadingLink: false
+      }
+
+    case ON_REFRESH_LINKS:
+      return {
+        ...state,
+        links: []
+      }
+
     case VOTE_LINK_SUCCESS:
 
       const dir = state.directory;
       const srt = state.sort;
 
-      if(!dir || !srt){
+      const newLinks = state.links;
+      const itemIndex = newLinks.findIndex(item => item.id === action.response.id);
+
+      if(itemIndex === -1){
         return {
           ...state,
         }
       }
 
-      const bucket = state.links[dir] && state.links[dir][srt] && state.links[dir][srt];
-      const itemIndex = bucket.items.findIndex(item => item.id === action.response.id);
-
-      const newBucket = {
-        ...bucket,
-        items: [...bucket.items]
-      }
-
-      newBucket.items[itemIndex].upvoted = action.response.upvoted;
-      newBucket.items[itemIndex].downvoted = action.response.downvoted;
-      newBucket.items[itemIndex].votes = action.response.votes;
+      newLinks[itemIndex].upvoted = action.response.upvoted;
+      newLinks[itemIndex].downvoted = action.response.downvoted;
+      newLinks[itemIndex].votes = action.response.votes;
 
       return {
         ...state,
-        links: {
-          //...state.links,
-          [dir]: {
-            [srt]: newBucket
-          },
-        },
+        links: [...newLinks],
       }
 
 

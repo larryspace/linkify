@@ -10,7 +10,7 @@ import NewLinkForm from '../../components/Forms/NewLinkForm';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 
-import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink } from '../../actions';
+import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink, loadDirectory } from '../../actions';
 
 class SubContainer extends Component {
   static contextTypes = {
@@ -21,13 +21,22 @@ class SubContainer extends Component {
     formOpen: false,
   }
 
-  componentDidMount() {
-    const directory = this.props.params.directory;
+  loadContent(directory, sort='hot'){
     this.props.setPageInfo({ title: '', directory: directory });
+    //this.props.loadDirectory({ directory });
     this.props.loadLinks({
       directory,
-      sortBy: this.props.params.sort || 'hot'
-    });
+      sortBy: sort
+    }, true);
+  }
+
+  componentDidMount() {
+    const {
+      directory,
+      sort = 'hot'
+    } = this.props.params;
+
+    this.loadContent(directory, sort);
   }
 
   componentWillReceiveProps(nextProps){
@@ -36,13 +45,8 @@ class SubContainer extends Component {
       sort = 'hot'
     } = nextProps.params;
 
-
     if(this.props.params.directory != directory || (this.props.params.sort || 'hot') !== sort){
-      this.props.setPageInfo({ title: '', directory });
-      this.props.loadLinks({
-        directory,
-        sortBy: sort
-      });
+      this.loadContent(directory, sort);
     }
   }
 
@@ -63,7 +67,7 @@ class SubContainer extends Component {
         this.props.loadLinks({
           directory: this.props.params.directory,
           sortBy: this.props.params.sort || 'hot'
-        }, false, true);
+        }, true);
       }else{
         this.context.router.transitionTo(newPath);
       }
@@ -74,22 +78,18 @@ class SubContainer extends Component {
     this.setState({ formOpen: !this.state.formOpen});
   }
 
-  vote(id, vote){
-    this.props.voteLink({id, vote});
-  }
-
   loadMore(){
     this.props.loadLinks({
       directory: this.props.params.directory,
       sortBy: this.props.params.sort || 'hot'
-    }, true);
+    });
   }
 
-  renderLink({ id, directory, title, url, score, votes, image, upvoted, downvoted }){
+  renderLink({ id, directory, title, url, score, votes, image, upvoted, downvoted, username }){
     return (
       <LinkItem key={ 'link_' + id }
-        onUpvote={ () => this.vote(id, 'upvote') }
-        onDownvote={ () => this.vote(id, 'downvote') }
+        onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
+        onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
         upvoteDisabled={ upvoted }
         downvoteDisabled={ downvoted }
         id={ id }
@@ -99,11 +99,18 @@ class SubContainer extends Component {
         image={ image }
         voteCount={ votes }
         commentCount={ 300 }
+        username={ username }
       />
     );
   }
 
   render() {
+
+    const {
+      directory,
+      sort,
+      link
+    } = this.props.params;
 
     return (
       <div>
@@ -122,10 +129,14 @@ class SubContainer extends Component {
         sortOption={ this.props.params.sort || 'hot' }
       />
       <Container>
-         <SubList
-           items={ this.props.links }
-           renderItem={this.renderLink.bind(this)}
-         />
+        { link && (<div></div>) ||
+        (
+          <SubList
+            items={ this.props.links }
+            renderItem={this.renderLink.bind(this)}
+          />
+        )}
+
          {this.props.loading && (<Spinner />) }
 
        <button onClick={ this.loadMore.bind(this) }>Load More...</button>
@@ -142,11 +153,17 @@ const mapStateToProps = (state, ownProps) => {
     sort = 'hot'
   } = ownProps.params;
 
-  const links = state.Links.links[directory] && state.Links.links[directory][sort] && state.Links.links[directory][sort].items || [];
+  const {
+    paginations: { linksByDirectory },
+    entities: { links }
+  } = state;
+
+  const linksPagination = linksByDirectory[directory] || { ids: [] };
+  const linkList = linksPagination.ids.map(id => links[id]);
 
   return {
-    loading: state.Links.loading,
-    links,
+    loading: linksPagination.isFetching,
+    links: linkList,
     directory: state.Page.directory,
     submitting: state.form.newLinkForm && state.form.newLinkForm.submitting
   }
@@ -159,6 +176,7 @@ export default connect(mapStateToProps,
     submitForm,
     postNewLink,
     loadLinks,
-    voteLink
+    voteLink,
+    loadDirectory
   }
 )(SubContainer);

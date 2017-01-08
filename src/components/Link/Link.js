@@ -31,7 +31,8 @@ export default class LinkItem extends Component {
       title,
       commentCount,
       directory,
-      image
+      image,
+      username
     } = this.props;
 
     return (
@@ -45,6 +46,7 @@ export default class LinkItem extends Component {
           {image && (<div className="sub-list-image"></div>)}
           <div className="link-title">{ title }</div>
           <div className="link-desc">{ url }</div>
+          <div className="link-owner">{ username }</div>
         </a>
         <Link to={'/s/' + directory + '/' + id + '/comments'} className="sub-list-item-comments">
           <span className="comments-count">{ commentCount }</span>

@@ -12,7 +12,7 @@ import ChangePasswordForm from '../../components/Forms/ChangePassword';
 class AccountContainer extends Component {
 
   componentDidMount() {
-    this.props.setPageInfo({ title: 'Account' });
+    //this.props.setPageInfo({ title: 'Account' });
   }
 
   render() {

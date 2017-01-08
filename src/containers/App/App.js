@@ -13,6 +13,7 @@ import RegisterContainer from './../Register';
 import ProfileContainer from './../Profile';
 import AccountContainer from './../Account';
 import SubContainer from './../Sub';
+import LinkContainer from './../Link';
 
 
 import Home from '../../components/Home';
@@ -23,6 +24,18 @@ import Container from '../../components/Container';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Spinner from '../../components/Spinner';
+
+const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
+  <Match {...rest} render={props => (
+    rest.isAuthenticated ? (
+      <div><Component {...props}/></div>
+    ) : rest.isAuthenticating ? (
+      <Spinner />
+    ) : (
+      <NotFound />
+    )
+  )}/>
+);
 
 class App extends Component {
   state = {
@@ -59,20 +72,9 @@ class App extends Component {
   }
 
   render() {
-    const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
-      <Match {...rest} render={props => (
-        this.props.isAuthenticated ? (
-          <Component {...props}/>
-        ) : this.props.isAuthenticating ? (
-          <Spinner />
-        ) : (
-          <NotFound />
-        )
-      )}/>
-    )
+
 
     const LogoutComponent = ({ component: Component, ...rest }) => {
-
       this.props.logoutUser();
 
       return (
@@ -104,7 +106,8 @@ class App extends Component {
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/logout" component={LogoutComponent}/>
               <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={SubContainer}/>
-              <MatchWhenAuthorized pattern="/account/:setting" component={AccountContainer}/>
+              <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
+              <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
               <Footer />
             </div>
@@ -114,13 +117,23 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  title: state.Page.title,
-  userInfo: state.Auth.userInfo,
-  isAuthenticated: state.Auth.isAuthenticated,
-  isAuthenticating: state.Auth.isAuthenticating,
-  defaultDirectories: state.Directories.default || []
-})
+const mapStateToProps = (state, ownProps) => {
+  const {
+    collections: { defaultDirectories },
+    entities: { directories }
+  } = state;
+
+  const defaultDirs = defaultDirectories.ids.map(id => directories[id]);
+
+  return {
+    title: state.Page.title,
+    userInfo: state.Auth.userInfo,
+    isAuthenticated: state.Auth.isAuthenticated,
+    isAuthenticating: state.Auth.isAuthenticating,
+    isLoadingDefaultDirs: defaultDirectories.isFetching,
+    defaultDirectories: defaultDirs
+  };
+}
 
 
 export default connect(mapStateToProps,

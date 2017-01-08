@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   default: [],
+  directories: [],
   activeDirectory: null,
   sortBy: 'hot',
   loading: false,
@@ -12,7 +13,7 @@ const initialState = {
 }
 
 
-export default function Register(state = initialState, action) {
+export default function DirectoryCollection(state = initialState, action) {
   switch (action.type) {
     case GET_DEFAULT_DIRECTORIES_REQUEST:
       return {
