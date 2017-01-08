@@ -1,6 +1,8 @@
-'use strict';
+import { normalize, schema } from 'normalizr';
+export Schemas from './schemas';
+
 const API_ROOT = 'http://' + window.location.hostname + '/api/';
-const apiFetch = (endpoint, method = 'GET', body) => {
+const apiFetch = ({endpoint, method = 'GET', body, schema}) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
   const headers = new Headers();
 
@@ -24,13 +26,19 @@ const apiFetch = (endpoint, method = 'GET', body) => {
   }
 
   return fetch(fullUrl, options)
-    .then(response =>
-      response.json().then(json => {
+    .then(response => response.json()
+    .then(json => {
         if (!response.ok) {
           return Promise.reject(json)
         }
 
-        return json;
+        if(schema){
+          return Object.assign({},
+            normalize(json.response, schema),
+          )
+        }
+
+        return json.response;
       })
     );
 }
@@ -43,7 +51,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  const { endpoint, method, body, types } = callAPI
+  const { endpoint, method, body, types, schema } = callAPI
 
 
   const actionWith = data => {
@@ -55,9 +63,9 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType }));
 
-  return apiFetch(endpoint, method, body).then(
+  return apiFetch({endpoint, method, body, schema}).then(
     response => next(actionWith({
-      response: response.response,
+      response: response,
       type: successType
     })),
     error => next(actionWith({
