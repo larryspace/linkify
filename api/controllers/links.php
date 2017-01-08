@@ -37,6 +37,17 @@ class Links
         return self::linkArr($link);
     }
 
+    static function getLink($params){
+        $id = (int)$params['id'];
+        $link = \app\stores\Links::get($id);
+
+        if(!$link){
+            throw new \ApiException('Link does not exist', 404);
+        }
+
+        return self::linkArr($link);
+    }
+
     static function getLinks($params){
         $page = (int)($params['page'] ?? 1);
         if(!$page) $page = 1;
