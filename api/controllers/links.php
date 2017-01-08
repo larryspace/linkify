@@ -71,11 +71,7 @@ class Links
             $links[$key] = self::linkArr($links[$key]);
         }
 
-        return [
-            'directory' => $params['directory'],
-            'page' => $page,
-            'sort' => $params['sort'],
-            'links' => $links];
+        return $links;
 
     }
 
