@@ -27,6 +27,7 @@
     "core-js": "^2.4.1",
     "es6-error": "^4.0.0",
     "font-awesome": "^4.7.0",
+    "normalizr": "^3.0.2",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-transition-group": "^15.4.1",
