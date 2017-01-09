@@ -30,7 +30,7 @@ class CreateLinksTable extends AbstractMigration
         $table = $this->table('links');
         $table->addColumn('title', 'string', ['limit' => 128])
               ->addColumn('url', 'string', ['limit' => 128])
-              ->addColumn('image', 'string', ['limit' => 128])
+              ->addColumn('image', 'string', ['limit' => 128, 'null' => true])
               ->addColumn('user_id', 'integer', ['null' => true])
               ->addTimestamps()
               ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'SET_NULL', 'update'=> 'CASCADE'])
