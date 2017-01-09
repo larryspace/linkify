@@ -14,21 +14,23 @@ const getDefaultDirectoriesRequest = () => ({
   }
 });
 
-const loadDirectoryRequest = ({ directory }) => ({
-  [CALL_API]: {
-    types: [ LOAD_DIRECTORY_REQUEST, LOAD_DIRECTORY_SUCCESS, LOAD_DIRECTORY_FAILURE ],
-    endpoint: `d/${directory}`,
-    method: 'GET'
-  }
-});
-
 export const getDefaultDirectories = (values) => (dispatch, getState) =>  {
   return dispatch(getDefaultDirectoriesRequest(values));
 };
 
+const loadDirectoryRequest = ({ directory }) => ({
+  [CALL_API]: {
+    types: [ LOAD_DIRECTORY_REQUEST, LOAD_DIRECTORY_SUCCESS, LOAD_DIRECTORY_FAILURE ],
+    endpoint: `d/${directory}`,
+    method: 'GET',
+    schema: Schema.DIRECTORY
+  }
+});
+
 export const loadDirectory = (values) => (dispatch, getState) =>  {
   return dispatch(loadDirectoryRequest(values));
 };
+
 
 export const setDirectorySortOption = (sortValue) => (dispatch, getState) =>  {
   return dispatch({
