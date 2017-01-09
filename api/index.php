@@ -34,6 +34,7 @@ $router->DELETE("/post/:id", 'PostStore::deletePost', 'Authentication::requireAu
 $router->GET("/posts(/:page)", 'PostStore::getPosts');
 
 $router->GET("/directories", 'app\controllers\Directory::getDefaultDirectories');
+$router->GET("/d/:directory", 'app\controllers\Directory::getDirectory');
 
 $router->GET("/d/link/:id", 'app\controllers\Links::getLink');
 $router->GET("/d/:directory/:page/:sort", 'app\controllers\Links::getLinks');
