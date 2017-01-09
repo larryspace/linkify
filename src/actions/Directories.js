@@ -23,12 +23,18 @@ const loadDirectoryRequest = ({ directory }) => ({
     types: [ LOAD_DIRECTORY_REQUEST, LOAD_DIRECTORY_SUCCESS, LOAD_DIRECTORY_FAILURE ],
     endpoint: `d/${directory}`,
     method: 'GET',
-    schema: Schema.DIRECTORY
+    schema: Schemas.DIRECTORY
   }
 });
 
-export const loadDirectory = (values) => (dispatch, getState) =>  {
-  return dispatch(loadDirectoryRequest(values));
+export const loadDirectory = ({ directory }) => (dispatch, getState) =>  {
+
+  const directoryItem = getState().entities.directories[directory];
+  if(directoryItem){
+    return Promise.resolve();
+  }
+
+  return dispatch(loadDirectoryRequest({ directory }));
 };
 
 
