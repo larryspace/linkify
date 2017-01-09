@@ -10,7 +10,10 @@ import NewLinkForm from '../../components/Forms/NewLinkForm';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 
-import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink, loadLink } from '../../actions';
+import {
+  setPageInfo, submitForm, postNewLink,
+  loadLinks, voteLink, loadLink, loadComments
+} from '../../actions';
 
 class LinkContainer extends Component {
   componentDidMount() {
@@ -18,13 +21,21 @@ class LinkContainer extends Component {
       directory,
       link,
     } = this.props.params;
+
     this.props.loadLink({ link });
+    this.props.loadComments({ link });
   }
 
   componentWillReceiveProps(nextProps){
   }
 
   render() {
+    if(!this.props.link){
+      return (
+        <div>No link...</div>
+      );
+    }
+
     const {
       id,
       title,
@@ -73,10 +84,15 @@ const mapStateToProps = (state, ownProps) => {
     link,
   } = ownProps.params;
 
+  const {
+    entities: { links }
+  } = state;
+
+  const linkItem = links[link];
+
   return {
-    loadingLink: state.Links.loadingLink,
-    link: state.Links.links.find(item => item.id === parseInt(link)) || {},
-    links: state.Links.links
+    loadingLink: false,
+    link: linkItem,
   }
 }
 
@@ -88,6 +104,7 @@ export default connect(mapStateToProps,
     postNewLink,
     loadLinks,
     voteLink,
-    loadLink
+    loadLink,
+    loadComments
   }
 )(LinkContainer);
