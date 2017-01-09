@@ -13,7 +13,8 @@ const directorySchema = new schema.Entity('directories', {}, {
 });
 
 const commentSchema = new schema.Entity('comments', {
-  user: userSchema
+  user: userSchema,
+  comments: [commentSchema]
 });
 
 const Schemas = {
