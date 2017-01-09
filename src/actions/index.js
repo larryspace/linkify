@@ -5,3 +5,4 @@ export * from './AccountSettings';
 export * from './Directories';
 export * from './Links';
 export * from './Form';
+export * from './Comments';
