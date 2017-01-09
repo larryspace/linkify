@@ -48,7 +48,7 @@ class Header extends React.Component {
     ];
 
     return (
-    <NavDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
+    <NavDropdown className="float-right" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
       <DropdownToggle nav className="account-menu-toggler">
         <FontAwesome name="ellipsis-v" />
       </DropdownToggle>
@@ -67,10 +67,14 @@ class Header extends React.Component {
   render() {
     return (
       <header>
-        <Navbar color="inverse" dark full>
+        <Navbar className="navbar-inverse" color="inverse" full>
+            <button className="navbar-toggler float-left" type="button" onClick={this.props.onHamburgerClick}>
+              <span className="navbar-toggler-icon"></span>
+            </button>
             <span className="navbar-brand">{ this.props.title }</span>
-            <button className="navbar-toggler hidden-md-up pull-left" type="button" onClick={this.props.onHamburgerClick}></button>
-            <Nav navbar className="pull-right">
+            <Nav navbar className="float-right mr-auto">
+            </Nav>
+            <Nav navbar className="float-right">
               {this.props.isAuthenticated && this.renderDropdownMenu()}
               {!this.props.isAuthenticated && this.renderRegisterButton()}
               {!this.props.isAuthenticated && this.renderLoginButton()}
