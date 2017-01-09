@@ -59,7 +59,7 @@ const config = {
       },
       {
         test: /\.html$/,
-        use: 'file-loader',
+        loader: 'file-loader',
         query: {
           name: '[name].[ext]'
         }
