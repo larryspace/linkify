@@ -11,21 +11,18 @@ const loadLinkRequest = ({ link }) => ({
   [CALL_API]: {
     types: [ LOAD_LINK_REQUEST, LOAD_LINK_SUCCESS, LOAD_LINK_FAILURE ],
     endpoint: `d/link/${link}`,
-    method: 'GET'
+    method: 'GET',
+    schema: Schemas.LINK
   }
 });
 
-export const loadLink = (values) => (dispatch, getState) =>  {
-  const {
-    links,
-  } = getState().Links || [];
-
-  const link = links.find(item => item.id == values.link);
-  if(link){
+export const loadLink = ({ link }) => (dispatch, getState) =>  {
+  const linkItem = getState().entities.links[link];
+  if(linkItem){
     return;
   }
 
-  return dispatch(loadLinkRequest(values));
+  return dispatch(loadLinkRequest({ link }));
 };
 
 const loadLinksRequest = ({ directory, page, sortBy }) => ({
