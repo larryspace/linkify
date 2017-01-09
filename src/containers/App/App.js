@@ -109,7 +109,6 @@ class App extends Component {
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
               <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
-              <Footer />
             </div>
           </app>
       </BrowserRouter>
