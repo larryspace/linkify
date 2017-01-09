@@ -39,6 +39,14 @@ const paginations = combineReducers({
       ActionTypes.GET_LINKS_FAILURE,
       ActionTypes.GET_LINKS_REFRESH
     ]
+  }),
+  commentsByLink: paginationReducer({
+    mapActionToKey: action => action.link,
+    types: [
+      ActionTypes.LOAD_COMMENTS_REQUEST,
+      ActionTypes.LOAD_COMMENTS_SUCCESS,
+      ActionTypes.LOAD_COMMENTS_FAILURE
+    ]
   })
 });
 
