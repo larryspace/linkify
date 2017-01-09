@@ -10,6 +10,7 @@ import formReducer from './FormReducer';
 
 import collectionReducer from './collection';
 import paginationReducer from './pagination';
+import entityReducer from './entity';
 import entities from './entities';
 
 const collections = combineReducers({
@@ -41,11 +42,29 @@ const paginations = combineReducers({
   })
 });
 
+const entity = combineReducers({
+  link: entityReducer({
+    types: [
+      ActionTypes.LOAD_LINK_REQUEST,
+      ActionTypes.LOAD_LINK_SUCCESS,
+      ActionTypes.LOAD_LINK_FAILURE,
+    ]
+  }),
+  directory: entityReducer({
+    types: [
+      ActionTypes.LOAD_DIRECTORY_REQUEST,
+      ActionTypes.LOAD_DIRECTORY_SUCCESS,
+      ActionTypes.LOAD_DIRECTORY_FAILURE,
+    ]
+  })
+});
+
 export default combineReducers({
   Auth,
   Register,
   Page,
   Directories,
+  entity,
   entities,
   collections,
   paginations,
