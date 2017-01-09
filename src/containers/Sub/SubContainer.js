@@ -9,6 +9,7 @@ import ModalForm from '../../components/ModalForm';
 import NewLinkForm from '../../components/Forms/NewLinkForm';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
+import NotFound from '../../components/NotFound';
 
 import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink, loadDirectory } from '../../actions';
 
@@ -23,11 +24,18 @@ class SubContainer extends Component {
 
   loadContent(directory, sort='hot'){
     this.props.setPageInfo({ title: '', directory: directory });
-    //this.props.loadDirectory({ directory });
-    this.props.loadLinks({
-      directory,
-      sortBy: sort
-    }, true);
+    this.props.loadDirectory({ directory })
+    .then( response => {
+      if(response && response.error){
+        return;
+      }
+
+      this.props.loadLinks({
+        directory,
+        sortBy: sort
+      }, true);
+    });
+
   }
 
   componentDidMount() {
@@ -112,6 +120,14 @@ class SubContainer extends Component {
       link
     } = this.props.params;
 
+    if(!this.props.loadingDirectory && !this.props.directory){
+      return (
+        <Container>
+          <NotFound />
+        </Container>
+      );
+    }
+
     return (
       <div>
       <ModalForm
@@ -128,6 +144,8 @@ class SubContainer extends Component {
         directory={ this.props.params.directory }
         sortOption={ this.props.params.sort || 'hot' }
       />
+
+      { this.props.loadingDirectory && (<div>Loading directory...</div>)}
       <Container>
         { link && (<div></div>) ||
         (
@@ -155,16 +173,20 @@ const mapStateToProps = (state, ownProps) => {
 
   const {
     paginations: { linksByDirectory },
-    entities: { links }
+    entities: { links, directories },
+    entity
   } = state;
 
   const linksPagination = linksByDirectory[directory] || { ids: [] };
   const linkList = linksPagination.ids.map(id => links[id]);
 
+  const directoryItem = directories[directory];
+
   return {
+    loadingDirectory: entity.directory.isFetching,
     loading: linksPagination.isFetching,
     links: linkList,
-    directory: state.Page.directory,
+    directory: directoryItem,
     submitting: state.form.newLinkForm && state.form.newLinkForm.submitting
   }
 }
