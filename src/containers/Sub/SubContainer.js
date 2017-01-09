@@ -128,6 +128,8 @@ class SubContainer extends Component {
       );
     }
 
+    const directoryItem = this.props.directory;
+
     return (
       <div>
       <ModalForm
@@ -138,14 +140,17 @@ class SubContainer extends Component {
         onSubmit={ this.onSubmitNewLink.bind(this) }
         onSubmitClick={() => this.props.submitForm('newLinkForm')}
        />
-      <SubHeader
-        title={ this.props.params.directory }
-        onNewLinkClick={ this.toggleModal.bind(this) }
-        directory={ this.props.params.directory }
-        sortOption={ this.props.params.sort || 'hot' }
-      />
 
-      { this.props.loadingDirectory && (<div>Loading directory...</div>)}
+       {directoryItem && (
+         <SubHeader
+           title={ directoryItem.name }
+           onNewLinkClick={ this.toggleModal.bind(this) }
+           directory={ directoryItem.name.toLowerCase() }
+           sortOption={ this.props.params.sort || 'hot' }
+         />
+       )}
+
+      { this.props.loadingDirectory && (<div><Spinner />Loading directory...</div>)}
       <Container>
         { link && (<div></div>) ||
         (
