@@ -22,19 +22,27 @@ class LinkContainer extends Component {
       link,
     } = this.props.params;
 
+    this.loadContent({link, directory});
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {
+      directory,
+      link,
+    } = nextProps.params;
+
+    if(this.props.params.link !== link){
+      this.loadContent({link, directory});
+    }
+  }
+
+  loadContent({link, directory}){
     this.props.loadLink({ link });
     this.props.loadComments({ link });
   }
 
-  componentWillReceiveProps(nextProps){
-  }
-
   render() {
-    if(!this.props.link){
-      return (
-        <div>No link...</div>
-      );
-    }
+
 
     const {
       id,
@@ -45,7 +53,7 @@ class LinkContainer extends Component {
       votes,
       upvoted,
       downvoted
-    } = this.props.link;
+    } = this.props.link || {};
 
     const {
       link
@@ -85,13 +93,14 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
 
   const {
-    entities: { links }
+    entities: { links },
+    entity
   } = state;
 
   const linkItem = links[link];
 
   return {
-    loadingLink: false,
+    loadingLink: entity.link.isFetching,
     link: linkItem,
   }
 }
