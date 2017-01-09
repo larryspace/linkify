@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 
 import Container from '../../components/Container';
 import SubHeader from '../../components/SubHeader';
-import SubList from '../../components/SubList';
-import ModalForm from '../../components/ModalForm';
-import NewLinkForm from '../../components/Forms/NewLinkForm';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
+import Comment from '../../components/Comment';
+import NestedList from '../../components/NestedList';
 
 import {
   setPageInfo, submitForm, postNewLink,
@@ -41,6 +40,12 @@ class LinkContainer extends Component {
     this.props.loadComments({ link });
   }
 
+  renderComment({ id }){
+    return (
+      <Comment key={id}/>
+    );
+  }
+
   render() {
 
 
@@ -58,6 +63,11 @@ class LinkContainer extends Component {
     const {
       link
     } = this.props.params;
+
+    const {
+      comments,
+      isFetchingComments
+    } = this.props;
 
     return (
       <div>
@@ -81,6 +91,13 @@ class LinkContainer extends Component {
           commentCount={ 300 }
         />
       )}
+
+      <NestedList
+        component={Comment}
+        items={comments}
+        isFetching={isFetchingComments}
+        onLoadMoreClick={()=>alert(1)}
+      />
       </div>
     );
   }
@@ -93,15 +110,21 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
 
   const {
-    entities: { links },
+    paginations: { commentsByLink },
+    entities: { links, comments },
     entity
   } = state;
+
+  const commentsPagination = commentsByLink[link] || { ids: [], isFetching: false };
+  const commentList = commentsPagination.ids.map(id => comments[id]);
 
   const linkItem = links[link];
 
   return {
     loadingLink: entity.link.isFetching,
+    isFetchingComments: commentsPagination.isFetching,
     link: linkItem,
+    comments: commentList
   }
 }
 
