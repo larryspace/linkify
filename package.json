@@ -23,7 +23,7 @@
   "dependencies": {
     "babel-eslint": "^7.1.1",
     "babel-polyfill": "^6.20.0",
-    "bootstrap": "^4.0.0-alpha.5",
+    "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "es6-error": "^4.0.0",
     "font-awesome": "^4.7.0",
@@ -36,7 +36,7 @@
     "react-redux": "^5.0.1",
     "react-router": "^4.0.0-alpha.6",
     "react-tap-event-plugin": "^2.0.1",
-    "reactstrap": "^3.9.5",
+    "reactstrap": "^4.0.0-alpha.8",
     "redux": "^3.6.0",
     "redux-form": "^6.3.2",
     "redux-thunk": "^2.1.0"
@@ -67,7 +67,7 @@
     "sass-loader": "^4.1.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.0-rc.2",
+    "webpack": "^2.2.0-rc.3",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^2.2.0-rc.0",
     "webpack-hot-middleware": "^2.13.2"
