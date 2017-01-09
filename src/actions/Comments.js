@@ -4,6 +4,7 @@ import {
 import { CALL_API, Schemas } from '../middleware/api';
 
 const loadCommentsRequest = ({ link }) => ({
+  link,
   [CALL_API]: {
     types: [ LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE ],
     endpoint: `link/${link}/comments`,
