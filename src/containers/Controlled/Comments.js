@@ -9,15 +9,12 @@ import NestedList from '../../components/NestedList';
 import createForm, {CommentForm} from '../../components/Forms';
 
 import {
-  loadComments
+  loadComments,
+  newComment,
+  editComment
 } from '../../actions';
 
 class CommentsContainer extends Component {
-
-  state = {
-    forms: {}
-  }
-
   componentDidMount() {
     const {
       id
@@ -36,27 +33,7 @@ class CommentsContainer extends Component {
     }
   }
 
-  toggleReplyForm(id){
-    const formState = this.state.forms[id] || {};
-
-    this.setState({
-      forms: {
-        ...this.state.forms,
-        [id]: {
-          show: !formState.show,
-        }
-      }
-    });
-  }
-
-  submitComment(values){
-    console.log(values);
-  }
-
   renderComment({ id, author, content }, children){
-    const CommentReplyForm = this.props.forms[id];
-    const formState = this.state.forms[id] || {};
-
     return (
         <Comment key={id}
           id={id}
@@ -65,15 +42,12 @@ class CommentsContainer extends Component {
           created_at={''}
           upvoted={false}
           downvoted={false}
-          showEditCommentButton={false}
+          showEditButton={true}
+          onReplySubmit={values => this.props.newComment({link: this.props.id, parent: id, ...values})}
+          onEditSubmit={values => this.props.editComment({id, ...values})}
           onUpvoteClick={() => {}}
           onDownvoteClick={() => {}}
-          onReplyClick={() => this.toggleReplyForm(id)}
-          onQuoteClick={() => this.toggleReplyForm(id)}
         >
-          {formState.show && (<CommentReplyForm
-            onSubmit={this.submitComment}
-          />)}
           {children}
         </Comment>
     );
@@ -97,8 +71,6 @@ class CommentsContainer extends Component {
   }
 }
 
-const FormList = {};
-
 const mapStateToProps = (state, ownProps) => {
 
   const {
@@ -111,23 +83,17 @@ const mapStateToProps = (state, ownProps) => {
   const commentsPagination = commentsByLink[linkId] || { ids: [], isFetching: false };
   const commentList = commentsPagination.ids.map(id => comments[id]);
 
-  commentList.forEach(comment => {
-    if(!FormList[comment.id]){
-      console.log('Doesnt exist', ownProps);
-      FormList[comment.id] = createForm(CommentForm, 'commentForm' + comment.id)
-    }
-  });
-
   return {
     isFetchingComments: commentsPagination.isFetching,
-    comments: commentList,
-    forms: FormList
+    comments: commentList
   }
 }
 
 
 export default connect(mapStateToProps,
   {
-    loadComments
+    loadComments,
+    newComment,
+    editComment
   }
 )(CommentsContainer);

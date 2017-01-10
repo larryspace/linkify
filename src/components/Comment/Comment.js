@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { Media } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 
+import createForm, {CommentForm} from '../../components/Forms';
+
 import './Comment.scss';
 
 export default class Comment extends Component {
@@ -15,9 +17,30 @@ export default class Comment extends Component {
     downvoted: PropTypes.bool.isRequired,
     onUpvoteClick: PropTypes.func.isRequired,
     onDownvoteClick: PropTypes.func.isRequired,
-    showEditCommentButton: PropTypes.bool.isRequired,
-    onReplyClick: PropTypes.func.isRequired,
-    onQuoteClick: PropTypes.func.isRequired
+    showEditButton: PropTypes.bool.isRequired,
+    onEditSubmit: PropTypes.func.isRequired,
+    onReplySubmit: PropTypes.func.isRequired,
+  }
+
+  state = {
+    isReplyMode: false,
+    isEditMode: false,
+    editForm: createForm(CommentForm, 'commentEditForm' + this.props.id),
+    replyForm: createForm(CommentForm, 'commentReplyForm' + this.props.id)
+  }
+
+  toggleEditMode(){
+    this.setState({
+      isReplyMode: false,
+      isEditMode: !this.state.isEditMode,
+    });
+  }
+
+  toggleReplyMode(){
+    this.setState({
+      isReplyMode: !this.state.isReplyMode,
+      isEditMode: false,
+    });
   }
 
   render() {
@@ -31,8 +54,9 @@ export default class Comment extends Component {
       downvoted,
       onUpvoteClick,
       onDownvoteClick,
-      onQuoteClick,
-      onReplyClick,
+      showEditButton,
+      onReplySubmit,
+      onEditSubmit
     } = this.props;
 
     return (
@@ -46,12 +70,25 @@ export default class Comment extends Component {
             4
             <button onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
             <Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>
-            <button onClick={onReplyClick}>Reply</button>
-            <button onClick={onQuoteClick}>Quote</button>
+            <button onClick={this.toggleReplyMode.bind(this)}>Reply</button>
+            {showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
           </Media>
           <div className="comment-content">
-            { content }
+            { !this.state.isEditMode && content }
           </div>
+          {this.state.isEditMode && (
+            <this.state.editForm
+              onSubmit={onEditSubmit}
+              initialValues={{ content }}
+              showCancel={ true }
+              onCancelClick={ this.toggleEditMode.bind(this) }
+          />)}
+          {this.state.isReplyMode && (
+            <this.state.replyForm
+              onSubmit={onReplySubmit}
+              showCancel={ true }
+              onCancelClick={ this.toggleReplyMode.bind(this) }
+          />)}
           { this.props.children }
         </Media>
       </Media>
