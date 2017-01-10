@@ -15,29 +15,24 @@ export default class CommentForm extends Component {
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            showCancel,
+            onCancelClick
+          } = this.props;
 
     return (
       <Form onSubmit={handleSubmit} className="comment-form">
         <Field
           icon="pencil-square-o"
-          name="comment"
+          name="content"
           type="textarea"
           label="Comment"
           component={ renderField }
           validate={[ required ]}
         />
-        <Field
-          icon="pencil-square-o"
-          name="test"
-          type="text"
-          label="ASd"
-          component={ renderField }
-          validate={[ required ]}
-        />
         <ButtonGroup>
           <Button type="submit" color="primary" disabled={submitting}>Save</Button>
-          <Button type="button" color="warning">Cancel</Button>
+          {showCancel && (<Button type="button" color="warning" onClick={onCancelClick}>Cancel</Button>)}
         </ButtonGroup>
       </Form>
     );
