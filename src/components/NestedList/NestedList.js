@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import Spinner from '../../components/Spinner';
 
 export default class NestedList extends Component {
 
@@ -22,6 +23,10 @@ export default class NestedList extends Component {
       component,
       renderItem,
     } = this.props;
+
+    if(isFetching){
+      return (<Spinner />);
+    }
 
     return (
       <div>
