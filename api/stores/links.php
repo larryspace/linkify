@@ -56,11 +56,13 @@ class Links
     static function getLinks($directoryId, $page, $sortBy){
         $user = \Authentication::getUser();
 
+        $perPage = 10;
+
         $values = [
             'user_id' => $user->id ?? NULL,
             'type' => 0,
-            'start_index' => 0 + ($page - 1) * 5,
-            'end_index' => 10
+            'start_index' => 0 + ($page - 1) * $perPage,
+            'end_index' => $perPage
         ];
 
         $whereSql = '';
