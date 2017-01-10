@@ -13,6 +13,7 @@ const loadCommentsRequest = ({ link }) => ({
   }
 });
 
-export const loadComments = (values) => (dispatch, getState) =>  {
-  return dispatch(loadCommentsRequest(values));
+export const loadComments = ({link}) => (dispatch, getState) =>  {
+  link = link + '';
+  return dispatch(loadCommentsRequest({link}));
 };
