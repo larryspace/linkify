@@ -13,8 +13,9 @@ class Comments
         return [
             'id' => self::$num++,
             'parent' => $parent,
-            'author' => 'Thehink',
-            'content' => 'My Comment',
+            'author' => 'Username',
+            'content' => 'Comment content blablabla',
+            'image' => '',
             'created_at' => '',
             'updated_at' => ''
         ];
