@@ -10,30 +10,22 @@ export default class NestedList extends Component {
     onLoadMoreClick: PropTypes.func.isRequired
   }
 
-  renderItem(item, items, Component){
-    const children = items.filter(subItem => subItem.parent===item.id);
-
-    return (
-      <Component
-        key={'nested_list' + item.id}
-        {...item}
-      >
-        {children.length > 0 && children.map(subItem => this.renderItem(subItem, items, Component))}
-      </Component>
-    );
+  renderItem(item, items, renderItem){
+    const children = items.filter(subItem => subItem.parent===item.id).map(subItem => this.renderItem(subItem, items, renderItem));
+    return renderItem(item, children);
   }
 
   render() {
-
     const {
       isFetching,
       items,
-      component
+      component,
+      renderItem,
     } = this.props;
 
     return (
       <div>
-        {items.filter(item => item.parent===0).map(subItem => this.renderItem(subItem, items, component))}
+        {items.filter(item => item.parent===0).map(subItem => this.renderItem(subItem, items, renderItem))}
       </div>
     );
   }
