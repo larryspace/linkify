@@ -2,12 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import CommentsContainer from '../Controlled/Comments';
+
 import Container from '../../components/Container';
 import SubHeader from '../../components/SubHeader';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 import Comment from '../../components/Comment';
 import NestedList from '../../components/NestedList';
+import createForm, {CommentForm} from '../../components/Forms';
+
+const CommentFormObj = createForm(CommentForm, 'commentForm');
 
 import {
   setPageInfo, submitForm, postNewLink,
@@ -37,12 +42,23 @@ class LinkContainer extends Component {
 
   loadContent({link, directory}){
     this.props.loadLink({ link });
-    this.props.loadComments({ link });
+    //this.props.loadComments({ link });
   }
 
-  renderComment({ id }){
+  renderComment({ id, author, content }, children){
+    const CommentReplyForm = this.props.forms[id];
+
     return (
-      <Comment key={id}/>
+        <Comment key={id}
+          id={id}
+          author={author}
+          content={content}
+        >
+          <CommentReplyForm
+            show={false}
+          />
+          {children}
+        </Comment>
     );
   }
 
@@ -76,32 +92,33 @@ class LinkContainer extends Component {
         compact={ true }
         directory={ this.props.params.directory }
       />
-      {this.props.loadingLink && (<Spinner />) || (
-        <LinkItem
-          onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
-          onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
-          upvoteDisabled={ upvoted }
-          downvoteDisabled={ downvoted }
-          id={ id }
-          directory={ directory }
-          title={ title }
-          url={ url }
-          image={ image }
-          voteCount={ votes }
-          commentCount={ 300 }
-        />
-      )}
 
-      <NestedList
-        component={Comment}
-        items={comments}
-        isFetching={isFetchingComments}
-        onLoadMoreClick={()=>alert(1)}
-      />
+        {this.props.loadingLink && (<Spinner />) || (
+          <LinkItem
+            onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
+            onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
+            upvoteDisabled={ upvoted }
+            downvoteDisabled={ downvoted }
+            id={ id }
+            directory={ directory }
+            title={ title }
+            url={ url }
+            image={ image }
+            voteCount={ votes }
+            commentCount={ 300 }
+          />
+        )}
+
+        <CommentFormObj/>
+
+        <CommentsContainer id={id} />
+
       </div>
     );
   }
 }
+
+const FormList = {};
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -117,6 +134,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const commentsPagination = commentsByLink[link] || { ids: [], isFetching: false };
   const commentList = commentsPagination.ids.map(id => comments[id]);
+
 
   const linkItem = links[link];
 
