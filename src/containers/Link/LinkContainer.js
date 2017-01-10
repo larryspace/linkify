@@ -10,13 +10,14 @@ import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 import Comment from '../../components/Comment';
 import NestedList from '../../components/NestedList';
+import NotFound from '../../components/NotFound';
 import createForm, {CommentForm} from '../../components/Forms';
 
 const CommentFormObj = createForm(CommentForm, 'commentForm');
 
 import {
   setPageInfo, submitForm, postNewLink,
-  loadLinks, voteLink, loadLink, loadComments
+  loadLinks, voteLink, loadLink, loadComments, newComment
 } from '../../actions';
 
 class LinkContainer extends Component {
@@ -45,24 +46,15 @@ class LinkContainer extends Component {
     //this.props.loadComments({ link });
   }
 
-  renderComment({ id, author, content }, children){
-    const CommentReplyForm = this.props.forms[id];
-
-    return (
-        <Comment key={id}
-          id={id}
-          author={author}
-          content={content}
-        >
-          <CommentReplyForm
-            show={false}
-          />
-          {children}
-        </Comment>
-    );
-  }
-
   render() {
+
+    if(!this.props.loadingLink && !this.props.link){
+      return (
+        <Container>
+          <NotFound />
+        </Container>
+      );
+    }
 
 
     const {
@@ -79,11 +71,6 @@ class LinkContainer extends Component {
     const {
       link
     } = this.props.params;
-
-    const {
-      comments,
-      isFetchingComments
-    } = this.props;
 
     return (
       <div>
@@ -109,9 +96,16 @@ class LinkContainer extends Component {
           />
         )}
 
-        <CommentFormObj/>
+        {this.props.link && (
+          <CommentFormObj
+            onSubmit={values => this.props.newComment({link, parent: 0, ...values})}
+          />
+        )}
 
-        <CommentsContainer id={id} />
+        {this.props.link && (
+          <CommentsContainer id={id} />
+        )}
+
 
       </div>
     );
@@ -127,22 +121,15 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
 
   const {
-    paginations: { commentsByLink },
-    entities: { links, comments },
+    entities: { links },
     entity
   } = state;
-
-  const commentsPagination = commentsByLink[link] || { ids: [], isFetching: false };
-  const commentList = commentsPagination.ids.map(id => comments[id]);
-
 
   const linkItem = links[link];
 
   return {
     loadingLink: entity.link.isFetching,
-    isFetchingComments: commentsPagination.isFetching,
     link: linkItem,
-    comments: commentList
   }
 }
 
@@ -155,6 +142,7 @@ export default connect(mapStateToProps,
     loadLinks,
     voteLink,
     loadLink,
-    loadComments
+    loadComments,
+    newComment
   }
 )(LinkContainer);
