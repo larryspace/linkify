@@ -4,6 +4,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('./webpack.config');
 const connectHistoryApiFallback = require('connect-history-api-fallback');
+const httpProxyMiddleware = require('http-proxy-middleware');
 
 const bundler = webpack(webpackConfig);
 
@@ -20,6 +21,15 @@ browserSync({
                 }
             }),
             webpackHotMiddleware(bundler),
+            httpProxyMiddleware([
+              '/api',
+              '/uploads'
+            ],
+            {
+              target: 'http://localhost',
+              ws: true,
+              changeOrigin: true
+            }),
             connectHistoryApiFallback({
               index: './',
             })
