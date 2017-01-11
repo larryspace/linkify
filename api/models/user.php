@@ -9,10 +9,6 @@ class User extends  Model
 {
     static $table = "users";
 
-    function update(){
-
-    }
-
     static function get($id){
         return parent::_get($id, ['id',
                                 'username',
