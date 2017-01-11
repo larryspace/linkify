@@ -11,6 +11,7 @@ export default class Comment extends Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
+    votes: PropTypes.number.isRequired,
     author: PropTypes.string.isRequired,
     created_at: PropTypes.string.isRequired,
     upvoted: PropTypes.bool.isRequired,
@@ -52,6 +53,8 @@ export default class Comment extends Component {
       content,
       created_at,
       author,
+      avatar,
+      votes,
       upvoted,
       downvoted,
       onUpvoteClick,
@@ -60,8 +63,7 @@ export default class Comment extends Component {
       onReplySubmit,
       onEditSubmit,
       showDeleteButton,
-      onDeleteClick,
-      avatar
+      onDeleteClick
     } = this.props;
 
     return (
@@ -71,9 +73,9 @@ export default class Comment extends Component {
         </Media>
         <Media body className="comment-body">
           <Media heading className="comment-heading">
-            <button onClick={onUpvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
-            4
-            <button onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
+            <button disabled={ upvoted } onClick={onUpvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
+            { votes }
+            <button disabled={ downvoted } onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
             <Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>
             <button onClick={this.toggleReplyMode.bind(this)}>Reply</button>
             {showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}

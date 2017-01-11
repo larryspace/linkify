@@ -65,7 +65,8 @@ class LinkContainer extends Component {
       image,
       votes,
       upvoted,
-      downvoted
+      downvoted,
+      comment_count
     } = this.props.link || {};
 
     const {
@@ -92,7 +93,7 @@ class LinkContainer extends Component {
             url={ url }
             image={ image }
             voteCount={ votes }
-            commentCount={ 300 }
+            commentCount={ comment_count }
           />
         )}
 

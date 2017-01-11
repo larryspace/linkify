@@ -1,7 +1,8 @@
 import { SubmissionError } from 'redux-form';
 import {
   LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE,
-  NEW_COMMENT_REQUEST, NEW_COMMENT_SUCCESS, NEW_COMMENT_FAILURE
+  NEW_COMMENT_REQUEST, NEW_COMMENT_SUCCESS, NEW_COMMENT_FAILURE,
+  VOTE_COMMENT_REQUEST, VOTE_COMMENT_SUCCESS, VOTE_COMMENT_FAILURE
 } from '../constants/ActionTypes';
 import { CALL_API, Schemas } from '../middleware/api';
 
@@ -46,7 +47,7 @@ export const newComment = ({link, parent, content}) => (dispatch, getState) =>  
 const editCommentRequest = ({id, content}) => ({
   [CALL_API]: {
     types: [ NEW_COMMENT_REQUEST, NEW_COMMENT_SUCCESS, NEW_COMMENT_FAILURE ],
-    endpoint: `comments/${id}/edit`,
+    endpoint: `comment/${id}/edit`,
     method: 'POST',
     schema: Schemas.COMMENT,
     body: {
@@ -62,4 +63,19 @@ export const editComment = ({id, content}) => (dispatch, getState) =>  {
       throw new SubmissionError(response.response);
     }
   });
+};
+
+
+const voteCommentRequest = ({ id, vote }) => ({
+  [CALL_API]: {
+    types: [ VOTE_COMMENT_REQUEST, VOTE_COMMENT_SUCCESS, VOTE_COMMENT_FAILURE ],
+    endpoint: `comment/${id}/${vote}`,
+    method: 'POST',
+    schema: Schemas.COMMENT,
+    body: {}
+  }
+});
+
+export const voteComment = (values) => (dispatch, getState) =>  {
+  return dispatch(voteCommentRequest(values));
 };

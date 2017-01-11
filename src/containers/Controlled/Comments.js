@@ -11,7 +11,8 @@ import createForm, {CommentForm} from '../../components/Forms';
 import {
   loadComments,
   newComment,
-  editComment
+  editComment,
+  voteComment
 } from '../../actions';
 
 class CommentsContainer extends Component {
@@ -33,24 +34,30 @@ class CommentsContainer extends Component {
     }
   }
 
-  renderComment({ id, author, content }, children){
+  renderComment({ id, author, content, votes, upvoted, downvoted, created_at }, children){
 
     author = this.props.users[author];
+
+    const reply = values => this.props.newComment({link: this.props.id, parent: id, ...values});
+    const edit = values => this.props.editComment({id, ...values});
+    const upvote = () => this.props.voteComment({id, vote: 'upvote'});
+    const downvote = () => this.props.voteComment({id, vote: 'downvote'});
 
     return (
         <Comment key={id}
           id={id}
-          author={author.username}
-          avatar={author.avatar}
-          content={content}
-          created_at={''}
-          upvoted={false}
-          downvoted={false}
-          showEditButton={true}
-          onReplySubmit={values => this.props.newComment({link: this.props.id, parent: id, ...values})}
-          onEditSubmit={values => this.props.editComment({id, ...values})}
-          onUpvoteClick={() => {}}
-          onDownvoteClick={() => {}}
+          author={ author.username }
+          avatar={ author.avatar }
+          content={ content }
+          created_at={ created_at }
+          votes={ votes }
+          upvoted={ upvoted || false }
+          downvoted={ downvoted || false }
+          showEditButton={ true }
+          onReplySubmit={ reply }
+          onEditSubmit={ edit }
+          onUpvoteClick={ upvote }
+          onDownvoteClick={ downvote }
           showDeleteButton={ true }
           onDeleteClick={ () => alert('delete') }
         >
@@ -101,6 +108,7 @@ export default connect(mapStateToProps,
   {
     loadComments,
     newComment,
-    editComment
+    editComment,
+    voteComment
   }
 )(CommentsContainer);

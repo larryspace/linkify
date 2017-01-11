@@ -93,7 +93,7 @@ class SubContainer extends Component {
     });
   }
 
-  renderLink({ id, directory, title, url, score, votes, image, upvoted, downvoted, username }){
+  renderLink({ id, directory, title, url, score, comment_count, votes, image, upvoted, downvoted, username }){
     return (
       <LinkItem key={ 'link_' + id }
         onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
@@ -106,7 +106,7 @@ class SubContainer extends Component {
         url={ url }
         image={ image }
         voteCount={ votes }
-        commentCount={ 300 }
+        commentCount={ comment_count }
         username={ username }
       />
     );
