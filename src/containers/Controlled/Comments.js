@@ -47,7 +47,6 @@ class CommentsContainer extends Component {
     const authedUser = this.props.user;
     const deleteComment = () => this.props.deleteComment({ id });
 
-
     return (
         <Comment key={id}
           id={ id }
@@ -59,12 +58,12 @@ class CommentsContainer extends Component {
           votes={ votes }
           upvoted={ upvoted || false }
           downvoted={ downvoted || false }
-          showEditButton={ authedUser.id === author.id }
+          showEditButton={ authedUser && authedUser.id === author.id }
           onReplySubmit={ reply }
           onEditSubmit={ edit }
           onUpvoteClick={ upvote }
           onDownvoteClick={ downvote }
-          showDeleteButton={ authedUser.id === author.id }
+          showDeleteButton={ authedUser && authedUser.id === author.id }
           onDeleteClick={ deleteComment }
         >
           {children}
