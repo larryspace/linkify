@@ -19,6 +19,19 @@ class Comment extends VoteModel
 
         $this->upvoted = $this->upvoted ? true : false;
         $this->downvoted = $this->downvoted ? true : false;
+        $this->deleted = $this->deleted ? true : false;
+    }
+
+    function delete(){
+        $this->deleted = true;
+        $this->content = '';
+        $this->author = null;
+
+        return $this->_save([
+            'user_id' => null,
+            'content' => '',
+            'deleted' => true
+        ]);
     }
 
     function updateContent($content){

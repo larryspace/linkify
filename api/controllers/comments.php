@@ -6,6 +6,37 @@ namespace app\controllers;
  */
 class Comments
 {
+    static function deleteComment($params, $user){
+        $postBody = get_json_body(true);
+
+        $comment = \app\stores\Comments::get((int)$params['id']);
+
+        if(!$comment){
+            throw new \ApiException('FormError', 400, ['_error' => 'Comment "' . $params['id'] . '" doesn\'t exist']);
+        }
+
+        if($comment->deleted){
+            throw new \ApiException('FormError', 400, ['_error' => 'This comment is already deleted']);
+        }
+
+        if($comment->author->id !== $user->id){
+            throw new \ApiException('FormError', 400, ['_error' => 'This is not your comment']);
+        }
+
+        try {
+            $comment->delete();
+        } catch (Exception $e) {
+            throw new \ApiException('FormError', 400, ['_error' => 'Could not delete comment!']);
+        }
+
+        return [
+            'id' => $comment->id,
+            'deleted' => true,
+            'content' => '',
+            'author' => null
+        ];
+    }
+
     static function voteComment($params, $user){
         if(!isset($params['id'])){
             throw new \ApiException('Did not get a link id', 400);
@@ -22,6 +53,10 @@ class Comments
 
         if(!$comment){
             throw new \ApiException('Comment does not exist', 400);
+        }
+
+        if($comment->deleted){
+            throw new \ApiException('FormError', 400, ['_error' => 'You cant vote on a deleted comment!']);
         }
 
         $vote = \app\stores\Votes::get(\app\stores\Votes::COMMENT, $id, $user->id);
@@ -69,8 +104,12 @@ class Comments
             throw new \ApiException('FormError', 400, ['_error' => 'Comment "' . $params['id'] . '" doesn\'t exist']);
         }
 
-        if(strtolower($comment->author) !== strtolower($user->username)){
+        if($comment->author->id !== $user->id){
             throw new \ApiException('FormError', 400, ['_error' => 'This is not your comment']);
+        }
+
+        if($comment->deleted){
+            throw new \ApiException('FormError', 400, ['_error' => 'You cant edit a deleted comment!']);
         }
 
         $errors = \FormValidator::validate($postBody,
@@ -116,6 +155,10 @@ class Comments
             $parent = \app\stores\Comments::get($parent_id);
             if(!$parent){
                 throw new \ApiException('FormError', 400, ['_error' => 'Parent comment does not exist']);
+            }
+
+            if($parent->deleted){
+                throw new \ApiException('FormError', 400, ['_error' => 'You cant reply to a deleted comment!']);
             }
         }
 
