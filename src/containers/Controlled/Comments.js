@@ -12,7 +12,8 @@ import {
   loadComments,
   newComment,
   editComment,
-  voteComment
+  voteComment,
+  deleteComment
 } from '../../actions';
 
 class CommentsContainer extends Component {
@@ -34,18 +35,23 @@ class CommentsContainer extends Component {
     }
   }
 
-  renderComment({ id, author, content, votes, upvoted, downvoted, created_at }, children){
+  renderComment({ id, author, content, votes, upvoted, downvoted, created_at, deleted }, children){
 
-    author = this.props.users[author];
+    author = this.props.users[author] || {};
 
     const reply = values => this.props.newComment({link: this.props.id, parent: id, ...values});
     const edit = values => this.props.editComment({id, ...values});
     const upvote = () => this.props.voteComment({id, vote: 'upvote'});
     const downvote = () => this.props.voteComment({id, vote: 'downvote'});
 
+    const authedUser = this.props.user;
+    const deleteComment = () => this.props.deleteComment({ id });
+
+
     return (
         <Comment key={id}
-          id={id}
+          id={ id }
+          deleted={ deleted }
           author={ author.username }
           avatar={ author.avatar }
           content={ content }
@@ -53,13 +59,13 @@ class CommentsContainer extends Component {
           votes={ votes }
           upvoted={ upvoted || false }
           downvoted={ downvoted || false }
-          showEditButton={ true }
+          showEditButton={ authedUser.id === author.id }
           onReplySubmit={ reply }
           onEditSubmit={ edit }
           onUpvoteClick={ upvote }
           onDownvoteClick={ downvote }
-          showDeleteButton={ true }
-          onDeleteClick={ () => alert('delete') }
+          showDeleteButton={ authedUser.id === author.id }
+          onDeleteClick={ deleteComment }
         >
           {children}
         </Comment>
@@ -99,7 +105,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isFetchingComments: commentsPagination.isFetching,
     comments: commentList,
-    users: users
+    users: users,
+    user: users[state.Auth.user]
   }
 }
 
@@ -109,6 +116,7 @@ export default connect(mapStateToProps,
     loadComments,
     newComment,
     editComment,
-    voteComment
+    voteComment,
+    deleteComment
   }
 )(CommentsContainer);

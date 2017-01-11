@@ -12,7 +12,8 @@ export default class Comment extends Component {
     id: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
-    author: PropTypes.string.isRequired,
+    author: PropTypes.string,
+    deleted: PropTypes.bool,
     created_at: PropTypes.string.isRequired,
     upvoted: PropTypes.bool.isRequired,
     downvoted: PropTypes.bool.isRequired,
@@ -52,8 +53,9 @@ export default class Comment extends Component {
       id,
       content,
       created_at,
-      author,
+      author = '',
       avatar,
+      deleted,
       votes,
       upvoted,
       downvoted,
@@ -68,21 +70,21 @@ export default class Comment extends Component {
 
     return (
       <Media className="comment">
-        <Media left top href="#" className="comment-image">
-          <Media object src={avatar} alt="Profile Picture" />
+        <Media left top href={!deleted && '#'} tag={deleted ? 'div' : 'a'} className="comment-image">
+          {(deleted && (<div className="media-object"></div>)) || (<Media object src={avatar} alt="Profile Picture" />)}
         </Media>
         <Media body className="comment-body">
           <Media heading className="comment-heading">
-            <button disabled={ upvoted } onClick={onUpvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
+            <button disabled={deleted || upvoted } onClick={onUpvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
             { votes }
-            <button disabled={ downvoted } onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
-            <Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>
-            <button onClick={this.toggleReplyMode.bind(this)}>Reply</button>
-            {showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
-            {showDeleteButton && (<button onClick={ onDeleteClick }>Delete</button>)}
+            <button disabled={ deleted || downvoted } onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
+            {deleted  && (<span>Deleted</span>) || (<Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>)}
+            {!deleted && (<button onClick={this.toggleReplyMode.bind(this)}>Reply</button>)}
+            {!deleted && showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
+            {!deleted && showDeleteButton && (<button onClick={ onDeleteClick }>Delete</button>)}
           </Media>
           <div className="comment-content">
-            { !this.state.isEditMode && content }
+            { !deleted && content || 'Deleted...' }
           </div>
           {this.state.isEditMode && (
             <this.state.editForm
