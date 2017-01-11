@@ -18,7 +18,7 @@ class AccountContainer extends Component {
   render() {
 
     const {
-      user: { username, first_name, last_name, avatar },
+      user: { username, first_name, last_name, avatar, email },
       updateInfo,
       updateAvatar,
       updatePassword
@@ -28,7 +28,7 @@ class AccountContainer extends Component {
       <Container>
       <Match exactly pattern="/account/settings" render={(matchProps) => (
         <AccountSettingsForm
-          initialValues = { {username, first_name, last_name} }
+          initialValues = { {username, first_name, last_name, email} }
           onSubmit = { updateInfo }
           {...matchProps}
         />

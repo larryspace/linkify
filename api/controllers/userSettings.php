@@ -75,9 +75,10 @@ class UserSettings
 
         $errors = \FormValidator::validate($postBody,
           [
-              'username' => 'required|string',
-              'first_name' => 'required|string',
-              'last_name' => 'required|string'
+              'username' => 'required|string:3,20',
+              'email' => 'required|string:3,100',
+              'first_name' => 'required|string:3,30',
+              'last_name' => 'required|string:3,30'
           ]);
 
         if($errors){
@@ -87,6 +88,7 @@ class UserSettings
 
         $user->_save([
             'username' => $postBody['username'],
+            'email' => $postBody['email'],
             'first_name' => $postBody['first_name'],
             'last_name' => $postBody['last_name']
         ]);
@@ -94,6 +96,7 @@ class UserSettings
         return [
             'id' => $user->id,
             'username' => $postBody['username'],
+            'email' => $postBody['email'],
             'first_name' => $postBody['first_name'],
             'last_name' => $postBody['last_name']
         ];

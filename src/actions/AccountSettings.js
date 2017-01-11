@@ -16,7 +16,7 @@ const updateAvatarRequest = (formData) => ({
   }
 });
 
-const updateUserRequest = ({username, first_name, last_name}) => ({
+const updateUserRequest = ({username, first_name, last_name, email}) => ({
   [CALL_API]: {
     types: [ UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE ],
     endpoint: `account/info`,
@@ -24,6 +24,7 @@ const updateUserRequest = ({username, first_name, last_name}) => ({
     schema: Schemas.USER,
     body: {
       username: username,
+      email: email,
       first_name: first_name,
       last_name: last_name
     }

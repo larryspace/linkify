@@ -44,6 +44,14 @@ class AccountSettings extends Component {
         />
         <Field
           icon="user"
+          name="email"
+          type="text"
+          label="Email"
+          component={renderField}
+          validate={[ required ]}
+        />
+        <Field
+          icon="user"
           name="first_name"
           type="text"
           label="First Name"
