@@ -2,7 +2,8 @@ import { SubmissionError } from 'redux-form';
 import {
   LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE,
   NEW_COMMENT_REQUEST, NEW_COMMENT_SUCCESS, NEW_COMMENT_FAILURE,
-  VOTE_COMMENT_REQUEST, VOTE_COMMENT_SUCCESS, VOTE_COMMENT_FAILURE
+  VOTE_COMMENT_REQUEST, VOTE_COMMENT_SUCCESS, VOTE_COMMENT_FAILURE,
+  DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE
 } from '../constants/ActionTypes';
 import { CALL_API, Schemas } from '../middleware/api';
 
@@ -78,4 +79,18 @@ const voteCommentRequest = ({ id, vote }) => ({
 
 export const voteComment = (values) => (dispatch, getState) =>  {
   return dispatch(voteCommentRequest(values));
+};
+
+const deleteCommentRequest = ({ id }) => ({
+  [CALL_API]: {
+    types: [ DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE ],
+    endpoint: `comment/${id}/delete`,
+    method: 'POST',
+    schema: Schemas.COMMENT,
+    body: {}
+  }
+});
+
+export const deleteComment = (values) => (dispatch, getState) =>  {
+  return dispatch(deleteCommentRequest(values));
 };
