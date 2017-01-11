@@ -53,7 +53,7 @@ class CommentsContainer extends Component {
           id={ id }
           deleted={ deleted }
           author={ author.username }
-          avatar={ author.avatar }
+          avatar={ '/' + author.avatar }
           content={ content }
           created_at={ created_at }
           votes={ votes }

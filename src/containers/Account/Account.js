@@ -35,7 +35,7 @@ class AccountContainer extends Component {
       )}/>
       <Match exactly pattern="/account/avatar" render={(matchProps) => (
         <AvatarSettingsForm
-          avatar={'http://localhost/' + avatar }
+          avatar={ '/' + avatar }
           onSubmit = { updateAvatar }
           {...matchProps}
         />

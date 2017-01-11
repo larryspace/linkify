@@ -1,7 +1,7 @@
 import { normalize, schema } from 'normalizr';
 export Schemas from './schemas';
 
-const API_ROOT = 'http://' + window.location.hostname + '/api/';
+const API_ROOT = '/api/';
 const apiFetch = ({endpoint, method = 'GET', body, schema}) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
   const headers = new Headers();
