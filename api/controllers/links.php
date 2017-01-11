@@ -104,6 +104,11 @@ class Links
             }
         }
 
-        return $link;
+        return [
+            'id'=>$link->id,
+            'upvoted'=>$link->upvoted,
+            'downvoted'=>$link->downvoted,
+            'votes'=>$link->votes
+        ];
     }
 }
