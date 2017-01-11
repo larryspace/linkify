@@ -8,41 +8,6 @@ class Comments
 {
     static $users = [];
 
-    static function comment($comment){
-        if(!isset(self::$users[$comment->user_id])){
-            $user = User::fetch($comment->user_id, [
-                'username',
-                'avatar'
-            ]);
-            if($user){
-                $user->avatar = 'http://localhost/' . $user->avatar;
-                self::$users[$comment->user_id] = $user;
-            }
-        }else{
-            $user = self::$users[$comment->user_id];
-        }
-
-        return [
-            'id' => $comment->id,
-            'content' => $comment->content,
-            'link_id' => $comment->link_id,
-            'created_at' => $comment->created_at,
-            'updated_at' => $comment->updated_at,
-            'parent_id' => $comment->parent_id,
-            'author' => $user,
-            'votes' => $comment->votes,
-            'upvoted' => $comment->upvoted,
-            'downvoted' => $comment->downvoted
-        ];
-    }
-
-    static function comments($comments){
-        foreach ($comments as $key => $comment) {
-            $comments[$key] = self::comment($comment);
-        }
-        return $comments;
-    }
-
     static function add($linkId, $userId, $parentId, $content){
         return \Database::create('comments', [
             'link_id' => $linkId,
@@ -64,7 +29,6 @@ class Comments
             comments.updated_at,
             comments.parent_id,
             comments.user_id,
-            users.username AS author,
             (comments.upvotes - comments.downvotes) as votes,
             (votes.vote = 1) as upvoted,
             (votes.vote = 0) as downvoted
@@ -82,7 +46,7 @@ class Comments
             'type' => 1,
         ], '\app\models\Comment');
 
-        return self::comment($comment);
+        return $comment;
     }
 
     static function getComments($linkId, $page, $sortBy){
@@ -107,7 +71,6 @@ class Comments
             comments.updated_at,
             comments.parent_id,
             comments.user_id,
-            users.username AS author,
             (comments.upvotes - comments.downvotes) as votes,
             (votes.vote = 1) as upvoted,
             (votes.vote = 0) as downvoted
@@ -123,6 +86,6 @@ class Comments
         ", $values, '\app\models\Comment');
 
 
-        return self::comments($comments);
+        return $comments;
     }
 }

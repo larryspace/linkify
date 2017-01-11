@@ -34,7 +34,7 @@ class Links
 
         $link = \app\stores\Links::get($id);
 
-        return self::linkArr($link);
+        return $link;
     }
 
     static function getLink($params){
@@ -45,7 +45,7 @@ class Links
             throw new \ApiException('Link does not exist', 404);
         }
 
-        return self::linkArr($link);
+        return $link;
     }
 
     static function getLinks($params){
@@ -67,29 +67,7 @@ class Links
             $links = \app\stores\Links::getLinks($directory->id, $page, $sortBy);
         }
 
-        foreach ($links as $key => $value) {
-            $links[$key] = self::linkArr($links[$key]);
-        }
-
         return $links;
-
-    }
-
-    static function linkArr($link){
-        return [
-            'id' => $link->id,
-            'title' => $link->title,
-            'url' => $link->url,
-            'image' => $link->image,
-            'votes' => $link->votes,
-            'directory_id' => $link->directory_id,
-            'directory' => strtolower($link->directory),
-            'upvoted' => $link->upvoted ? true : false,
-            'downvoted' => $link->downvoted ? true : false,
-            'user_id' => $link->user_id,
-            'username' => $link->username,
-            'created_at' => $link->created_at
-        ];
     }
 
     static function voteLink($params, $user){
@@ -126,6 +104,6 @@ class Links
             }
         }
 
-        return self::linkArr($link);
+        return $link;
     }
 }

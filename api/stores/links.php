@@ -27,9 +27,11 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            links.created_at,
+            links.comment_count,
             users.username,
             directories.name AS directory,
-            links.created_at,
+            COUNT(comments.link_id) AS comment_count,
             (links.upvotes - links.downvotes) as votes,
             (votes.vote = 1) as upvoted,
             (votes.vote = 0) as downvoted
@@ -42,6 +44,8 @@ class Links
             links.user_id = users.id
         LEFT JOIN `directories` ON
             links.directory_id = directories.id
+        LEFT JOIN `comments` ON
+            comments.link_id = links.id
         WHERE links.id = :id
         ', [
             'id' => $id,
@@ -79,9 +83,10 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            links.created_at,
+            links.comment_count,
             users.username,
             directories.name AS directory,
-            links.created_at,
             (links.upvotes - links.downvotes) as votes,
             ((links.upvotes - links.downvotes)/ (TIMESTAMPDIFF(SECOND, links.created_at, CURRENT_TIMESTAMP())/(60*60*24))) as score,
             (votes.vote = 1) as upvoted,

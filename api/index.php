@@ -16,7 +16,8 @@ $router->GET("/d/:directory/:page/:sort", 'app\controllers\Links::getLinks');
 $router->POST("/d/:directory/new", 'app\controllers\Links::newLink', '\Authentication::requireAuth');
 $router->POST("/d/link/:id/:vote", 'app\controllers\Links::voteLink', '\Authentication::requireAuth');
 
-$router->POST("/comments/:id/edit", 'app\controllers\Comments::editComment', '\Authentication::requireAuth');
+$router->POST("/comment/:id/edit", 'app\controllers\Comments::editComment', '\Authentication::requireAuth');
+$router->POST("/comment/:id/:vote", 'app\controllers\Comments::voteComment', '\Authentication::requireAuth');
 $router->POST("/link/:link/comment", 'app\controllers\Comments::newComment', '\Authentication::requireAuth');
 $router->GET("/link/:link/comments", 'app\controllers\Comments::getLinkComments');
 

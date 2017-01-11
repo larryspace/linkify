@@ -6,6 +6,48 @@ namespace app\controllers;
  */
 class Comments
 {
+    static function voteComment($params, $user){
+        if(!isset($params['id'])){
+            throw new \ApiException('Did not get a link id', 400);
+        }
+
+        if(!isset($params['vote']) || $params['vote'] !== 'upvote' && $params['vote'] !== 'downvote'){
+            throw new \ApiException('Did not get a valid vote', 400);
+        }
+
+        $id = (int)$params['id'];
+        $voteOption = $params['vote'] === 'upvote' ? 1 : 0;
+
+        $comment = \app\stores\Comments::get($id);
+
+        if(!$comment){
+            throw new \ApiException('Comment does not exist', 400);
+        }
+
+        $vote = \app\stores\Votes::get(\app\stores\Votes::COMMENT, $id, $user->id);
+
+        if(!$vote){
+            $vote = \app\stores\Votes::create(\app\stores\Votes::COMMENT, $id, $user->id, $voteOption);
+            if($vote){
+                $comment->addVote($voteOption);
+            }
+        }else{
+            if($vote->vote === $voteOption){
+                throw new \ApiException('You can not vote on the same option twice', 400);
+            }else{
+                $comment->changeVote($voteOption);
+                $vote->updateVote($voteOption);
+            }
+        }
+
+        return [
+            'id'=>$comment->id,
+            'upvoted'=>$comment->upvoted,
+            'downvoted'=>$comment->downvoted,
+            'votes'=>$comment->votes
+        ];
+    }
+
     static function getLinkComments($params){
         $linkId = (int)$params['link'];
 
@@ -85,6 +127,7 @@ class Comments
             throw new \ApiException('FormError', 400, ['_error' => 'Could not add comment!']);
         }
 
+        $link->increaseCommentCount();
         $comment = \app\stores\Comments::get($commentId);
 
         return $comment;

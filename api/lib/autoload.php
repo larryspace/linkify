@@ -18,5 +18,6 @@ require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/formValidator.php';
 require_once __DIR__ . '/miniRoute.php';
 require_once __DIR__ . '/model.php';
+require_once __DIR__ . '/voteModel.php';
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/authentication.php';
