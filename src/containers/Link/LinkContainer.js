@@ -81,6 +81,8 @@ class LinkContainer extends Component {
         directory={ this.props.params.directory }
       />
 
+      <Container>
+
         {this.props.loadingLink && (<Spinner />) || (
           <LinkItem
             onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
@@ -106,7 +108,7 @@ class LinkContainer extends Component {
         {this.props.link && (
           <CommentsContainer id={id} />
         )}
-
+        </Container>
 
       </div>
     );
