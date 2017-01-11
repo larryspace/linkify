@@ -8,6 +8,7 @@ import FontAwesome from 'react-fontawesome';
 import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup, Alert} from 'reactstrap';
 
 import Container from '../Container';
+import Spinner from '../Spinner';
 
 import { required, email, minLength } from './validate';
 import renderField from './renderField';
@@ -22,24 +23,16 @@ class LoginForm extends Component {
     this.props.loginUser(username, password);
   }
 
-  renderError(){
-    if(!this.props.loginError){
-      return null;
-    }
-
-    return (
-      <Alert color="danger">
-        <strong>Error</strong> { this.props.loginError }
-      </Alert>
-    );
-  }
-
   render() {
 
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            error,
+            submitFailed,
+            submitSucceeded
+        } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -62,8 +55,23 @@ class LoginForm extends Component {
         <ButtonGroup>
           <Button type="submit" color="primary" disabled={submitting}>Login</Button>
         </ButtonGroup>
-        { this.props.isAuthenticating ? 'Processing...' : ''}
-        { this.renderError() }
+
+        {submitting && (
+          <Spinner />
+        )}
+
+        {!submitting && submitFailed && (
+          <Alert color="danger">
+            <strong>Error</strong> { this.props.error }
+          </Alert>
+        )}
+
+        {!submitting && submitSucceeded && (
+          <Alert color="success">
+            <strong>Login succeeded</strong>
+          </Alert>
+        )}
+
       </Form>
     );
   }

@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import FontAwesome from 'react-fontawesome';
 import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup, Alert} from 'reactstrap';
+import Spinner from '../Spinner';
 
 import { required, email, minLength } from './validate';
 import renderField from './renderField';
@@ -24,7 +25,11 @@ class AccountSettings extends Component {
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            submitFailed,
+            submitSucceeded,
+            error
+      } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -55,6 +60,23 @@ class AccountSettings extends Component {
         <ButtonGroup>
           <Button type="submit" color="primary" disabled={submitting}>Save</Button>
         </ButtonGroup>
+
+        {submitting && (
+          <Spinner />
+        )}
+
+        {!submitting && submitFailed && error && (
+          <Alert color="danger">
+            <strong>Error</strong> { error }
+          </Alert>
+        )}
+
+        {!submitting && submitSucceeded && (
+          <Alert color="success">
+            <strong>Password Updated!</strong>
+          </Alert>
+        )}
+
       </Form>
     );
   }

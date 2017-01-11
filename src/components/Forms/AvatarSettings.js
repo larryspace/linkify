@@ -3,10 +3,10 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import FontAwesome from 'react-fontawesome';
 import { Form, Input, FormGroup, Col, Label, Button, ButtonGroup, Alert} from 'reactstrap';
+import Spinner from '../Spinner';
 
 import { required, email, minLength, fileType } from './validate';
 import renderField from './renderField';
-
 
 class AvatarSettings extends Component {
 
@@ -14,17 +14,6 @@ class AvatarSettings extends Component {
     avatarSrc: null,
   }
 
-  renderError(){
-    if(!this.props.loginError){
-      return null;
-    }
-
-    return (
-      <Alert color="danger">
-        <strong>Error</strong> { this.props.loginError }
-      </Alert>
-    );
-  }
 
   onChangeFile(event){
     const files = event.target.files;
@@ -45,7 +34,11 @@ class AvatarSettings extends Component {
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            submitFailed,
+            submitSucceeded,
+            error
+      } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -61,8 +54,23 @@ class AvatarSettings extends Component {
         <ButtonGroup>
           <Button type="submit" color="primary" disabled={submitting}>Save</Button>
         </ButtonGroup>
-        { this.props.isAuthenticating ? 'Processing...' : ''}
-        { this.renderError() }
+
+        {submitting && (
+          <Spinner />
+        )}
+
+        {!submitting && submitFailed && error && (
+          <Alert color="danger">
+            <strong>Error</strong> { error }
+          </Alert>
+        )}
+
+        {!submitting && submitSucceeded && (
+          <Alert color="success">
+            <strong>Avatar Updated!</strong>
+          </Alert>
+        )}
+
       </Form>
     );
   }
