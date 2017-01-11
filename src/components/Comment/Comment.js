@@ -20,6 +20,8 @@ export default class Comment extends Component {
     showEditButton: PropTypes.bool.isRequired,
     onEditSubmit: PropTypes.func.isRequired,
     onReplySubmit: PropTypes.func.isRequired,
+    showDeleteButton: PropTypes.bool.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
   }
 
   state = {
@@ -56,13 +58,16 @@ export default class Comment extends Component {
       onDownvoteClick,
       showEditButton,
       onReplySubmit,
-      onEditSubmit
+      onEditSubmit,
+      showDeleteButton,
+      onDeleteClick,
+      avatar
     } = this.props;
 
     return (
       <Media className="comment">
         <Media left top href="#" className="comment-image">
-          <Media object data-src="holder.js/64x64" alt="Profile Picture" />
+          <Media object src={avatar} alt="Profile Picture" />
         </Media>
         <Media body className="comment-body">
           <Media heading className="comment-heading">
@@ -72,20 +77,21 @@ export default class Comment extends Component {
             <Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>
             <button onClick={this.toggleReplyMode.bind(this)}>Reply</button>
             {showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
+            {showDeleteButton && (<button onClick={ onDeleteClick }>Delete</button>)}
           </Media>
           <div className="comment-content">
             { !this.state.isEditMode && content }
           </div>
           {this.state.isEditMode && (
             <this.state.editForm
-              onSubmit={onEditSubmit}
+              onSubmit={ values => onEditSubmit(values).then(response => this.toggleEditMode())}
               initialValues={{ content }}
               showCancel={ true }
               onCancelClick={ this.toggleEditMode.bind(this) }
           />)}
           {this.state.isReplyMode && (
             <this.state.replyForm
-              onSubmit={onReplySubmit}
+              onSubmit={ values => onReplySubmit(values).then(response => this.toggleReplyMode()) }
               showCancel={ true }
               onCancelClick={ this.toggleReplyMode.bind(this) }
           />)}

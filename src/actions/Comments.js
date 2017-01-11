@@ -23,7 +23,7 @@ export const loadComments = ({link}) => (dispatch, getState) =>  {
 const newCommentRequest = ({ link, parent, content }) => ({
   link,
   [CALL_API]: {
-    types: [ NEW_COMMENT_REQUEST, NEW_COMMENT_SUCCESS, NEW_COMMENT_FAILURE ],
+    types: [ LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE ],
     endpoint: `link/${link}/comment`,
     method: 'POST',
     schema: Schemas.COMMENT,

@@ -20,10 +20,19 @@ const paginate = ({ types, mapActionToKey }) => {
           isFetching: true
         }
       case successType:
+        const result = typeof action.response.result === "object" ? action.response.result : [action.response.result];
+
+        let newIds;
+        if(action.response.result === "object"){
+          newIds = union(state.ids, result);
+        }else{
+          newIds = union(result, state.ids);
+        }
+
         return {
           ...state,
           isFetching: false,
-          ids: union(state.ids, action.response.result),
+          ids: newIds,
           pageCount: state.pageCount + 1
         }
       case failureType:
@@ -49,7 +58,7 @@ const paginate = ({ types, mapActionToKey }) => {
       case successType:
       case failureType:
       case refreshType:
-        const key = mapActionToKey(action)
+        const key = mapActionToKey(action) + '';
         if (typeof key !== 'string') {
           throw new Error('Expected key to be a string.')
         }

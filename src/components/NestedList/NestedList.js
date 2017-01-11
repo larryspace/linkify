@@ -12,7 +12,7 @@ export default class NestedList extends Component {
   }
 
   renderItem(item, items, renderItem){
-    const children = items.filter(subItem => subItem.parent===item.id).map(subItem => this.renderItem(subItem, items, renderItem));
+    const children = items.filter(subItem => subItem.parent_id===item.id).map(subItem => this.renderItem(subItem, items, renderItem));
     return renderItem(item, children);
   }
 
@@ -24,13 +24,10 @@ export default class NestedList extends Component {
       renderItem,
     } = this.props;
 
-    if(isFetching){
-      return (<Spinner />);
-    }
-
     return (
       <div>
-        {items.filter(item => item.parent===0).map(subItem => this.renderItem(subItem, items, renderItem))}
+        {items.filter(item => !item.parent_id).map(subItem => this.renderItem(subItem, items, renderItem))}
+        {isFetching && (<Spinner />)}
       </div>
     );
   }

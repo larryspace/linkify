@@ -34,10 +34,14 @@ class CommentsContainer extends Component {
   }
 
   renderComment({ id, author, content }, children){
+
+    author = this.props.users[author];
+
     return (
         <Comment key={id}
           id={id}
-          author={author}
+          author={author.username}
+          avatar={author.avatar}
           content={content}
           created_at={''}
           upvoted={false}
@@ -47,6 +51,8 @@ class CommentsContainer extends Component {
           onEditSubmit={values => this.props.editComment({id, ...values})}
           onUpvoteClick={() => {}}
           onDownvoteClick={() => {}}
+          showDeleteButton={ true }
+          onDeleteClick={ () => alert('delete') }
         >
           {children}
         </Comment>
@@ -75,7 +81,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const {
     paginations: { commentsByLink },
-    entities: { comments }
+    entities: { comments, users }
   } = state;
 
   const linkId = ownProps.id;
@@ -85,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     isFetchingComments: commentsPagination.isFetching,
-    comments: commentList
+    comments: commentList,
+    users: users
   }
 }
 

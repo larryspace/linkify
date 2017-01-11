@@ -17,7 +17,8 @@ export default class CommentForm extends Component {
             reset,
             submitting,
             showCancel,
-            onCancelClick
+            onCancelClick,
+            error
           } = this.props;
 
     return (
@@ -30,6 +31,13 @@ export default class CommentForm extends Component {
           component={ renderField }
           validate={[ required ]}
         />
+
+        {error && (
+          <Alert color="danger">
+            <strong>{ error }</strong>
+          </Alert>
+        )}
+
         <ButtonGroup>
           <Button type="submit" color="primary" disabled={submitting}>Save</Button>
           {showCancel && (<Button type="button" color="warning" onClick={onCancelClick}>Cancel</Button>)}
