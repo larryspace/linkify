@@ -3,7 +3,7 @@ import {
   UPDATE_AVATAR_REQUEST, UPDATE_AVATAR_FAILURE, UPDATE_AVATAR_SUCCESS,
   UPDATE_USER_REQUEST, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS
 } from '../constants/ActionTypes';
-import { CALL_API } from '../middleware/api';
+import { CALL_API, Schemas } from '../middleware/api';
 
 
 const updateAvatarRequest = (formData) => ({
@@ -11,6 +11,7 @@ const updateAvatarRequest = (formData) => ({
     types: [ UPDATE_AVATAR_REQUEST, UPDATE_AVATAR_SUCCESS, UPDATE_AVATAR_FAILURE ],
     endpoint: `account/avatar`,
     method: 'POST',
+    schema: Schemas.USER,
     body: formData
   }
 });
@@ -20,6 +21,7 @@ const updateUserRequest = ({username, first_name, last_name}) => ({
     types: [ UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE ],
     endpoint: `account/info`,
     method: 'POST',
+    schema: Schemas.USER,
     body: {
       username: username,
       first_name: first_name,
