@@ -64,7 +64,10 @@ class UserSettings
 
         $user->_save(['avatar' => $newPath]);
 
-        return ['avatar' => $newPath];
+        return [
+            'id' => $user->id,
+            'avatar' => $newPath
+        ];
     }
 
     static function updateInfo($params, $user){
@@ -88,7 +91,12 @@ class UserSettings
             'last_name' => $postBody['last_name']
         ]);
 
-        return;
+        return [
+            'id' => $user->id,
+            'username' => $postBody['username'],
+            'first_name' => $postBody['first_name'],
+            'last_name' => $postBody['last_name']
+        ];
     }
 
     static function updatePassword($params, $user){
