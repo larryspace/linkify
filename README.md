@@ -19,7 +19,7 @@ Supposed to be a reddit clone
 - [ ] As a user I should be able to edit my links.
 - [ ] As a user I should be able to delete my links.
 - [x] As a user I should be able to up and down vote links.
-- [ ] As a user I should be able to comment on a link.
+- [x] As a user I should be able to comment on a link.
 
 ### Extra
 - [ ] As a user I'm able to edit my comments.
