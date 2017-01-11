@@ -6,24 +6,87 @@ namespace app\controllers;
  */
 class Comments
 {
+    static function getLinkComments($params){
+        $linkId = (int)$params['link'];
 
-    static $num = 1;
+        $page = (int)($params['page'] ?? 1);
+        if(!$page) $page = 1;
 
-    static function genFakeComments($parent = 0){
-        return [
-            'id' => self::$num++,
-            'parent' => $parent,
-            'author' => 'Username',
-            'content' => 'Comment content blablabla',
-            'image' => '',
-            'created_at' => '',
-            'updated_at' => ''
-        ];
+        $sortBy = ($params['sort'] ?? '') === 'hot' ? 'votes' : 'created_at';
+
+        $comments = \app\stores\Comments::getComments($linkId, $page, $sortBy);
+        return $comments;
     }
 
-    static function getLinkComments($params){
-        $id = (int)$params['link'];
+    static function editComment($params, $user){
+        $postBody = get_json_body(true);
 
-        return [self::genFakeComments(),self::genFakeComments(1),self::genFakeComments(1),self::genFakeComments(),self::genFakeComments(2),self::genFakeComments(3)];
+        $comment = \app\stores\Comments::get((int)$params['id']);
+
+        if(!$comment){
+            throw new \ApiException('FormError', 400, ['_error' => 'Comment "' . $params['id'] . '" doesn\'t exist']);
+        }
+
+        if(strtolower($comment->author) !== strtolower($user->username)){
+            throw new \ApiException('FormError', 400, ['_error' => 'This is not your comment']);
+        }
+
+        $errors = \FormValidator::validate($postBody,
+          [
+              'content' => 'required|string:3,256'
+          ]);
+
+        if($errors){
+            throw new \ApiException('FormError', 400, $errors);
+        }
+
+        try {
+            $comment->updateContent($postBody['content']);
+        } catch (Exception $e) {
+            throw new \ApiException('FormError', 400, ['_error' => 'Could not add comment!']);
+        }
+
+        return $comment;
+    }
+
+    static function newComment($params, $user){
+        $postBody = get_json_body(true);
+
+        $link = \app\stores\Links::get($params['link']);
+
+        if(!$link){
+            throw new \ApiException('FormError', 400, ['_error' => 'Link "' . $params['link'] . '" doesn\'t exist']);
+        }
+
+        $errors = \FormValidator::validate($postBody,
+          [
+              'content' => 'required|string:3,256'
+          ]);
+
+        if($errors){
+            throw new \ApiException('FormError', 400, $errors);
+        }
+
+        $parent_id = (int)$postBody['parent'];
+        $parent_id = $parent_id ? $parent_id : null;
+
+        if($parent_id){
+            $parent = \app\stores\Comments::get($parent_id);
+            if(!$parent){
+                throw new \ApiException('FormError', 400, ['_error' => 'Parent comment does not exist']);
+            }
+        }
+
+        $content = $postBody['content'];
+
+        try {
+            $commentId = \app\stores\Comments::add($link->id, $user->id, $parent_id, $content);
+        } catch (Exception $e) {
+            throw new \ApiException('FormError', 400, ['_error' => 'Could not add comment!']);
+        }
+
+        $comment = \app\stores\Comments::get($commentId);
+
+        return $comment;
     }
 }

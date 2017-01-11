@@ -43,7 +43,7 @@ class Authentication
 
     static function getUser(){
         if(self::$user){
-            return $user;
+            return self::$user;
         }else if(self::$user === false){
             return;
         }
