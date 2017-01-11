@@ -119,14 +119,14 @@ class App extends Component {
 const mapStateToProps = (state, ownProps) => {
   const {
     collections: { defaultDirectories },
-    entities: { directories }
+    entities: { directories, users }
   } = state;
 
   const defaultDirs = defaultDirectories.ids.map(id => directories[id]);
 
   return {
     title: state.Page.title,
-    userInfo: state.Auth.userInfo,
+    user: users[state.Auth.user] || {},
     isAuthenticated: state.Auth.isAuthenticated,
     isAuthenticating: state.Auth.isAuthenticating,
     isLoadingDefaultDirs: defaultDirectories.isFetching,

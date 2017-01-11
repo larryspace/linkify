@@ -16,25 +16,33 @@ class AccountContainer extends Component {
   }
 
   render() {
+
+    const {
+      user: { username, first_name, last_name, avatar },
+      updateInfo,
+      updateAvatar,
+      updatePassword
+    } = this.props;
+
     return (
       <Container>
       <Match exactly pattern="/account/settings" render={(matchProps) => (
         <AccountSettingsForm
-          initialValues = {this.props.userInfo}
-          onSubmit = { this.props.updateInfo }
+          initialValues = { {username, first_name, last_name} }
+          onSubmit = { updateInfo }
           {...matchProps}
         />
       )}/>
       <Match exactly pattern="/account/avatar" render={(matchProps) => (
         <AvatarSettingsForm
-          avatar={'http://localhost/' + this.props.userInfo.avatar}
-          onSubmit = { this.props.updateAvatar }
+          avatar={'http://localhost/' + avatar }
+          onSubmit = { updateAvatar }
           {...matchProps}
         />
       )}/>
       <Match exactly pattern="/account/password" render={(matchProps) => (
         <ChangePasswordForm
-          onSubmit = { this.props.updatePassword }
+          onSubmit = { updatePassword }
           {...matchProps}
         />
       )}/>
@@ -44,8 +52,15 @@ class AccountContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+
+  const {
+    entities: { users }
+  } = state;
+
+  const user = users[state.Auth.user] || {};
+
   return {
-    userInfo: state.Auth.userInfo || {},
+    user: user,
   }
 }
 
