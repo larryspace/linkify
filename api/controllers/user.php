@@ -7,9 +7,10 @@ namespace app\controllers;
 class User
 {
 
-    static function getUserInfo($params, $userInfo){
+    static function getUserInfo($params, $user){
         return [
-            'userInfo' => $userInfo
+            'id' => $user->id,
+            'user' => $user
         ];
     }
     static function logout($params, $user){
@@ -66,11 +67,16 @@ class User
                 throw new \ApiException('Couldn\'t login for some reason', 400);
             }
 
+            $user = \app\stores\User::getFullUserInfo($token->user_id);
+
             return [
-                'userInfo' => \app\stores\User::getFullUserInfo($token->user_id),
+                'id' => $token->user_id,
+                'user' => $user,
                 'token' => $token->toString()
             ];
 
+        } catch (\ApiException $e) {
+            throw new \ApiException('FormError', 400, ['_error' => 'Wrong username or password']);
         } catch (Exception $e) {
             throw new \ApiException('Couldn\'t login for some reason', 400);
         }
