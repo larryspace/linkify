@@ -8,7 +8,7 @@ export default class ModalForm extends Component {
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader toggle={this.toggle}>New Link</ModalHeader>
           <ModalBody>
-            <this.props.form onSubmit={this.props.onSubmit} />
+            <this.props.form hideSubmit={ true } onSubmit={this.props.onSubmit} />
           </ModalBody>
           <ModalFooter>
             <Button color="primary" disabled={ this.props.disabled } onClick={this.props.onSubmitClick}>Submit</Button>{' '}
