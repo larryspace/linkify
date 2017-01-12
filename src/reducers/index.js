@@ -69,6 +69,13 @@ const entity = combineReducers({
       ActionTypes.LOAD_DIRECTORY_SUCCESS,
       ActionTypes.LOAD_DIRECTORY_FAILURE,
     ]
+  }),
+  user: entityReducer({
+    types: [
+      ActionTypes.LOAD_USER_REQUEST,
+      ActionTypes.LOAD_USER_SUCCESS,
+      ActionTypes.LOAD_USER_FAILURE,
+    ]
   })
 });
 
