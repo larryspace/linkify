@@ -51,9 +51,6 @@ class AvatarSettings extends Component {
           component={renderField}
           validate={[ required, fileType('image') ]}
         />
-        <ButtonGroup>
-          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
-        </ButtonGroup>
 
         {submitting && (
           <Spinner />
@@ -70,6 +67,10 @@ class AvatarSettings extends Component {
             <strong>Avatar Updated!</strong>
           </Alert>
         )}
+
+        <ButtonGroup>
+          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
+        </ButtonGroup>
 
       </Form>
     );

@@ -66,10 +66,6 @@ class AccountSettings extends Component {
           component={renderField}
           validate={[ required ]}
         />
-        <ButtonGroup>
-          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
-        </ButtonGroup>
-
 
         {submitting && (
           <Spinner />
@@ -86,6 +82,10 @@ class AccountSettings extends Component {
             <strong>Info Updated!</strong>
           </Alert>
         )}
+
+        <ButtonGroup>
+          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
+        </ButtonGroup>
 
       </Form>
     );

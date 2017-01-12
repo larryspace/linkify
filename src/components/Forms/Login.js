@@ -13,16 +13,7 @@ import Spinner from '../Spinner';
 import { required, email, minLength } from './validate';
 import renderField from './renderField';
 
-
 class LoginForm extends Component {
-
-  submitLogin(e){
-    e.preventDefault();
-    const username = findDOMNode(this.refs.username).value;
-    const password = findDOMNode(this.refs.password).value;
-    this.props.loginUser(username, password);
-  }
-
   render() {
 
     const { handleSubmit,
@@ -31,7 +22,8 @@ class LoginForm extends Component {
             submitting,
             error,
             submitFailed,
-            submitSucceeded
+            submitSucceeded,
+            hideSubmit
         } = this.props;
 
     return (
@@ -52,9 +44,6 @@ class LoginForm extends Component {
           component={renderField}
           validate={[ required ]}
         />
-        <ButtonGroup>
-          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
-        </ButtonGroup>
 
         {submitting && (
           <Spinner />
@@ -72,12 +61,17 @@ class LoginForm extends Component {
           </Alert>
         )}
 
+        {!hideSubmit && (
+          <ButtonGroup>
+            <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+          </ButtonGroup>
+        )}
+
       </Form>
     );
   }
 }
 
 export default reduxForm({
-  form: 'loginForm',
-  destroyOnUnmount: false
+  form: 'loginForm'
 })(LoginForm);
