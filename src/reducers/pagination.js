@@ -23,7 +23,7 @@ const paginate = ({ types, mapActionToKey }) => {
         const result = typeof action.response.result === "object" ? action.response.result : [action.response.result];
 
         let newIds;
-        if(action.response.result === "object"){
+        if(typeof action.response.result === "object"){
           newIds = union(state.ids, result);
         }else{
           newIds = union(result, state.ids);
