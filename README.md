@@ -22,9 +22,9 @@ Supposed to be a reddit clone
 - [x] As a user I should be able to comment on a link.
 
 ### Extra
-- [ ] As a user I'm able to edit my comments.
-- [ ] As a user I'm able to delete my comments.
-- [ ] As a user I'm able to reply to comments.
+- [x] As a user I'm able to edit my comments.
+- [x] As a user I'm able to delete my comments.
+- [x] As a user I'm able to reply to comments.
 - [ ] As a user I'm able to resetting my password with email.
 
 ## Requirements
