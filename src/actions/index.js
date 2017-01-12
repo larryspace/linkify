@@ -6,3 +6,4 @@ export * from './Links';
 export * from './Form';
 export * from './Comments';
 export * from './Register';
+export * from './modals';
