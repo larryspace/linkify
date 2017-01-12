@@ -7,6 +7,8 @@ import {
 } from '../constants/ActionTypes';
 import { CALL_API, Schemas } from '../middleware/api';
 
+import { toggleLoginModal } from './modals';
+
 const loadCommentsRequest = ({ link }) => ({
   link,
   [CALL_API]: {
@@ -37,6 +39,11 @@ const newCommentRequest = ({ link, parent, content }) => ({
 });
 
 export const newComment = ({link, parent, content}) => (dispatch, getState) =>  {
+
+  if(!getState().Auth.user){
+    return toggleLoginModal()(dispatch, getState);
+  }
+
   return dispatch(newCommentRequest({link, parent, content}))
   .then(response => {
     if(response.error){
@@ -58,6 +65,11 @@ const editCommentRequest = ({id, content}) => ({
 });
 
 export const editComment = ({id, content}) => (dispatch, getState) =>  {
+
+  if(!getState().Auth.user){
+    return toggleLoginModal()(dispatch, getState);
+  }
+
   return dispatch(editCommentRequest({id, content}))
   .then(response => {
     if(response.error){
@@ -78,6 +90,11 @@ const voteCommentRequest = ({ id, vote }) => ({
 });
 
 export const voteComment = (values) => (dispatch, getState) =>  {
+
+  if(!getState().Auth.user){
+    return toggleLoginModal()(dispatch, getState);
+  }
+
   return dispatch(voteCommentRequest(values));
 };
 

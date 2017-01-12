@@ -7,6 +7,8 @@ import {
 } from '../constants/ActionTypes';
 import { CALL_API, Schemas } from '../middleware/api';
 
+import { toggleLoginModal } from './modals';
+
 const loadLinkRequest = ({ link }) => ({
   [CALL_API]: {
     types: [ LOAD_LINK_REQUEST, LOAD_LINK_SUCCESS, LOAD_LINK_FAILURE ],
@@ -16,9 +18,9 @@ const loadLinkRequest = ({ link }) => ({
   }
 });
 
-export const loadLink = ({ link }) => (dispatch, getState) =>  {
+export const loadLink = ({ link }, refresh) => (dispatch, getState) =>  {
   const linkItem = getState().entities.links[link];
-  if(linkItem){
+  if(linkItem && !refresh){
     return;
   }
 
@@ -93,5 +95,10 @@ const voteLinkRequest = ({ id, vote }) => ({
 });
 
 export const voteLink = (values) => (dispatch, getState) =>  {
+
+  if(!getState().Auth.user){
+    return toggleLoginModal()(dispatch, getState);
+  }
+
   return dispatch(voteLinkRequest(values));
 };
