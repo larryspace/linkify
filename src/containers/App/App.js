@@ -15,7 +15,6 @@ import AccountContainer from './../Account';
 import SubContainer from './../Sub';
 import LinkContainer from './../Link';
 
-
 import Home from '../../components/Home';
 import NotFound from '../../components/NotFound';
 
@@ -24,6 +23,7 @@ import Container from '../../components/Container';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Spinner from '../../components/Spinner';
+import CookieConsent from '../../components/CookieConsent';
 
 const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
   <Match {...rest} render={props => (
@@ -40,7 +40,8 @@ const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
 class App extends Component {
   state = {
     navOpen: false,
-    fixedDrawer: false
+    fixedDrawer: false,
+    cookieConsentOpen: !localStorage.getItem('acceptCookies')
   };
 
   componentWillMount() {
@@ -71,6 +72,13 @@ class App extends Component {
     this.setState({navOpen});
   }
 
+  closeCookieConsent(){
+    localStorage.setItem('acceptCookies', true);
+    this.setState({
+      cookieConsentOpen: false,
+    });
+  }
+
   render() {
 
 
@@ -84,9 +92,13 @@ class App extends Component {
     )}
 
 
+
+
+
     return (
       <BrowserRouter>
           <app>
+            <CookieConsent show={ this.state.cookieConsentOpen } onClose={ this.closeCookieConsent.bind(this) } />
             <NavigationDrawer
               defaultDirectories={this.props.defaultDirectories}
               fixed={this.state.fixedDrawer}
