@@ -19,7 +19,7 @@ export default class NavigationDrawer extends Component {
   renderDrawer(){
     return (
       <aside className={"navigation-drawer " + (!this.props.open && !this.props.fixed && "closed" || "")}>
-      <h2>Linkify</h2>
+      <h2><Link to={'/'}>Linkify</Link></h2>
       <ul className="list-group">
         <li className="sub-header dropdown-header">Default Subs</li>
         { this.props.defaultDirectories.map(this.renderLink) }

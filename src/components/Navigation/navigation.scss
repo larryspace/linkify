@@ -18,10 +18,15 @@
   z-index: 999;
   overflow: auto;
   & > h2{
-    height:56px;
-    padding: 10px 20px;
+    height:52px;
+    padding: 6px 20px;
     background: #373a3c;
     color: #CCC;
+
+    & > a{
+      color: #CCC;
+      text-decoration: none;
+    }
   }
 }
 
