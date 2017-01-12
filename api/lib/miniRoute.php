@@ -133,6 +133,10 @@ class miniRoute
         header('Content-Type: application/json');
         http_response_code($status);
 
+        if(!$response){
+            $response['_error'] = $message;
+        }
+
         echo json_encode([
           'status' => 'error',
           'message' => $message,
