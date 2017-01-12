@@ -8,10 +8,15 @@ import Page from './Page';
 import Directories from './Directories';
 import formReducer from './FormReducer';
 
+import modalReducer from './modal';
 import collectionReducer from './collection';
 import paginationReducer from './pagination';
 import entityReducer from './entity';
 import entities from './entities';
+
+const modals = combineReducers({
+  login: modalReducer('login')
+});
 
 const collections = combineReducers({
   defaultDirectories: collectionReducer({
@@ -76,5 +81,6 @@ export default combineReducers({
   entities,
   collections,
   paginations,
+  modals,
   form: formReducer
 });
