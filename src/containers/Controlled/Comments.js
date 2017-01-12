@@ -44,7 +44,7 @@ class CommentsContainer extends Component {
     const upvote = () => this.props.voteComment({id, vote: 'upvote'});
     const downvote = () => this.props.voteComment({id, vote: 'downvote'});
 
-    const authedUser = this.props.user;
+    const authedUser = this.props.user || false;
     const deleteComment = () => this.props.deleteComment({ id });
 
     return (
