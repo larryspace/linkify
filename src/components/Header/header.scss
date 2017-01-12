@@ -18,3 +18,20 @@
     padding: 0.5em 1em;
   }
 }
+
+.account-dropdown-button{
+  padding: 0 5px 0 0 !important;
+  margin-top: -1px;
+  border: 1px solid #000;
+  border-radius: 3px;
+
+  &.active{
+    background: #555;
+  }
+}
+
+.account-dropdown-image{
+  width: 38px;
+  height: 38px;
+  margin-right: 5px;
+}

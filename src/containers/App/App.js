@@ -104,6 +104,8 @@ class App extends Component {
                 onHamburgerClick={this.toggleDrawer.bind(this)}
                 onLoginClick={ this.props.toggleLoginModal }
                 onLogoutClick={ this.props.logoutUser }
+                avatar={ this.props.user.avatar }
+                name={ this.props.user.username }
                />
               <Match exactly pattern="/" component={Home}/>
               <Match exactly pattern="/profile" component={ProfileContainer}/>

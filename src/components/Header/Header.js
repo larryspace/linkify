@@ -12,6 +12,8 @@ class Header extends Component {
   static propTypes = {
     onLoginClick: PropTypes.func.isRequired,
     onLogoutClick: PropTypes.func.isRequired,
+    avatar: PropTypes.string,
+    name: PropTypes.string
   }
 
   state = {
@@ -60,8 +62,9 @@ class Header extends Component {
 
     return (
     <NavDropdown className="float-right" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
-      <DropdownToggle nav className="account-menu-toggler nav-link dropdown-toggle">
-        Thehink
+      <DropdownToggle nav className="account-menu-toggler nav-link dropdown-toggle account-dropdown-button">
+      <img src={'/' + this.props.avatar} className="account-dropdown-image" />
+        { this.props.name }
       </DropdownToggle>
       <DropdownMenu right>
         <Link to={'/profile'} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
