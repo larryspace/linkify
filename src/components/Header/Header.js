@@ -13,7 +13,8 @@ class Header extends Component {
     onLoginClick: PropTypes.func.isRequired,
     onLogoutClick: PropTypes.func.isRequired,
     avatar: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    userId: PropTypes.number
   }
 
   state = {
@@ -72,7 +73,7 @@ class Header extends Component {
         { this.props.name }
       </DropdownToggle>
       <DropdownMenu right>
-        <Link to={'/profile'} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
+        <Link to={'/u/' + this.props.userId + '/' + this.props.name.toLowerCase()} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
         <DropdownItem header>Settings</DropdownItem>
         {accountMenu.map(item => (
           <Link key={item[0]} to={item[0]} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>{item[1]}</Link>

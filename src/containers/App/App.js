@@ -106,11 +106,12 @@ class App extends Component {
                 onLogoutClick={ this.props.logoutUser }
                 avatar={ this.props.user.avatar }
                 name={ this.props.user.username }
+                userId={ this.props.user.id }
                />
               <Match exactly pattern="/" component={Home}/>
-              <Match exactly pattern="/profile" component={ProfileContainer}/>
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
+              <Match exactly pattern="/u/:id/:name" component={ProfileContainer}/>
               <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={SubContainer}/>
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
               <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
