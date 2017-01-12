@@ -29,6 +29,7 @@ $router->POST("/account/password", 'app\controllers\UserSettings::updatePassword
 $router->POST("/register", 'app\controllers\User::register');
 $router->POST("/login", 'app\controllers\User::login');
 $router->GET("/logout", 'app\controllers\User::logout', '\Authentication::requireAuth');
-$router->GET("/user/auth", 'app\controllers\User::getUserInfo', '\Authentication::requireAuth');
+$router->GET("/user/auth", 'app\controllers\User::getUserAuthInfo', '\Authentication::requireAuth');
+$router->GET("/user/:id", 'app\controllers\User::getUserInfo');
 
 $router->route();

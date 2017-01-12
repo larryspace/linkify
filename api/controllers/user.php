@@ -7,10 +7,29 @@ namespace app\controllers;
 class User
 {
 
-    static function getUserInfo($params, $user){
+    static function getUserAuthInfo($params, $user){
         return [
             'id' => $user->id,
             'user' => $user
+        ];
+    }
+
+    static function getUserInfo($params){
+        $id = (int)$params['id'];
+
+        $user = \app\stores\User::fetch($id, [
+            'username',
+            'avatar'
+        ]);
+
+        if(!$user){
+            throw new \ApiException('User does not exist', 400);
+        }
+
+        return [
+            'id' => $user->id,
+            'username' => $user->username,
+            'avatar' => $user->avatar
         ];
     }
     static function logout($params, $user){
