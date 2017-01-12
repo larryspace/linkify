@@ -39,6 +39,10 @@ class LinkContainer extends Component {
     if(this.props.params.link !== link){
       this.loadContent({link, directory});
     }
+
+    if(this.props.user.id !== nextProps.user.id){
+      this.props.loadLink({ link }, true);
+    }
   }
 
   loadContent({link, directory}){
@@ -99,7 +103,7 @@ class LinkContainer extends Component {
           />
         )}
 
-        {this.props.link && (
+        {this.props.user.id && this.props.link && (
           <CommentFormObj
             onSubmit={values => this.props.newComment({link, parent: 0, ...values})}
           />
@@ -124,13 +128,14 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
 
   const {
-    entities: { links },
+    entities: { links, users },
     entity
   } = state;
 
   const linkItem = links[link];
 
   return {
+    user: users[state.Auth.user] || {},
     loadingLink: entity.link.isFetching,
     link: linkItem,
   }

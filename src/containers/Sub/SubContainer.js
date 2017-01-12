@@ -11,7 +11,9 @@ import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 import NotFound from '../../components/NotFound';
 
-import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink, loadDirectory } from '../../actions';
+import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink,
+  loadDirectory, toggleLoginModal
+} from '../../actions';
 
 class SubContainer extends Component {
   static contextTypes = {
@@ -53,7 +55,9 @@ class SubContainer extends Component {
       sort = 'hot'
     } = nextProps.params;
 
-    if(this.props.params.directory != directory || (this.props.params.sort || 'hot') !== sort){
+    if(this.props.params.directory != directory || (this.props.params.sort || 'hot') !== sort
+    || this.props.user.id !== nextProps.user.id
+      ){
       this.loadContent(directory, sort);
     }
   }
@@ -83,6 +87,11 @@ class SubContainer extends Component {
   }
 
   toggleModal(){
+    if(!this.props.user.id){
+      this.props.toggleLoginModal();
+      return;
+    }
+
     this.setState({ formOpen: !this.state.formOpen});
   }
 
@@ -135,7 +144,8 @@ class SubContainer extends Component {
       <ModalForm
         isOpen={ this.state.formOpen }
         toggle={ this.toggleModal.bind(this) }
-        disabled={ this.props.submitting }
+        title={ 'New Link' }
+        disabled={ this.props.submitting || false }
         form={ NewLinkForm }
         onSubmit={ this.onSubmitNewLink.bind(this) }
         onSubmitClick={() => this.props.submitForm('newLinkForm')}
@@ -178,7 +188,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const {
     paginations: { linksByDirectory },
-    entities: { links, directories },
+    entities: { links, directories, users },
     entity
   } = state;
 
@@ -188,6 +198,7 @@ const mapStateToProps = (state, ownProps) => {
   const directoryItem = directories[directory];
 
   return {
+    user: users[state.Auth.user] || {},
     loadingDirectory: entity.directory.isFetching,
     loading: linksPagination.isFetching,
     links: linkList,
@@ -204,6 +215,7 @@ export default connect(mapStateToProps,
     postNewLink,
     loadLinks,
     voteLink,
-    loadDirectory
+    loadDirectory,
+    toggleLoginModal
   }
 )(SubContainer);
