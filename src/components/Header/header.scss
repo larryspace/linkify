@@ -31,7 +31,19 @@
 }
 
 .account-dropdown-image{
-  width: 38px;
+  width: 39px;
   height: 38px;
   margin-right: 5px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-right: 1px solid #000;
+
+  &.default{
+    font-size: 34px;
+    vertical-align: middle;
+    text-align: center;
+    background: #292B2C;
+    margin-right: 5px;
+    padding: 2px;
+  }
 }

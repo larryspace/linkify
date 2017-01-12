@@ -63,7 +63,12 @@ class Header extends Component {
     return (
     <NavDropdown className="float-right" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
       <DropdownToggle nav className="account-menu-toggler nav-link dropdown-toggle account-dropdown-button">
-      <img src={'/' + this.props.avatar} className="account-dropdown-image" />
+        {this.props.avatar && (
+          <img src={'/' + this.props.avatar} className="account-dropdown-image" />
+        ) ||
+        (
+          <FontAwesome name="user" className="account-dropdown-image default" />
+        )}
         { this.props.name }
       </DropdownToggle>
       <DropdownMenu right>
