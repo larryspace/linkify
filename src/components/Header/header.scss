@@ -2,6 +2,19 @@
   height: 40px;
 }
 
-.account-menu-toggler{
-  padding: 0 12px;
+.app-navbar{
+  padding: 7px 15px;
+  min-height: 52px;
+}
+
+.navbar-brand{
+  margin-left: 5px;
+}
+
+.navbar-nav{
+  flex-direction: row;
+
+  & .nav-link{
+    padding: 0.5em 1em;
+  }
 }
