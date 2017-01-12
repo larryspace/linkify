@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { authUser, logoutUser, getDefaultDirectories } from '../../actions';
+import { authUser, logoutUser, getDefaultDirectories, toggleLoginModal } from '../../actions';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
@@ -14,6 +14,8 @@ import ProfileContainer from './../Profile';
 import AccountContainer from './../Account';
 import SubContainer from './../Sub';
 import LinkContainer from './../Link';
+
+import LoginModal from './../LoginModal';
 
 import Home from '../../components/Home';
 import NotFound from '../../components/NotFound';
@@ -53,6 +55,7 @@ class App extends Component {
     if(localStorage.getItem('token')){
       this.props.authUser();
     }
+
   }
 
   componentWillReceiveProps(nextProps){
@@ -82,22 +85,10 @@ class App extends Component {
   render() {
 
 
-    const LogoutComponent = ({ component: Component, ...rest }) => {
-      this.props.logoutUser();
-
-      return (
-        <Redirect to={{
-          pathname: '/'
-        }}/>
-    )}
-
-
-
-
-
     return (
       <BrowserRouter>
           <app>
+            <LoginModal />
             <CookieConsent show={ this.state.cookieConsentOpen } onClose={ this.closeCookieConsent.bind(this) } />
             <NavigationDrawer
               defaultDirectories={this.props.defaultDirectories}
@@ -111,12 +102,13 @@ class App extends Component {
                 userInfo={this.props.userInfo}
                 isAuthenticated={this.props.isAuthenticated}
                 onHamburgerClick={this.toggleDrawer.bind(this)}
+                onLoginClick={ this.props.toggleLoginModal }
+                onLogoutClick={ this.props.logoutUser }
                />
               <Match exactly pattern="/" component={Home}/>
               <Match exactly pattern="/profile" component={ProfileContainer}/>
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
-              <Match exactly pattern="/logout" component={LogoutComponent}/>
               <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={SubContainer}/>
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
               <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
@@ -151,6 +143,7 @@ export default connect(mapStateToProps,
   {
     authUser,
     logoutUser,
-    getDefaultDirectories
+    getDefaultDirectories,
+    toggleLoginModal
   }
 )(App)
