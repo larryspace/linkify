@@ -1,5 +1,5 @@
 import './header.scss';
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import FontAwesome from 'react-fontawesome';
@@ -7,7 +7,13 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink,
   NavbarToggler, Collapse, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 
-class Header extends React.Component {
+class Header extends Component {
+
+  static propTypes = {
+    onLoginClick: PropTypes.func.isRequired,
+    onLogoutClick: PropTypes.func.isRequired,
+  }
+
   state = {
     dropdownOpen: false
   };
@@ -21,7 +27,7 @@ class Header extends React.Component {
   renderLoginButton(){
     return (
     <NavItem>
-      <Link to={'/login'} className="nav-link">Login</Link>
+      <Link to={'#login'} className="nav-link" onClick={this.props.onLoginClick}>Login</Link>
     </NavItem>);
   }
 
@@ -37,6 +43,11 @@ class Header extends React.Component {
     <NavItem>
       <Link to={'/logout'} className="nav-link">Logout</Link>
     </NavItem>);
+  }
+
+  logoutClick(){
+    this.toggleDropdown();
+    this.props.onLogoutClick();
   }
 
   renderDropdownMenu(){
@@ -59,7 +70,7 @@ class Header extends React.Component {
           <Link key={item[0]} to={item[0]} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>{item[1]}</Link>
         ))}
         <DropdownItem divider />
-        <Link to={'/logout'} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Logout</Link>
+        <Link to={'#'} className="dropdown-item" onClick={this.logoutClick.bind(this)}>Logout</Link>
       </DropdownMenu>
     </NavDropdown>);
   }
