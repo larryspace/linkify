@@ -32,11 +32,11 @@
 }
 
 
-.linkpost > .post{
+.linkpost .post{
   border: 1px solid #999;
   border-radius: 3px;
-
   padding: 4px 15px 0 15px;
+  margin-bottom: 40px;
 
   & > h3{
     padding: 0;
@@ -51,23 +51,25 @@
   }
 
   & > .content{
+    white-space: pre;
+    min-height: 100px;
     margin: 5px 0;
   }
+}
 
-  & > .footer{
-    position: absolute;
-    bottom: 0;
-    border-top: 1px solid #CCC;
-    list-style: none;
-    margin: 5px 0;
-    padding: 0;
-    width: calc(100% - 30px);
+.linkpost .footer{
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #CCC;
+  list-style: none;
+  margin: 5px 0;
+  padding: 0;
+  width: calc(100% - 30px);
 
-    & > li{
-      float: left;
-      margin-right: 10px;
-      font-size: 14px;
-      color: #555;
-    }
+  & > li{
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #555;
   }
 }

@@ -77,19 +77,21 @@ export default class LinkPost extends Component {
             {owner && ( <li><button onClick={ onDelete }>Remove</button></li> )}
           </ul>
         </Col>
-        <Col xs="12" sm="9" lg="10" className="post">
-          <h3><a href={ url } target="_blank">{ title }</a></h3>
-          <span className="post-time">{ created_at }</span>
-          <div className="content">
-            { isEditMode && (
-              <EditLinkForm
-                onSubmit={ values => onEditSubmit(values).then(response => this.toggleEditMode())}
-                initialValues={{ description }}
-                showCancel={ true }
-                onCancelClick={ this.toggleEditMode.bind(this) }
-              />
-            ) || description}
+        <Col xs="12" sm="9" lg="10">
+          <div className="post">
+            <h3><a href={ url } target="_blank">{ title }</a></h3>
+            <span className="post-time">{ created_at }</span>
+            <div className="content">
+              { isEditMode && (
+                <EditLinkForm
+                  onSubmit={ values => onEditSubmit(values).then(response => this.toggleEditMode())}
+                  initialValues={{ description }}
+                  showCancel={ true }
+                  onCancelClick={ this.toggleEditMode.bind(this) }
+                />
+              ) || description}
 
+            </div>
           </div>
           <ul className="footer">
             <li>Comments: { comment_count }</li>
