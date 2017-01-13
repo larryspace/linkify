@@ -7,6 +7,39 @@ namespace app\controllers;
 class Links
 {
 
+    static function editLink($params, $user){
+        $postBody = get_json_body(true);
+
+        $id = (int)$params['id'];
+
+        if($id===0){
+            throw new \ApiException('Link does not exist', 400);
+        }
+
+        $link = \app\stores\Links::get($id);
+
+        if(!$link){
+            throw new \ApiException('Link does not exist', 400);
+        }
+
+        if($link->user_id !== $user->id){
+            throw new \ApiException('You can not edit a link that are not yours', 400);
+        }
+
+        $errors = \FormValidator::validate($postBody,
+          [
+              'description' => 'required|string:6,1024'
+          ]);
+
+        if($errors){
+            throw new \ApiException('FormError', 400, $errors);
+        }
+
+        $link->updateDescription($postBody['description']);
+
+        return $link;
+    }
+
     static function newLink($params, $user){
         $postBody = get_json_body(true);
 

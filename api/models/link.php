@@ -15,6 +15,17 @@ class Link extends VoteModel
         $this->directory = strtolower($this->directory);
         $this->upvoted = $this->upvoted ? true : false;
         $this->downvoted = $this->downvoted ? true : false;
+        $this->author = \app\stores\User::fetch($this->user_id, [
+            'username',
+            'avatar'
+        ]);
+    }
+
+    function updateDescription($description){
+        $this->description = $description;
+        return $this->_save([
+            'description' => $description
+        ]);
     }
 
     function increaseCommentCount(){
