@@ -49,6 +49,16 @@ class NewLinkForm extends Component {
           validate={[ required, url ]}
         />
 
+        <Field
+          icon="pencil-square-o"
+          name="description"
+          type="textarea"
+          label="Description"
+          component={renderField}
+          validate={[ required ]}
+        />
+
+
         {submitting && (
           <Spinner />
         )}

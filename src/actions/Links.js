@@ -62,14 +62,16 @@ export const loadLinks = ({ directory, sortBy }, refresh) => (dispatch, getState
   return dispatch(loadLinksRequest({ directory, page, sortBy }));
 };
 
-const postNewLinkRequest = ({ title, link, directory }) => ({
+const postNewLinkRequest = ({ title, link, description, directory }) => ({
   [CALL_API]: {
     types: [ POST_NEW_LINK_REQUEST, POST_NEW_LINK_SUCCESS, POST_NEW_LINK_FAILURE ],
     endpoint: `d/${directory}/new`,
     method: 'POST',
+    schema: Schemas.LINK,
     body: {
       title,
-      link
+      link,
+      description
     }
   }
 });
@@ -80,6 +82,7 @@ export const postNewLink = (values) => (dispatch, getState) =>  {
     if(response.error){
       throw new SubmissionError(response.response);
     }
+    return response;
   });
 };
 

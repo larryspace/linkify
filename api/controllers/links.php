@@ -19,7 +19,8 @@ class Links
         $errors = \FormValidator::validate($postBody,
           [
               'title' => 'required|string:3,64',
-              'link' => 'required|url|string:6,128'
+              'link' => 'required|url|string:6,128',
+              'description' => 'required|string:6,1024'
           ]);
 
         if($errors){
@@ -27,7 +28,7 @@ class Links
         }
 
         try {
-            $id = \app\stores\Links::add($directory->id, $user->id, $postBody['title'], $postBody['link']);
+            $id = \app\stores\Links::add($directory->id, $user->id, $postBody['title'], $postBody['link'], $postBody['description']);
         } catch (Exception $e) {
             throw new \ApiException('FormError', 400, ['_error' => 'Could not add link!']);
         }

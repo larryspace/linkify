@@ -7,12 +7,13 @@ namespace app\stores;
  */
 class Links
 {
-    static function add($directoryId, $userId, $title, $url, $image = NULL){
+    static function add($directoryId, $userId, $title, $url, $description, $image = NULL){
         return \Database::create('links', [
             'directory_id' => $directoryId,
             'user_id' => $userId,
             'title' => $title,
             'url' => $url,
+            'description' => $description,
             'image' => $image]);
     }
 
@@ -24,6 +25,7 @@ class Links
             links.id,
             links.title,
             links.url,
+            links.description,
             links.image,
             links.directory_id,
             links.user_id,
@@ -80,6 +82,7 @@ class Links
             links.id,
             links.title,
             links.url,
+            links.description,
             links.image,
             links.directory_id,
             links.user_id,
