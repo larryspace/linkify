@@ -7,6 +7,9 @@ namespace app\stores;
  */
 class Directory
 {
+
+    static $model = "\app\models\Directory";
+
     static function getDefault(){
         return \Database::fetchAll('directories', [
             'name',
@@ -15,7 +18,29 @@ class Directory
             'banner',
             'creator',
             'created_at'
-        ], ['default' => true], '\app\models\Directory');
+        ], ['default' => true], self::$model);
+    }
+
+    static function getSubscribed($userId){
+        $sql = "
+            SELECT
+                directories.id,
+                directories.name,
+                directories.description,
+                directories.default,
+                directories.banner
+            FROM directories
+            INNER JOIN subscriptions ON
+                subscriptions.directory_id = directories.id AND
+                subscriptions.user_id = :user_id
+        ";
+
+        $values = [
+            'user_id' => $userId
+        ];
+
+        $directories = \Database::queryFetchAll($sql, $values, self::$model);
+        return $directories;
     }
 
     static function getDirectory($name){
@@ -26,6 +51,6 @@ class Directory
             'banner',
             'creator',
             'created_at'
-        ], ['name' => $name], '\app\models\Directory');
+        ], ['name' => $name], self::$model);
     }
 }

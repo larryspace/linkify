@@ -7,9 +7,14 @@ namespace app\controllers;
 class Directory
 {
 
-    static function getDefaultDirectories($params){
-        $defaultDirectories = \app\stores\Directory::getDefault();
-        return $defaultDirectories;
+    static function getDefault($params){
+        $directories = \app\stores\Directory::getDefault();
+        return $directories;
+    }
+
+    static function getSubscribed($params, $user){
+        $directories = \app\stores\Directory::getSubscribed($user->id);
+        return $directories;
     }
 
     static function getDirectory($params){

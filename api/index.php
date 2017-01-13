@@ -8,7 +8,8 @@ require_once __DIR__ . '/controllers/comments.php';
 
 $router = new miniRoute();
 
-$router->GET("/directories", 'app\controllers\Directory::getDefaultDirectories');
+$router->GET("/directories", 'app\controllers\Directory::getDefault');
+$router->GET("/directories/subscribed", 'app\controllers\Directory::getSubscribed', '\Authentication::requireAuth');
 $router->GET("/d/:directory", 'app\controllers\Directory::getDirectory');
 $router->POST("/d/:directory/subscribe", 'app\controllers\Directory::subscribe', '\Authentication::requireAuth');
 $router->POST("/d/:directory/unsubscribe", 'app\controllers\Directory::unsubscribe', '\Authentication::requireAuth');
