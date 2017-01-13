@@ -24,6 +24,7 @@ export default class NavigationDrawer extends Component {
         <li className="sub-header dropdown-header">Default Subs</li>
         { this.props.defaultDirectories.map(this.renderLink) }
         <li className="sub-header dropdown-header">Subscribed</li>
+        { this.props.subscribedDirectories.map(this.renderLink) }
       </ul>
       </aside>
     );

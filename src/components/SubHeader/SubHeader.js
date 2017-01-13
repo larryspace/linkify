@@ -10,9 +10,11 @@ export default class SubHeader extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     onNewLinkClick: PropTypes.func,
+    onSubscribeClick: PropTypes.func,
     sortOption: PropTypes.string,
     compact: PropTypes.bool,
-    directory: PropTypes.string.isRequired
+    directory: PropTypes.string.isRequired,
+    subscribed: PropTypes.bool
   }
 
   state = {
@@ -28,7 +30,9 @@ export default class SubHeader extends Component {
     const {
       title,
       directory,
+      subscribed,
       onNewLinkClick,
+      onSubscribeClick,
       sortOption,
       compact
     } = this.props;
@@ -44,8 +48,8 @@ export default class SubHeader extends Component {
             </Button>
           )}
           { directory !== 'all' && (
-            <Button onClick={ onNewLinkClick } color="secondary">
-             <FontAwesome name="check" style={{ color: 'rgba(0,0,0,.5)' }} /> Subscribe
+            <Button className={subscribed ? 'subscribed' : ''} onClick={ onSubscribeClick } color={subscribed ? 'success' : 'secondary'}>
+             <FontAwesome name="check" style={{ color: 'rgba(0,0,0,.5)' }} /> {subscribed ? 'Unsubscribe' : 'Subscribe'}
             </Button>
           )}
            <ButtonDropdown isOpen={ this.state.sortMenuOpen } toggle={this.toggleSortMenu.bind(this)}>

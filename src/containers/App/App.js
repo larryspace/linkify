@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { BrowserRouter, Match, Link, Miss, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { authUser, logoutUser, getDefaultDirectories, toggleLoginModal } from '../../actions';
+import { authUser, logoutUser, getDefaultDirectories, toggleLoginModal, getSubscribedDirectories } from '../../actions';
 
 import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
@@ -60,6 +60,9 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps){
     //console.log('component will recieve props', nextProps);
+    if(nextProps.user.id && this.props.user.id !== nextProps.user.id){
+      this.props.getSubscribedDirectories();
+    }
   }
 
   updateDimensions(){
@@ -92,6 +95,7 @@ class App extends Component {
             <CookieConsent show={ this.state.cookieConsentOpen } onClose={ this.closeCookieConsent.bind(this) } />
             <NavigationDrawer
               defaultDirectories={this.props.defaultDirectories}
+              subscribedDirectories={this.props.subscribedDirectories}
               fixed={this.state.fixedDrawer}
               open={this.state.navOpen}
               onClose={this.toggleDrawer.bind(this)}
@@ -125,11 +129,12 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    collections: { defaultDirectories },
+    collections: { defaultDirectories, subscribedDirectories },
     entities: { directories, users }
   } = state;
 
   const defaultDirs = defaultDirectories.ids.map(id => directories[id]);
+  const subscribedDirs = subscribedDirectories.ids.map(id => directories[id]);
 
   return {
     title: state.Page.title,
@@ -137,7 +142,8 @@ const mapStateToProps = (state, ownProps) => {
     isAuthenticated: state.Auth.isAuthenticated,
     isAuthenticating: state.Auth.isAuthenticating,
     isLoadingDefaultDirs: defaultDirectories.isFetching,
-    defaultDirectories: defaultDirs
+    defaultDirectories: defaultDirs,
+    subscribedDirectories: subscribedDirs
   };
 }
 
@@ -147,6 +153,7 @@ export default connect(mapStateToProps,
     authUser,
     logoutUser,
     getDefaultDirectories,
+    getSubscribedDirectories,
     toggleLoginModal
   }
 )(App)

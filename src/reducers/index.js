@@ -28,9 +28,19 @@ const collections = combineReducers({
   }),
   subscribedDirectories: collectionReducer({
     types: [
-      ActionTypes.GET_DEFAULT_DIRECTORIES_REQUEST,
-      ActionTypes.GET_DEFAULT_DIRECTORIES_SUCCESS,
-      ActionTypes.GET_DEFAULT_DIRECTORIES_FAILURE
+      ActionTypes.GET_SUBSCRIBED_DIRECTORIES_REQUEST,
+      ActionTypes.GET_SUBSCRIBED_DIRECTORIES_SUCCESS,
+      ActionTypes.GET_SUBSCRIBED_DIRECTORIES_FAILURE
+    ],
+    addTypes: [
+      ActionTypes.SUBSCRIBE_DIRECTORY_REQUEST,
+      ActionTypes.SUBSCRIBE_DIRECTORY_SUCCESS,
+      ActionTypes.SUBSCRIBE_DIRECTORY_FAILURE
+    ],
+    removeTypes: [
+      ActionTypes.UNSUBSCRIBE_DIRECTORY_REQUEST,
+      ActionTypes.UNSUBSCRIBE_DIRECTORY_SUCCESS,
+      ActionTypes.UNSUBSCRIBE_DIRECTORY_FAILURE
     ]
   }),
 });

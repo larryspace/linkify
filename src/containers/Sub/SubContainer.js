@@ -12,7 +12,7 @@ import Spinner from '../../components/Spinner';
 import NotFound from '../../components/NotFound';
 
 import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink,
-  loadDirectory, toggleLoginModal
+  loadDirectory, toggleLoginModal, subscribeDirectory
 } from '../../actions';
 
 class SubContainer extends Component {
@@ -138,6 +138,7 @@ class SubContainer extends Component {
     }
 
     const directoryItem = this.props.directory;
+    const subscribed = this.props.subscribedDirectoriesIds.find(id => id === directory) !== undefined;
 
     return (
       <div>
@@ -155,7 +156,9 @@ class SubContainer extends Component {
          <SubHeader
            title={ directoryItem.name }
            onNewLinkClick={ this.toggleModal.bind(this) }
+           onSubscribeClick={ () => this.props.subscribeDirectory({ directory: directoryItem.name.toLowerCase() }) }
            directory={ directoryItem.name.toLowerCase() }
+           subscribed={ subscribed }
            sortOption={ this.props.params.sort || 'hot' }
          />
        )}
@@ -187,6 +190,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
 
   const {
+    collections: { subscribedDirectories },
     paginations: { linksByDirectory },
     entities: { links, directories, users },
     entity
@@ -198,6 +202,7 @@ const mapStateToProps = (state, ownProps) => {
   const directoryItem = directories[directory];
 
   return {
+    subscribedDirectoriesIds: subscribedDirectories.ids,
     user: users[state.Auth.user] || {},
     loadingDirectory: entity.directory.isFetching,
     loading: linksPagination.isFetching,
@@ -216,6 +221,7 @@ export default connect(mapStateToProps,
     loadLinks,
     voteLink,
     loadDirectory,
-    toggleLoginModal
+    toggleLoginModal,
+    subscribeDirectory
   }
 )(SubContainer);
