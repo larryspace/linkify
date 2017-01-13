@@ -9,18 +9,6 @@ import { required, email, minLength } from './validate';
 import renderField from './renderField';
 
 class AccountSettings extends Component {
-  renderError(){
-    if(!this.props.loginError){
-      return null;
-    }
-
-    return (
-      <Alert color="danger">
-        <strong>Error</strong> { this.props.loginError }
-      </Alert>
-    );
-  }
-
   render() {
 
     const { handleSubmit,
