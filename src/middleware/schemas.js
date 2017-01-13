@@ -3,7 +3,7 @@ import { normalize, schema } from 'normalizr';
 const userSchema = new schema.Entity('users', {});
 
 const linkSchema = new schema.Entity('links', {
-  user: userSchema
+  author: userSchema
 });
 
 const directorySchema = new schema.Entity('directories', {}, {

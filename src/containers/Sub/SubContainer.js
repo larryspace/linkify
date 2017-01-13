@@ -72,17 +72,8 @@ class SubContainer extends Component {
     return this.props.postNewLink(data)
     .then(action => {
       this.toggleModal();
-
-      const newPath = `/s/${directory}/latest`;
-
-      if(this.props.pathname === newPath){
-        this.props.loadLinks({
-          directory: this.props.params.directory,
-          sortBy: this.props.params.sort || 'hot'
-        }, true);
-      }else{
-        this.context.router.transitionTo(newPath);
-      }
+      const newPath = `/s/${directory}/${action.response.result}/comments`;
+      this.context.router.transitionTo(newPath);
     });
   }
 

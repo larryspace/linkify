@@ -7,6 +7,7 @@ import CommentsContainer from '../Controlled/Comments';
 import Container from '../../components/Container';
 import SubHeader from '../../components/SubHeader';
 import LinkItem from '../../components/Link';
+import LinkPost from '../../components/LinkPost';
 import Spinner from '../../components/Spinner';
 import Comment from '../../components/Comment';
 import NestedList from '../../components/NestedList';
@@ -16,7 +17,7 @@ import createForm, {CommentForm} from '../../components/Forms';
 const CommentFormObj = createForm(CommentForm, 'commentForm');
 
 import {
-  setPageInfo, submitForm, postNewLink,
+  setPageInfo, submitForm, postNewLink, editLink, deleteLink,
   loadLinks, voteLink, loadLink, loadComments, newComment
 } from '../../actions';
 
@@ -63,14 +64,7 @@ class LinkContainer extends Component {
 
     const {
       id,
-      title,
-      directory,
-      url,
-      image,
-      votes,
-      upvoted,
-      downvoted,
-      comment_count
+      user_id
     } = this.props.link || {};
 
     const {
@@ -88,18 +82,14 @@ class LinkContainer extends Component {
       <Container>
 
         {this.props.loadingLink && (<Spinner />) || (
-          <LinkItem
+          <LinkPost
             onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
             onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
-            upvoteDisabled={ upvoted }
-            downvoteDisabled={ downvoted }
-            id={ id }
-            directory={ directory }
-            title={ title }
-            url={ url }
-            image={ image }
-            voteCount={ votes }
-            commentCount={ comment_count }
+            owner={ user_id === this.props.user.id }
+            onEditSubmit={ values => this.props.editLink({id, ...values}) }
+            onDelete={() => this.props.deleteLink({ id })}
+            link={ this.props.link || {} }
+            author={ this.props.author || {} }
           />
         )}
 
@@ -138,6 +128,7 @@ const mapStateToProps = (state, ownProps) => {
     user: users[state.Auth.user] || {},
     loadingLink: entity.link.isFetching,
     link: linkItem,
+    author: users[(linkItem || {}).author] || {}
   }
 }
 
@@ -149,6 +140,8 @@ export default connect(mapStateToProps,
     postNewLink,
     loadLinks,
     voteLink,
+    editLink,
+    deleteLink,
     loadLink,
     loadComments,
     newComment

@@ -18,6 +18,20 @@ export default ({ input, label, name, type, icon, onChange, meta: { touched, err
     );
   }
 
+  if(type === 'textarea'){
+    return (
+      <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
+        <Col sm={10}>
+          <InputGroup>
+            <Input {...input} type={type} placeholder={label} />
+          </InputGroup>
+
+          {touched && ((error && <FormFeedback>{error}</FormFeedback>) || (warning && <FormFeedback>{warning}</FormFeedback>))}
+        </Col>
+      </FormGroup>
+    );
+  }
+
 
   return (
   <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
