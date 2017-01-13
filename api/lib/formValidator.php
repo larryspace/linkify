@@ -1,6 +1,6 @@
 <?php
 class FormValidator {
-  public static $validations = [
+  private static $validations = [
     'required' => 'FormValidator::validateRequired',
     'string' => 'FormValidator::validateString',
     'integer' => 'FormValidator::validateInteger',
@@ -11,7 +11,8 @@ class FormValidator {
     'regex' => 'FormValidator::validateRegex',
     'confirm' => 'FormValidator::validateConfirm',
     'verify_password' => 'FormValidator::verifyPassword',
-    'url' => 'FormValidator::validateUrl'
+    'url' => 'FormValidator::validateUrl',
+    'unique' => 'FormValidator::validateUnique'
   ];
 
   public static function validate($arr, $validation){
@@ -35,11 +36,11 @@ class FormValidator {
     return $errors;
   }
 
-  public static function getCaptchaHTML(){
+  private static function getCaptchaHTML(){
     return '<div class="g-recaptcha" data-sitekey="' . $_ENV['RECAPTCHA_PUBLIC_KEY'] . '"></div>';
   }
 
-  public static function validateRecaptcha($value){
+  private static function validateRecaptcha($value){
     $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$_ENV['RECAPTCHA_PRIVATE_KEY'].'&response='.$value);
     $responseData = json_decode($verifyResponse);
 
@@ -48,7 +49,7 @@ class FormValidator {
     }
   }
 
-  public static function validateConfirm($value, $confirmPost){
+  private static function validateConfirm($value, $confirmPost){
     if($value !== $_POST[$confirmPost]){
       return 'THIS_FIELD_NEED_TO_BE_IDENTICAL_TO_' . $confirmPost;
     }
@@ -56,7 +57,7 @@ class FormValidator {
     return false;
   }
 
-  public static function verifyPassword($password, $hash){
+  private static function verifyPassword($password, $hash){
     if(!password_verify ($password, $hash )){
         return 'Password doesnt match';
     }
@@ -64,7 +65,7 @@ class FormValidator {
     return false;
   }
 
-  public static function validateRequired($value){
+  private static function validateRequired($value){
     if(!$value){
       return 'FIELD_REQUIRED';
     }
@@ -73,18 +74,35 @@ class FormValidator {
     return false;
   }
 
-  public static function validateOption($value, $data){
+  private static function validateOption($value, $data){
     $arr = explode(',', $data);
     if(!in_array($value, $arr)){
       return 'THIS_IS_NOT_A_VALID_OPTION';
     }
   }
 
-  public static function validateInteger(){
+  private static function validateInteger(){
 
   }
 
-  public static function validateRegex($value, $regex){
+  private static function validateUnique($value, $tableColumn){
+      $matches = [];
+      preg_match("/([A-z]+)\.([A-z]+)(\.(.+))?/", $tableColumn, $matches);
+      $table = $matches[1];
+      $column = $matches[2];
+      $exception = $matches[4] ?? null;
+
+      if(strtolower($exception) === strtolower($value)){
+          return;
+      }
+
+      $obj = \Database::fetch($table, [], [$column => $value]);
+      if($obj){
+          return "This $column is already in use!";
+      }
+  }
+
+  private static function validateRegex($value, $regex){
     $options = [
       "options"=> [
         "regexp" => $regexp
@@ -98,7 +116,7 @@ class FormValidator {
     }
   }
 
-  public static function validateString($value, $meta){
+  private static function validateString($value, $meta){
       $arr = explode(',', $meta);
 
       $min = $arr[0];
@@ -113,10 +131,10 @@ class FormValidator {
       }
   }
 
-  public static function validateUrl($value){
+  private static function validateUrl($value){
   }
 
-  public static function validateEmail($value){
+  private static function validateEmail($value){
     if(!$value){
       return false;
     }
@@ -128,7 +146,7 @@ class FormValidator {
     return false;
   }
 
-  public static function validatePassword($value){
+  private static function validatePassword($value){
     if(strlen($value) < 6){
       return 'PASSWORD_TOO_SHORT';
     }
