@@ -1,0 +1,73 @@
+.linkpost{
+  margin-right: 5px;
+}
+
+.linkpost > .side{
+
+  & > .avatar{
+    height: 100px;
+    width: 100%;
+    border: 1px solid #333;
+  }
+
+  & > .sidemenu{
+    list-style: none;
+    margin: 5px 0;
+    padding: 0;
+
+    & > li.dropdown-divider{
+      margin: 10px 0;
+    }
+
+    & > li{
+      margin: 2px 0;
+      text-align: center;
+
+      & > button{
+
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+.linkpost > .post{
+  border: 1px solid #999;
+  border-radius: 3px;
+
+  padding: 4px 15px 0 15px;
+
+  & > h3{
+    padding: 0;
+    margin: 0;
+  }
+
+  & > .post-time{
+    display: block;
+    font-size: 13px;
+    color: #555;
+    border-bottom: 1px solid #CCC;
+  }
+
+  & > .content{
+    margin: 5px 0;
+  }
+
+  & > .footer{
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #CCC;
+    list-style: none;
+    margin: 5px 0;
+    padding: 0;
+    width: calc(100% - 30px);
+
+    & > li{
+      float: left;
+      margin-right: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+  }
+}
