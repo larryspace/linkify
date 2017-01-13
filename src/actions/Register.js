@@ -1,3 +1,4 @@
+import { SubmissionError } from 'redux-form';
 import {
   REGISTER_USER_REQUEST, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS
 } from '../constants/ActionTypes';
@@ -18,5 +19,10 @@ const registerUserRequest = ({username, email, password}) => ({
 });
 
 export const registerUser = (values) => (dispatch, getState) =>  {
-  return dispatch(registerUserRequest(values));
+  return dispatch(registerUserRequest(values))
+  .then(response => {
+    if(response.error){
+      throw new SubmissionError(response.response);
+    }
+  });
 };

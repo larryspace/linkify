@@ -49,9 +49,9 @@ class LoginForm extends Component {
           <Spinner />
         )}
 
-        {!submitting && submitFailed && (
+        {!submitting && submitFailed && error && (
           <Alert color="danger">
-            <strong>Error</strong> { this.props.error }
+            <strong>Error</strong> { error }
           </Alert>
         )}
 

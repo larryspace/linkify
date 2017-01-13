@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import {Link} from 'react-router';
 import { Form, Input, FormGroup, Col, Label,
   Button, ButtonGroup, Alert, FormFeedback} from 'reactstrap';
+import Spinner from '../Spinner';
 
 import { required, email, minLength } from './validate';
 
@@ -21,23 +22,17 @@ const validate = ({password, repeatPassword}) => {
 }
 
 class RegisterForm extends Component {
-  renderError(){
-    if(!this.props.registerError){
-      return null;
-    }
-
-    return (
-      <Alert color="danger">
-        <strong>Error</strong> { this.props.registerError }
-      </Alert>
-    );
-  }
 
   render() {
     const { handleSubmit,
             pristine,
             reset,
-            submitting } = this.props;
+            submitting,
+            error,
+            submitFailed,
+            submitSucceeded,
+            hideSubmit
+        } = this.props;
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -57,11 +52,28 @@ class RegisterForm extends Component {
             component={renderField}
             validate={[ required, email ]}
           />
-          <ButtonGroup>
-            <Button type="submit" color="primary" disabled={submitting}>Register</Button>
-          </ButtonGroup>
-          { this.props.isRegistering ? 'Processing...' : ''}
-          { this.renderError() }
+
+          {submitting && (
+            <Spinner />
+          )}
+
+          {!submitting && submitFailed && error && (
+            <Alert color="danger">
+              <strong>Error</strong> { error }
+            </Alert>
+          )}
+
+          {!submitting && submitSucceeded && (
+            <Alert color="success">
+              <strong>Registered!</strong>
+            </Alert>
+          )}
+
+          {!hideSubmit && (
+            <ButtonGroup>
+              <Button type="submit" color="primary" disabled={submitting}>Register</Button>
+            </ButtonGroup>
+          )}
         </Form>
     );
   }

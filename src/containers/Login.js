@@ -23,12 +23,12 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const register = (values) => this.props.loginUser(values);
+    const login = (values) => this.props.loginUser(values);
 
     return (
       <Container>
         <LoginForm
-            onSubmit = { register }
+            onSubmit = { login }
             loginError = { this.props.error }
             isAuthenticating = { this.props.isAuthenticating }
         />

@@ -13,17 +13,13 @@ import { registerUser } from '../actions';
 class RegisterContainer extends Component {
 
   render() {
-    const register = (values) => {
-      this.props.registerUser(values);
-    }
+    const register = (values) => this.props.registerUser(values);
 
     return (
       <Container>
         <h2>Register</h2>
         <RegisterForm
             onSubmit = { register }
-            registerError = { this.props.error }
-            isRegistering = { this.props.isRegistering }
         />
       </Container>
     );
@@ -32,8 +28,6 @@ class RegisterContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isRegistering: state.Register.isRegistering,
-    error: state.Register.error,
   }
 }
 
