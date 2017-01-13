@@ -42,9 +42,9 @@ class User
 
         $errors = \FormValidator::validate($postBody,
           [
-              'email' => 'required|email',
+              'email' => 'required|email|unique:users.email',
               'password' => 'required|password',
-              'username' => 'required|string'
+              'username' => 'required|string|unique:users.username'
           ]);
 
         if($errors){

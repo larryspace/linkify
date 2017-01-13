@@ -81,7 +81,7 @@ class Database
     return $stmt->execute($where);
   }
 
-  static function fetch($table, $values, $where, $class){
+  static function fetch($table, $values, $where, $class = null){
 
     if(!in_array('id', $values)){
         array_push($values, 'id');
@@ -99,14 +99,15 @@ class Database
     $sql = rtrim($sql, "AND ");
 
     $stmt = self::get()->prepare($sql);
-
-    $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+    if($class){
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+    }
     $stmt->execute($where);
 
     return $stmt->fetch();
   }
 
-  static function fetchAll($table, $values, $where, $class){
+  static function fetchAll($table, $values, $where, $class = null){
 
     if(!in_array('id', $values)){
         array_push($values, 'id');
@@ -129,7 +130,9 @@ class Database
 
     $stmt = self::get()->prepare($sql);
 
-    $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+    if($class){
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+    }
     $stmt->execute($where);
 
     return $stmt->fetchAll();

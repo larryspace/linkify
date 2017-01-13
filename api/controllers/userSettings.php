@@ -75,8 +75,8 @@ class UserSettings
 
         $errors = \FormValidator::validate($postBody,
           [
-              'username' => 'required|string:3,20',
-              'email' => 'required|string:3,100',
+              'username' => 'required|string:3,20|unique:users.username.' . $user->username,
+              'email' => 'required|string:3,100|unique:users.email.' . $user->email,
               'first_name' => 'required|string:3,30',
               'last_name' => 'required|string:3,30'
           ]);
