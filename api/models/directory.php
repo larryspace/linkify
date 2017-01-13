@@ -9,5 +9,8 @@ class Directory extends Model
 {
     static $table = "directories";
 
-
+    function __construct()
+    {
+        $this->subscribed = false;
+    }
 }

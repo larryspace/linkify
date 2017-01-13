@@ -7,12 +7,14 @@ require_once __DIR__ . '/../models/directory.php';
 require_once __DIR__ . '/../models/link.php';
 require_once __DIR__ . '/../models/vote.php';
 require_once __DIR__ . '/../models/comment.php';
+require_once __DIR__ . '/../models/subscription.php';
 
 require_once __DIR__ . '/../stores/user.php';
 require_once __DIR__ . '/../stores/directory.php';
 require_once __DIR__ . '/../stores/links.php';
 require_once __DIR__ . '/../stores/votes.php';
 require_once __DIR__ . '/../stores/comments.php';
+require_once __DIR__ . '/../stores/subscriptions.php';
 
 /**
  *
