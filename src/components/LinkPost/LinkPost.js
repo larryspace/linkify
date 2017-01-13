@@ -68,7 +68,7 @@ export default class LinkPost extends Component {
         <Col xs="12" sm="3" lg="2" className="side">
           <img src={ '/' + avatar } className="avatar" />
           <ul className="sidemenu">
-            <li>{ username }</li>
+            <li><Link to={`/u/${this.props.author.id}/${username}`}>{ username }</Link></li>
             <li><button onClick={ onUpvote } disabled={ upvoted }><FontAwesome name="arrow-up" /></button></li>
             <li>{ votes }</li>
             <li><button onClick={ onDownvote } disabled={ downvoted }><FontAwesome name="arrow-down" /></button></li>
