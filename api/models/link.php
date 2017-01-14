@@ -19,12 +19,32 @@ class Link extends VoteModel
             'username',
             'avatar'
         ]);
+
+        if($this->deleted){
+            $this->deleted = true;
+        }else{
+            unset($this->deleted);
+        }
     }
 
     function updateDescription($description){
         $this->description = $description;
         return $this->_save([
             'description' => $description
+        ]);
+    }
+
+    function delete(){
+        $this->description = '';
+        $this->deleted = true;
+        $this->author = null;
+
+        return $this->_save([
+            'description' => '',
+            'title' => '',
+            'url' => '',
+            'user_id' => null,
+            'deleted' => true
         ]);
     }
 

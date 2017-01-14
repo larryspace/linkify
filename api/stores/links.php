@@ -29,6 +29,7 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            links.deleted,
             links.created_at,
             links.comment_count,
             users.username,
@@ -73,7 +74,7 @@ class Links
 
         $whereSql = '';
         if($directoryId !== 'all'){
-            $whereSql = 'WHERE directory_id = :directory_id';
+            $whereSql = ' AND directory_id = :directory_id';
             $values['directory_id'] = $directoryId;
         }
 
@@ -86,6 +87,7 @@ class Links
             links.image,
             links.directory_id,
             links.user_id,
+            links.deleted,
             links.created_at,
             links.comment_count,
             users.username,
@@ -103,6 +105,7 @@ class Links
             links.user_id = users.id
         INNER JOIN `directories` ON
             links.directory_id = directories.id
+        WHERE links.deleted = 0
         $whereSql
         ORDER BY $sortBy DESC
         LIMIT :start_index, :end_index
