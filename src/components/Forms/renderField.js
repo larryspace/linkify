@@ -10,7 +10,7 @@ export default ({ input, label, name, type, icon, onChange, meta: { touched, err
       <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
         <Label for={name} sm={2}>{label}</Label>
         <Col sm={10}>
-            <Input {...input} type={type} onChange={onChange} placeholder={label} />
+            <Input {...input} type={type} onChange={event => {onChange(event); input.onChange(event);}} placeholder={label} />
 
           {touched && ((error && <FormFeedback>{error}</FormFeedback>) || (warning && <FormFeedback>{warning}</FormFeedback>))}
         </Col>
