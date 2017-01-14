@@ -7,6 +7,7 @@ import './ProfileCard.scss';
 export default class ProfileCard extends Component {
 
   static propTypes = {
+    id: PropTypes.number,
     username: PropTypes.string,
     avatar: PropTypes.string,
   }
@@ -14,6 +15,7 @@ export default class ProfileCard extends Component {
   render() {
 
     const {
+      id,
       username,
       avatar
     } = this.props;
@@ -25,13 +27,13 @@ export default class ProfileCard extends Component {
         <span className="profile-card-name">{ username } <Badge>0</Badge></span>
         <ul className="profile-card-info">
           <li>
-            <Link to={'profile/links'}>
+            <Link to={`/u/${id}/${username.toLowerCase()}/links`}>
               <span className="profile-card-info-title">Links</span>
               <span className="profile-card-info-value">0</span>
             </Link>
           </li>
           <li>
-            <Link to={'profile/comments'}>
+            <Link to={`/u/${id}/${username.toLowerCase()}/comments`}>
               <span className="profile-card-info-title">Comments</span>
               <span className="profile-card-info-value">0</span>
             </Link>

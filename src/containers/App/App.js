@@ -115,7 +115,7 @@ class App extends Component {
               <Match exactly pattern="/" component={Home}/>
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
-              <Match exactly pattern="/u/:id/:name" component={ProfileContainer}/>
+              <Match exactly pattern="/u/:id/:name/:type(links|comments)?" component={ProfileContainer}/>
               <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={DirectoryContainer}/>
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
               <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>

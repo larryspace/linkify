@@ -37,6 +37,10 @@ class ProfileContainer extends Component {
       isFetchingUser
     } = this.props;
 
+    const {
+      type = 'links'
+    } = this.props.params;
+
     if(isFetchingUser){
       return (<Spinner />);
     }
@@ -50,17 +54,21 @@ class ProfileContainer extends Component {
       <Row className="linkpost">
         <Col xs="12" sm="5" lg="3" className="">
           <ProfileCard
+            id={ id }
             username={ username }
             avatar={ avatar }
           />
         </Col>
         <Col xs="12" sm="7" lg="9" className="">
-          {id && (
+          {type === 'links' && id && (
             <LinksContainer
               id={ id }
               type={'user'}
               sort={'hot'}
             />
+          )}
+          {type === 'comments' && id && (
+            <span>Comments...</span>
           )}
         </Col>
       </Row>
