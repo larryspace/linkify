@@ -51,6 +51,7 @@ class CommentsContainer extends Component {
         <Comment key={id}
           id={ id }
           deleted={ deleted }
+          author_id={ author.id }
           author={ author.username }
           avatar={ '/' + author.avatar }
           content={ content }

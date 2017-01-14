@@ -12,6 +12,7 @@ export default class Comment extends Component {
     id: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
+    author_id: PropTypes.number,
     author: PropTypes.string,
     deleted: PropTypes.bool,
     created_at: PropTypes.string.isRequired,
@@ -53,6 +54,7 @@ export default class Comment extends Component {
       id,
       content,
       created_at,
+      author_id,
       author = '',
       avatar,
       deleted,
@@ -78,7 +80,7 @@ export default class Comment extends Component {
             <button disabled={deleted || upvoted } onClick={onUpvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
             { votes }
             <button disabled={ deleted || downvoted } onClick={onDownvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
-            {deleted  && (<span>Deleted</span>) || (<Link to={'/u/' + author.toLowerCase()}>{ author  }</Link>)}
+            {deleted  && (<span>Deleted</span>) || (<Link to={`/u/${author_id}/${author.toLowerCase()}`}>{ author  }</Link>)}
             {!deleted && (<button onClick={this.toggleReplyMode.bind(this)}>Reply</button>)}
             {!deleted && showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
             {!deleted && showDeleteButton && (<button onClick={ onDeleteClick }>Delete</button>)}
