@@ -78,6 +78,7 @@ export default class LinkPost extends Component {
           </ul>
         </Col>
         <Col xs="12" sm="9" lg="10">
+          <div className="arrow-left"></div>
           <div className="post">
             <h3><a href={ url } target="_blank">{ title }</a></h3>
             <span className="post-time">{ created_at }</span>
@@ -95,7 +96,7 @@ export default class LinkPost extends Component {
           </div>
           <ul className="footer">
             <li>Comments: { comment_count }</li>
-            <li>{ created_at }</li>
+            <li>Edited: { created_at }</li>
           </ul>
         </Col>
       </Row>
