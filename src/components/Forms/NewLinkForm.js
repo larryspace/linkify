@@ -63,9 +63,9 @@ class NewLinkForm extends Component {
           <Spinner />
         )}
 
-        {!submitting && submitFailed && (
+        {error && !submitting && submitFailed && (
           <Alert color="danger">
-            <strong>Error</strong> { this.props.error }
+            <strong>Error</strong> { error }
           </Alert>
         )}
 
