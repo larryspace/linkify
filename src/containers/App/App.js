@@ -12,7 +12,7 @@ import LoginContainer from './../Login';
 import RegisterContainer from './../Register';
 import ProfileContainer from './../Profile';
 import AccountContainer from './../Account';
-import SubContainer from './../Sub';
+import DirectoryContainer from './../Directory';
 import LinkContainer from './../Link';
 
 import LoginModal from './../LoginModal';
@@ -116,7 +116,7 @@ class App extends Component {
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/u/:id/:name" component={ProfileContainer}/>
-              <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={SubContainer}/>
+              <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={DirectoryContainer}/>
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
               <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>

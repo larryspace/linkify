@@ -46,8 +46,8 @@ const collections = combineReducers({
 });
 
 const paginations = combineReducers({
-  linksByDirectory: paginationReducer({
-    mapActionToKey: action => action.directory,
+  links: paginationReducer({
+    mapActionToKey: action => action.id,
     types: [
       ActionTypes.GET_LINKS_REQUEST,
       ActionTypes.GET_LINKS_SUCCESS,

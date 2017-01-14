@@ -28,7 +28,7 @@ export const loadLink = ({ link }, refresh) => (dispatch, getState) =>  {
 
   return dispatch(loadLinkRequest({ link }));
 };
-
+/*
 const loadLinksRequest = ({ directory, page, sortBy }) => ({
   directory,
   [CALL_API]: {
@@ -62,6 +62,42 @@ export const loadLinks = ({ directory, sortBy }, refresh) => (dispatch, getState
   }
 
   return dispatch(loadLinksRequest({ directory, page, sortBy }));
+};*/
+
+const loadLinksRequest = ({ id, type, sort, page }) => ({
+  id: type + id,
+  [CALL_API]: {
+    types: [ GET_LINKS_REQUEST, GET_LINKS_SUCCESS, GET_LINKS_FAILURE ],
+    endpoint: `links/${type}/${id}/${sort}/${page}`,
+    method: 'GET',
+    schema: Schemas.LINK_ARRAY
+  }
+});
+
+export const loadLinks = ({ id, type, sort }, refresh) => (dispatch, getState) =>  {
+  const idType = type + id;
+  const {
+    [idType]: {
+      isFetching,
+      pageCount = 1
+    } = {}
+  } = getState().paginations.links || { [idType]: {} };
+
+  if(isFetching){
+    return;
+  }
+
+  let page = pageCount;
+
+  if(refresh){
+    page = 1;
+    dispatch({
+      type: GET_LINKS_REFRESH,
+      id: idType,
+    });
+  }
+
+  return dispatch(loadLinksRequest({ id, type, sort, page }));
 };
 
 const postNewLinkRequest = ({ title, link, description, directory }) => ({

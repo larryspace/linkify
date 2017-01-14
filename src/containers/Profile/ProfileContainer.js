@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { Row, Col } from 'reactstrap';
+
 import Container from '../../components/Container';
 import ProfileCard from '../../components/ProfileCard';
 import Spinner from '../../components/Spinner';
+import NotFound from '../../components/NotFound';
+
+import LinksContainer from '../Controlled/Links';
 
 import { setPageInfo, loadUser } from '../../actions';
 
@@ -28,7 +33,7 @@ class ProfileContainer extends Component {
   render() {
 
     const {
-      user: { username, avatar },
+      user: { id, username, avatar },
       isFetchingUser
     } = this.props;
 
@@ -36,12 +41,29 @@ class ProfileContainer extends Component {
       return (<Spinner />);
     }
 
+    if(!id && !isFetchingUser){
+      return (<NotFound />);
+    }
+
     return (
       <Container>
-      <ProfileCard
-        username={ username }
-        avatar={ avatar }
-      />
+      <Row className="linkpost">
+        <Col xs="12" sm="5" lg="3" className="">
+          <ProfileCard
+            username={ username }
+            avatar={ avatar }
+          />
+        </Col>
+        <Col xs="12" sm="7" lg="9" className="">
+          {id && (
+            <LinksContainer
+              id={ id }
+              type={'user'}
+              sort={'hot'}
+            />
+          )}
+        </Col>
+      </Row>
       </Container>
     );
   }

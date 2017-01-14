@@ -15,7 +15,8 @@ $router->POST("/d/:directory/subscribe", 'app\controllers\Directory::subscribe',
 $router->POST("/d/:directory/unsubscribe", 'app\controllers\Directory::unsubscribe', '\Authentication::requireAuth');
 
 $router->GET("/d/link/:id", 'app\controllers\Links::getLink');
-$router->GET("/d/:directory/:page/:sort", 'app\controllers\Links::getLinks');
+//$router->GET("/d/:directory/:page/:sort", 'app\controllers\Links::getLinks');
+$router->GET("/links/:type/:id/:sort/:page", 'app\controllers\Links::getLinksV2');
 $router->POST("/d/:directory/new", 'app\controllers\Links::newLink', '\Authentication::requireAuth');
 $router->POST("/d/link/:id/edit", 'app\controllers\Links::editLink', '\Authentication::requireAuth');
 $router->POST("/d/link/:id/delete", 'app\controllers\Links::deleteLink', '\Authentication::requireAuth');

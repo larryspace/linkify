@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import Spinner from '../../components/Spinner';
 
 export default class Comment extends Component {
 
@@ -7,7 +8,8 @@ export default class Comment extends Component {
     renderItem: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    onLoadMoreClick: PropTypes.func.isRequired
+    canLoadMore: PropTypes.bool.isRequired,
+    onLoadMore: PropTypes.func.isRequired
   }
 
   render() {
@@ -15,12 +17,16 @@ export default class Comment extends Component {
     const {
       isFetching,
       items,
+      canLoadMore,
+      onLoadMore,
       renderItem
     } = this.props;
 
     return (
       <div>
         {items.map(renderItem)}
+        {isFetching && (<Spinner />)}
+        {canLoadMore && (<button onClick={ onLoadMore }>Load More...</button>)}
       </div>
     );
   }

@@ -27,13 +27,13 @@ export default class ProfileCard extends Component {
           <li>
             <Link to={'profile/links'}>
               <span className="profile-card-info-title">Links</span>
-              <span className="profile-card-info-value">22</span>
+              <span className="profile-card-info-value">0</span>
             </Link>
           </li>
           <li>
             <Link to={'profile/comments'}>
               <span className="profile-card-info-title">Comments</span>
-              <span className="profile-card-info-value">22</span>
+              <span className="profile-card-info-value">0</span>
             </Link>
           </li>
         </ul>

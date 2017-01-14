@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 
 import Container from '../../components/Container';
 import SubHeader from '../../components/SubHeader';
-import SubList from '../../components/SubList';
 import ModalForm from '../../components/ModalForm';
 import NewLinkForm from '../../components/Forms/NewLinkForm';
 import LinkItem from '../../components/Link';
 import Spinner from '../../components/Spinner';
 import NotFound from '../../components/NotFound';
 
+import LinksContainer from '../Controlled/Links';
+
 import { setPageInfo, submitForm, postNewLink, loadLinks, voteLink,
   loadDirectory, toggleLoginModal, subscribeDirectory
 } from '../../actions';
 
-class SubContainer extends Component {
+class DirectoryContainer extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -24,41 +25,26 @@ class SubContainer extends Component {
     formOpen: false,
   }
 
-  loadContent(directory, sort='hot'){
+  loadContent(directory){
     this.props.setPageInfo({ title: '', directory: directory });
-    this.props.loadDirectory({ directory })
-    .then( response => {
-      if(response && response.error){
-        return;
-      }
-
-      this.props.loadLinks({
-        directory,
-        sortBy: sort
-      }, true);
-    });
-
+    this.props.loadDirectory({ directory });
   }
 
   componentDidMount() {
     const {
-      directory,
-      sort = 'hot'
+      directory
     } = this.props.params;
 
-    this.loadContent(directory, sort);
+    this.loadContent(directory);
   }
 
   componentWillReceiveProps(nextProps){
     const {
-      directory,
-      sort = 'hot'
+      directory
     } = nextProps.params;
 
-    if(this.props.params.directory != directory || (this.props.params.sort || 'hot') !== sort
-    || this.props.user.id !== nextProps.user.id
-      ){
-      this.loadContent(directory, sort);
+    if(this.props.params.directory != directory || this.props.user.id !== nextProps.user.id){
+      this.loadContent(directory);
     }
   }
 
@@ -86,12 +72,6 @@ class SubContainer extends Component {
     this.setState({ formOpen: !this.state.formOpen});
   }
 
-  loadMore(){
-    this.props.loadLinks({
-      directory: this.props.params.directory,
-      sortBy: this.props.params.sort || 'hot'
-    });
-  }
 
   renderLink({ id, directory, title, url, score, comment_count, votes, image, upvoted, downvoted, username }){
     return (
@@ -154,19 +134,15 @@ class SubContainer extends Component {
          />
        )}
 
-      { this.props.loadingDirectory && (<div><Spinner />Loading directory...</div>)}
+      { this.props.loadingDirectory && (<Spinner />)}
       <Container>
-        { link && (<div></div>) ||
-        (
-          <SubList
-            items={ this.props.links }
-            renderItem={this.renderLink.bind(this)}
+        {directoryItem && (
+          <LinksContainer
+            id={ directoryItem.id }
+            type={ 'directory' }
+            sort={ sort || 'hot' }
           />
         )}
-
-         {this.props.loading && (<Spinner />) }
-
-       <button onClick={ this.loadMore.bind(this) }>Load More...</button>
       </Container>
       </div>
     );
@@ -177,18 +153,13 @@ const mapStateToProps = (state, ownProps) => {
 
   const {
     directory,
-    sort = 'hot'
   } = ownProps.params;
 
   const {
     collections: { subscribedDirectories },
-    paginations: { linksByDirectory },
-    entities: { links, directories, users },
+    entities: { directories, users },
     entity
   } = state;
-
-  const linksPagination = linksByDirectory[directory] || { ids: [] };
-  const linkList = linksPagination.ids.map(id => links[id]);
 
   const directoryItem = directories[directory];
 
@@ -196,8 +167,6 @@ const mapStateToProps = (state, ownProps) => {
     subscribedDirectoriesIds: subscribedDirectories.ids,
     user: users[state.Auth.user] || {},
     loadingDirectory: entity.directory.isFetching,
-    loading: linksPagination.isFetching,
-    links: linkList,
     directory: directoryItem,
     submitting: state.form.newLinkForm && state.form.newLinkForm.submitting
   }
@@ -209,10 +178,9 @@ export default connect(mapStateToProps,
     setPageInfo,
     submitForm,
     postNewLink,
-    loadLinks,
     voteLink,
     loadDirectory,
     toggleLoginModal,
     subscribeDirectory
   }
-)(SubContainer);
+)(DirectoryContainer);

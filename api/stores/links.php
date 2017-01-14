@@ -60,7 +60,7 @@ class Links
         return $links;
     }
 
-    static function getLinks($directoryId, $page, $sortBy){
+    static function getLinks($id, $type, $page, $sortBy){
         $user = \Authentication::getUser();
 
         $perPage = 10;
@@ -73,13 +73,19 @@ class Links
         ];
 
         $whereSql = '';
-        if($directoryId !== 'all'){
-            $whereSql = ' AND directory_id = :directory_id';
-            $values['directory_id'] = $directoryId;
+        if($id !== '1'){
+            switch($type){
+                case 'user':
+                $whereSql = ' AND links.user_id = :id';
+                break;
+                case 'directory':
+                $whereSql = ' AND links.directory_id = :id';
+                break;
+            }
+            $values['id'] = $id;
         }
 
-        $links = \Database::queryFetchAll("
-        SELECT
+        $links = \Database::queryFetchAll("SELECT
             links.id,
             links.title,
             links.url,

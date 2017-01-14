@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FontAwesome from 'react-fontawesome';
 
+import './Link.scss';
 
 export default class LinkItem extends Component {
 
@@ -36,7 +37,7 @@ export default class LinkItem extends Component {
     } = this.props;
 
     return (
-      <li className="sub-list-item">
+      <div className="sub-list-item">
         <div className="sub-list-vote">
           <button disabled={ upvoteDisabled } onClick={ onUpvote }><FontAwesome name="arrow-up"/></button>
           <span className="upvote-count">{ voteCount }</span>
@@ -52,7 +53,7 @@ export default class LinkItem extends Component {
           <span className="comments-count">{ commentCount }</span>
           <span className="comments-button">Comments</span>
         </Link>
-      </li>
+      </div>
     );
   }
 }

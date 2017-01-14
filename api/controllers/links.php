@@ -128,6 +128,19 @@ class Links
         return $links;
     }
 
+    static function getLinksV2($params){
+        $page = (int)$params['page'];
+        $id = $params['id'];
+        $sort = $params['sort'];
+        $type = $params['type'];
+
+        $sortBy = $sort === 'hot' ? 'score' : 'created_at';
+
+        $links = \app\stores\Links::getLinks($id, $type, $page, $sortBy);
+
+        return $links;
+    }
+
     static function voteLink($params, $user){
         if(!isset($params['id'])){
             throw new \ApiException('Did not get a link id', 400);
