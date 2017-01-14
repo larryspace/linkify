@@ -38,6 +38,8 @@ class Link extends VoteModel
         $this->description = '';
         $this->deleted = true;
         $this->author = null;
+        $this->title = '';
+        $this->url = '';
 
         return $this->_save([
             'description' => '',
