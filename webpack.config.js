@@ -35,7 +35,7 @@ const config = {
   context: sourcePath,
   entry: {
     app: './index.js',
-    vendor: ['react', 'react-dom', 'react-router', 'redux', 'react-redux']
+    vendor: ['react', 'react-dom', 'react-router', 'redux', 'react-redux', 'whatwg-fetch']
   },
   output: {
     path: staticsPath,
