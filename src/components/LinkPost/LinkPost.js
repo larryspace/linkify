@@ -51,7 +51,8 @@ export default class LinkPost extends Component {
       votes,
       upvoted,
       downvoted,
-      comment_count
+      comment_count,
+      deleted
     } = this.props.link;
 
     const {
@@ -66,15 +67,15 @@ export default class LinkPost extends Component {
     return (
       <Row className="linkpost">
         <Col xs="12" sm="3" lg="2" className="side">
-          <img src={ '/' + avatar } className="avatar" />
+          {!deleted && ( <img src={ '/' + avatar } className="avatar" /> )}
           <ul className="sidemenu">
             <li><Link to={`/u/${this.props.author.id}/${username}`}>{ username }</Link></li>
-            <li><button onClick={ onUpvote } disabled={ upvoted }><FontAwesome name="arrow-up" /></button></li>
+            <li><button onClick={ onUpvote } disabled={ deleted || upvoted }><FontAwesome name="arrow-up" /></button></li>
             <li>{ votes }</li>
-            <li><button onClick={ onDownvote } disabled={ downvoted }><FontAwesome name="arrow-down" /></button></li>
+            <li><button onClick={ onDownvote } disabled={ deleted || downvoted }><FontAwesome name="arrow-down" /></button></li>
             <li className="dropdown-divider"></li>
-            {owner && ( <li><button onClick={ this.toggleEditMode.bind(this) }>Edit</button></li> )}
-            {owner && ( <li><button onClick={ onDelete }>Remove</button></li> )}
+            {!deleted && owner && ( <li><button onClick={ this.toggleEditMode.bind(this) }>Edit</button></li> )}
+            {!deleted && owner && ( <li><button onClick={ onDelete }>Remove</button></li> )}
           </ul>
         </Col>
         <Col xs="12" sm="9" lg="10">
@@ -83,7 +84,8 @@ export default class LinkPost extends Component {
             <h3><a href={ url } target="_blank">{ title }</a></h3>
             <span className="post-time">{ created_at }</span>
             <div className="content">
-              { isEditMode && (
+              {deleted && (<span>Deleted...</span>)}
+              { !deleted && isEditMode && (
                 <EditLinkForm
                   onSubmit={ values => onEditSubmit(values).then(response => this.toggleEditMode())}
                   initialValues={{ description }}
