@@ -88,7 +88,7 @@ class LinksContainer extends Component {
         items={ this.props.links }
         renderItem={this.renderLink.bind(this)}
         isFetching={ this.props.isFetchingLinks }
-        canLoadMore={ true }
+        canFetchMore={ this.props.canFetchMoreLinks || false }
         onLoadMore={this.loadMore.bind(this)}
       />
       </Container>
@@ -115,6 +115,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     user: users[state.Auth.user] || {},
+    canFetchMoreLinks: linksPagination.canFetchMore,
     isFetchingLinks: linksPagination.isFetching || false,
     links: linkList,
   }

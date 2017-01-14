@@ -3,6 +3,7 @@ import union from 'lodash/union';
 
 const initialState = {
   isFetching: false,
+  canFetchMore: true,
   pageCount: 1,
   ids: []
 };
@@ -32,6 +33,7 @@ const paginate = ({ types, mapActionToKey }) => {
         return {
           ...state,
           isFetching: false,
+          canFetchMore: result.length > 0,
           ids: newIds,
           pageCount: state.pageCount + 1
         }
@@ -43,6 +45,7 @@ const paginate = ({ types, mapActionToKey }) => {
       case refreshType:
         return {
           ...state,
+          canFetchMore: true,
           ids: [],
           pageCount: 1
         }
