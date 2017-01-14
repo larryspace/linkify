@@ -17,7 +17,7 @@ Supposed to be a reddit clone
 - [x] As a user I should be able to upload a profile avatar.
 - [x] As a user I should be able to create new links with a title and description.
 - [x] As a user I should be able to edit my links.
-- [ ] As a user I should be able to delete my links.
+- [x] As a user I should be able to delete my links.
 - [x] As a user I should be able to up and down vote links.
 - [x] As a user I should be able to comment on a link.
 
