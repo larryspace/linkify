@@ -40,7 +40,7 @@ export default class Comment extends Component {
     const height = window.innerHeight;
     const scrollTop = document.body.scrollTop;
     const scrollHeight = this.refs.listWrapper.scrollHeight;
-    const threshold = 250;
+    const threshold = 200;
 
     const value = scrollTop - scrollHeight + height - topPosition(this.refs.listWrapper) + threshold;
 
