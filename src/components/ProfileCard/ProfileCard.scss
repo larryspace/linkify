@@ -1,15 +1,9 @@
-@import "~bootstrap/scss/bootstrap";
-
 .profile-card {
   position: relative;
   background: rgba(0,0,0,.09);
   margin-top: 130px;
   padding-top: 40px;
-  max-width: 220px;
   border: 1px solid rgba(0,0,0,.05);
-  @include media-breakpoint-down(sm) {
-    max-width: 100%;
-  }
 }
 
 .profile-card-pic{
