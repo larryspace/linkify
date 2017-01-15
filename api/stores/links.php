@@ -63,7 +63,7 @@ class Links
     static function getLinks($id, $type, $page, $sortBy){
         $user = \Authentication::getUser();
 
-        $perPage = 10;
+        $perPage = 15;
 
         $values = [
             'user_id' => $user->id ?? NULL,
