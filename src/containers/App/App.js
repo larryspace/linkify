@@ -96,6 +96,8 @@ class App extends Component {
             <NavigationDrawer
               defaultDirectories={this.props.defaultDirectories}
               subscribedDirectories={this.props.subscribedDirectories}
+              isFetchingSubscribedDirectories={this.props.isFetchingSubscribedDirectories}
+              isFetchingDefaultDirectories={this.props.isFetchingDefaultDirectories}
               fixed={this.state.fixedDrawer}
               open={this.state.navOpen}
               onClose={this.toggleDrawer.bind(this)}
@@ -141,8 +143,9 @@ const mapStateToProps = (state, ownProps) => {
     user: users[state.Auth.user] || {},
     isAuthenticated: state.Auth.isAuthenticated,
     isAuthenticating: state.Auth.isAuthenticating,
-    isLoadingDefaultDirs: defaultDirectories.isFetching,
+    isFetchingDefaultDirectories: defaultDirectories.isFetching || false,
     defaultDirectories: defaultDirs,
+    isFetchingSubscribedDirectories: subscribedDirectories.isFetching || false,
     subscribedDirectories: subscribedDirs
   };
 }

@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { ListGroup, ListGroupItem, Tag } from 'reactstrap';
 
+import List from '../List';
+
 import './navigation.scss';
 
 export default class NavigationDrawer extends Component {
@@ -9,7 +11,9 @@ export default class NavigationDrawer extends Component {
   static propTypes = {
     fixed: PropTypes.bool,
     open: PropTypes.bool,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    isFetchingSubscribedDirectories: PropTypes.bool,
+    isFetchingDefaultDirectories: PropTypes.bool
   }
 
   renderLink({ name }){
@@ -22,9 +26,21 @@ export default class NavigationDrawer extends Component {
       <h2><Link to={'/'}>Linkify</Link></h2>
       <ul className="list-group">
         <li className="sub-header dropdown-header">Default Subs</li>
-        { this.props.defaultDirectories.map(this.renderLink) }
+        <List
+          items={ this.props.defaultDirectories }
+          renderItem={ this.renderLink }
+          isFetching={ this.props.isFetchingDefaultDirectories }
+          canFetchMore={ false }
+          onLoadMore={()=>{}}
+        />
         <li className="sub-header dropdown-header">Subscribed</li>
-        { this.props.subscribedDirectories.map(this.renderLink) }
+        <List
+          items={ this.props.subscribedDirectories }
+          renderItem={ this.renderLink }
+          isFetching={ this.props.isFetchingSubscribedDirectories }
+          canFetchMore={ false }
+          onLoadMore={()=>{}}
+        />
       </ul>
       </aside>
     );
