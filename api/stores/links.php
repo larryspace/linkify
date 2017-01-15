@@ -20,8 +20,7 @@ class Links
     static function get($id){
         $user = \Authentication::getUser();
 
-        $links = \Database::queryFetch('
-        SELECT
+        $links = \Database::queryFetch('SELECT
             links.id,
             links.title,
             links.url,
