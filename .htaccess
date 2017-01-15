@@ -1,6 +1,10 @@
 RewriteEngine On
 RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
-RewriteRule ^api/(.*)$ api/index.php [L,QSA]
-RewriteRule ^uploads/(.*)$ ./api/uploads/$1 [L,QSA]
-RewriteRule favicon.ico dist/favicon.ico [L]
-RewriteRule ^(.*)$ dist/index.html [L]
+RewriteRule ^uploads/(.*)$ api/uploads/$1 [L]
+
+RewriteCond %{REQUEST_URI} !^/api/uploads/
+RewriteRule ^api/(.*)$ api/index.php [L]
+
+RewriteCond %{REQUEST_URI} !^/api/uploads/
+RewriteCond %{REQUEST_URI} !^/dist/assets
+RewriteRule ^ dist/index.html [L]
