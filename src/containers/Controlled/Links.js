@@ -83,7 +83,6 @@ class LinksContainer extends Component {
 
   render() {
     return (
-      <Container>
       <List
         items={ this.props.links }
         renderItem={this.renderLink.bind(this)}
@@ -91,7 +90,6 @@ class LinksContainer extends Component {
         canFetchMore={ this.props.canFetchMoreLinks || false }
         onLoadMore={this.loadMore.bind(this)}
       />
-      </Container>
     );
   }
 }
