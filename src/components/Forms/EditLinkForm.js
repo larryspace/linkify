@@ -26,10 +26,8 @@ class EditLinkForm extends Component {
     return (
       <Form onSubmit={handleSubmit}>
         <Field
-          icon="user"
           name="description"
           type="textarea"
-          label=""
           component={renderField}
           validate={[ required ]}
         />

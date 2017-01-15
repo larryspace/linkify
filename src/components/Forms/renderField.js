@@ -21,8 +21,10 @@ export default ({ input, label, name, type, icon, onChange, meta: { touched, err
   if(type === 'textarea'){
     return (
       <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
+        {label && (<Label for={name} sm={2}>{label}</Label>)}
         <Col sm={10}>
           <InputGroup>
+            {icon && <InputGroupAddon><FontAwesome name={icon} /></InputGroupAddon>}
             <Input {...input} type={type} placeholder={label} />
           </InputGroup>
 
