@@ -11,9 +11,9 @@ export default class NestedList extends Component {
     onLoadMoreClick: PropTypes.func.isRequired
   }
 
-  renderItem(item, items, renderItem){
-    const children = items.filter(subItem => subItem.parent_id===item.id).map(subItem => this.renderItem(subItem, items, renderItem));
-    return renderItem(item, children);
+  renderItem(item, items, renderItem, level){
+    const children = items.filter(subItem => subItem.parent_id===item.id).map(subItem => this.renderItem(subItem, items, renderItem, level+1));
+    return renderItem(item, children, level);
   }
 
   render() {
@@ -26,7 +26,7 @@ export default class NestedList extends Component {
 
     return (
       <div>
-        {items.filter(item => !item.parent_id).map(subItem => this.renderItem(subItem, items, renderItem))}
+        {items.filter(item => !item.parent_id).map(subItem => this.renderItem(subItem, items, renderItem, 1))}
         {isFetching && (<Spinner />)}
       </div>
     );

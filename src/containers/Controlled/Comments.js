@@ -35,7 +35,7 @@ class CommentsContainer extends Component {
     }
   }
 
-  renderComment({ id, author, content, votes, upvoted, downvoted, created_at, deleted }, children){
+  renderComment({ id, author, content, votes, upvoted, downvoted, created_at, deleted }, children, level){
 
     author = this.props.users[author] || {};
 
@@ -50,6 +50,7 @@ class CommentsContainer extends Component {
     return (
         <Comment key={id}
           id={ id }
+          level={ level }
           deleted={ deleted }
           author_id={ author.id }
           author={ author.username }

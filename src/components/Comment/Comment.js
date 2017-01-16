@@ -10,6 +10,7 @@ import './Comment.scss';
 export default class Comment extends Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
+    level: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
     author_id: PropTypes.number,
@@ -52,6 +53,7 @@ export default class Comment extends Component {
 
     const {
       id,
+      level,
       content,
       created_at,
       author_id,
@@ -71,7 +73,7 @@ export default class Comment extends Component {
     } = this.props;
 
     return (
-      <Media className="comment">
+      <Media className={'comment' + (level % 2 == 0 ? ' odd' : '') + (level > 3 ? ' normalize' : '') }>
         <Media left top href={!deleted && '#'} tag={deleted ? 'div' : 'a'} className="comment-image">
           {(deleted && (<div className="media-object"></div>)) || (<Media object src={avatar} alt="Profile Picture" />)}
         </Media>

@@ -1,27 +1,37 @@
 .comment{
-  background: rgba(0,0,0,0.05);
-}
+  background: #FFF;
+  border-top: 1px solid #888;
 
-.comment > .comment-image{
-  & .media-object{
-    width: 64px;
-    height: 64px;
+
+  &.odd{
+    background: #EEE;
   }
-}
 
-.comment > .comment-body{
-  padding: 5px 2px;
-}
+  &.normalize{
+    margin-left: -67px;
+  }
 
-.comment .comment-heading{
-  font-size: 15px;
-  margin: 0;
-  padding: 0 0 2px 0;
-  border-bottom: 1px solid #CCC;
-}
+  .comment-image{
+    & .media-object{
+      width: 64px;
+      height: 64px;
+    }
+  }
 
-.comment .comment-content{
-  font-size: 14px;
-  padding: 2px;
-  min-height: 50px;
+  .comment-body{
+    padding: 5px 0 0 2px;
+  }
+
+  .comment-heading{
+    font-size: 15px;
+    margin: 0;
+    padding: 0 0 2px 0;
+    border-bottom: 1px solid #CCC;
+  }
+
+  .comment-content{
+    font-size: 14px;
+    padding: 2px;
+    min-height: 50px;
+  }
 }

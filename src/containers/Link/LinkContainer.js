@@ -80,7 +80,6 @@ class LinkContainer extends Component {
       />
 
       <Container>
-
         {this.props.loadingLink && (<Spinner />) || (
           <LinkPost
             onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
@@ -103,7 +102,6 @@ class LinkContainer extends Component {
           <CommentsContainer id={id} />
         )}
         </Container>
-
       </div>
     );
   }

@@ -4,13 +4,13 @@ import { Form, Input, FormGroup, Col, Label,
 
 import FontAwesome from 'react-fontawesome';
 
-export default ({ input, label, name, type, icon, onChange, meta: { touched, error, warning } }) => {
+export default ({ input, label, name, type, icon, onChangeValue, meta: { touched, error, warning } }) => {
   if(type === 'file'){
     return (
       <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
         <Label for={name} sm={2}>{label}</Label>
         <Col sm={10}>
-            <Input {...input} type={type} onChange={event => {onChange(event); input.onChange(event);}} placeholder={label} />
+            <Input {...input} type={type} onChange={event => {onChangeValue(event); input.onChange(event);}} placeholder={label} />
 
           {touched && ((error && <FormFeedback>{error}</FormFeedback>) || (warning && <FormFeedback>{warning}</FormFeedback>))}
         </Col>

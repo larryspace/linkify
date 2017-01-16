@@ -47,7 +47,7 @@ class AvatarSettings extends Component {
           name="avatar"
           type="file"
           label="Avatar (Max 5MB)"
-          onChange={this.onChangeFile.bind(this)}
+          onChangeValue={this.onChangeFile.bind(this)}
           component={renderField}
           validate={[ required, fileType('image') ]}
         />
