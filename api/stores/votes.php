@@ -1,7 +1,6 @@
 <?php
 namespace app\stores;
 
-
 /**
  *
  */
@@ -10,7 +9,8 @@ class Votes
     const LINK = 0;
     const COMMENT = 1;
 
-    static function get($type, $id, $userId){
+    public static function get($type, $id, $userId)
+    {
         return \Database::fetch('votes', [
             'type',
             'vote',
@@ -23,7 +23,8 @@ class Votes
         ], '\app\models\Vote');
     }
 
-    static function create($type, $id, $userId, $vote){
+    public static function create($type, $id, $userId, $vote)
+    {
         return \Database::create('votes', [
             'type' => $type,
             'vote' => $vote,

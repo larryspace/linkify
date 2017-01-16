@@ -2,14 +2,15 @@
 namespace app\models;
 
 use app\Model;
+
 /**
  *
  */
 class Comment extends VoteModel
 {
-    static $table = "comments";
+    public static $table = "comments";
 
-    function __construct()
+    public function __construct()
     {
         $this->author = \app\stores\User::fetch($this->user_id, [
             'id',
@@ -22,7 +23,8 @@ class Comment extends VoteModel
         $this->deleted = $this->deleted ? true : false;
     }
 
-    function delete(){
+    public function delete()
+    {
         $this->deleted = true;
         $this->content = '';
         $this->author = null;
@@ -34,14 +36,16 @@ class Comment extends VoteModel
         ]);
     }
 
-    function updateContent($content){
+    public function updateContent($content)
+    {
         $this->content = $content;
         return $this->_save([
             'content' => $content
         ]);
     }
 
-    function get(){
+    public function get()
+    {
         return [
             'id' => $this->id,
             'content' => $this->content,

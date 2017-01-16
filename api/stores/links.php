@@ -1,13 +1,13 @@
 <?php
 namespace app\stores;
 
-
 /**
  *
  */
 class Links
 {
-    static function add($directoryId, $userId, $title, $url, $description, $image = NULL){
+    public static function add($directoryId, $userId, $title, $url, $description, $image = null)
+    {
         return \Database::create('links', [
             'directory_id' => $directoryId,
             'user_id' => $userId,
@@ -17,7 +17,8 @@ class Links
             'image' => $image]);
     }
 
-    static function get($id){
+    public static function get($id)
+    {
         $user = \Authentication::getUser();
 
         $links = \Database::queryFetch('SELECT
@@ -51,7 +52,7 @@ class Links
         WHERE links.id = :id
         ', [
             'id' => $id,
-            'user_id' => $user->id ?? NULL,
+            'user_id' => $user->id ?? null,
             'type' => 0,
         ], '\app\models\Link');
 
@@ -59,21 +60,22 @@ class Links
         return $links;
     }
 
-    static function getLinks($id, $type, $page, $sortBy){
+    public static function getLinks($id, $type, $page, $sortBy)
+    {
         $user = \Authentication::getUser();
 
         $perPage = 15;
 
         $values = [
-            'user_id' => $user->id ?? NULL,
+            'user_id' => $user->id ?? null,
             'type' => 0,
             'start_index' => 0 + ($page - 1) * $perPage,
             'end_index' => $perPage
         ];
 
         $whereSql = '';
-        if($id !== '1'){
-            switch($type){
+        if ($id !== '1') {
+            switch ($type) {
                 case 'user':
                 $whereSql = ' AND links.user_id = :id';
                 break;

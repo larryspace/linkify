@@ -4,7 +4,7 @@
  */
 class Store
 {
-    static function fetch(){
-
+    public static function fetch()
+    {
     }
 }

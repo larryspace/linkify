@@ -128,12 +128,13 @@ class miniRoute
         ]);
     }
 
-    public function error($status, $message, $response = []){
+    public function error($status, $message, $response = [])
+    {
         header("Access-Control-Allow-Origin: *");
         header('Content-Type: application/json');
         http_response_code($status);
 
-        if(!$response){
+        if (!$response) {
             $response['_error'] = $message;
         }
 
@@ -185,12 +186,12 @@ class miniRoute
 
                       //call middle predefined middleware method if it exists
                     if (is_callable($funcs['middleware'])) {
-                      $middleware = call_user_func($funcs['middleware'], $matches);
+                        $middleware = call_user_func($funcs['middleware'], $matches);
                     }
 
                     //call the method defined for the path if it exists
                     if (is_callable($funcs['method'])) {
-                      $response = call_user_func_array($funcs['method'], [$matches, $middleware]);
+                        $response = call_user_func_array($funcs['method'], [$matches, $middleware]);
                     }
 
                     $this->output($response);

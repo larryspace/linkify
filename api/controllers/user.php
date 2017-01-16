@@ -6,15 +6,16 @@ namespace app\controllers;
  */
 class User
 {
-
-    static function getUserAuthInfo($params, $user){
+    public static function getUserAuthInfo($params, $user)
+    {
         return [
             'id' => $user->id,
             'user' => $user
         ];
     }
 
-    static function getUserInfo($params){
+    public static function getUserInfo($params)
+    {
         $id = (int)$params['id'];
 
         $user = \app\stores\User::fetch($id, [
@@ -22,7 +23,7 @@ class User
             'avatar'
         ]);
 
-        if(!$user){
+        if (!$user) {
             throw new \ApiException('User does not exist', 400);
         }
 
@@ -32,12 +33,14 @@ class User
             'avatar' => $user->avatar
         ];
     }
-    static function logout($params, $user){
+    public static function logout($params, $user)
+    {
         $token = \Authentication::getToken();
         $token->_delete();
     }
 
-    static function register(){
+    public static function register()
+    {
         $postBody = get_json_body(true);
 
         $errors = \FormValidator::validate($postBody,
@@ -47,7 +50,7 @@ class User
               'username' => 'required|string|unique:users.username'
           ]);
 
-        if($errors){
+        if ($errors) {
             throw new \ApiException('FormError', 400, $errors);
         }
 
@@ -64,7 +67,8 @@ class User
         return;
     }
 
-    static function login(){
+    public static function login()
+    {
         $postBody = get_json_body(true);
 
         $errors = \FormValidator::validate($postBody,
@@ -73,7 +77,7 @@ class User
               'password' => 'required|password'
           ]);
 
-        if($errors){
+        if ($errors) {
             throw new \ApiException('FormError', 400, $errors);
         }
 
@@ -82,7 +86,7 @@ class User
 
         try {
             $token = \Authentication::login($username, $password);
-            if(!$token){
+            if (!$token) {
                 throw new \ApiException('Couldn\'t login for some reason', 400);
             }
 
@@ -93,13 +97,10 @@ class User
                 'user' => $user,
                 'token' => $token->toString()
             ];
-
         } catch (\ApiException $e) {
             throw new \ApiException('FormError', 400, ['_error' => 'Wrong username or password']);
         } catch (Exception $e) {
             throw new \ApiException('Couldn\'t login for some reason', 400);
         }
-
-
     }
 }

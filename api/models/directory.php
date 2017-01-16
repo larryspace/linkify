@@ -2,14 +2,15 @@
 namespace app\models;
 
 use app\Model;
+
 /**
  *
  */
 class Directory extends Model
 {
-    static $table = "directories";
+    public static $table = "directories";
 
-    function __construct()
+    public function __construct()
     {
         $this->subscribed = false;
     }

@@ -6,37 +6,40 @@ namespace app\controllers;
  */
 class Directory
 {
-
-    static function getDefault($params){
+    public static function getDefault($params)
+    {
         $directories = \app\stores\Directory::getDefault();
         return $directories;
     }
 
-    static function getSubscribed($params, $user){
+    public static function getSubscribed($params, $user)
+    {
         $directories = \app\stores\Directory::getSubscribed($user->id);
         return $directories;
     }
 
-    static function getDirectory($params){
+    public static function getDirectory($params)
+    {
         $directory = \app\stores\Directory::getDirectory($params['directory']);
 
-        if(!$directory){
+        if (!$directory) {
             throw new \ApiException('NotFound', 404, ['_error' => 'Directory "' . $params['directory'] . '" doesn\'t exist']);
         }
 
         return $directory;
     }
 
-    static function subscribe($params, $user){
+    public static function subscribe($params, $user)
+    {
         $directory = $params['directory'];
 
         $directory = \app\stores\Directory::getDirectory($params['directory']);
-        if(!$directory){
+        if (!$directory) {
             throw new \ApiException('NotFound', 404);
         }
 
         $subscription = \app\stores\Subscriptions::get($directory->id, $user->id);
-        if($subscription){
+        if ($subscription) {
             throw new \ApiException('You are already subscribed to this directory', 400);
         }
 
@@ -45,16 +48,17 @@ class Directory
         return ['name' => $directory->name];
     }
 
-    static function unsubscribe($params, $user){
+    public static function unsubscribe($params, $user)
+    {
         $directory = $params['directory'];
 
         $directory = \app\stores\Directory::getDirectory($params['directory']);
-        if(!$directory){
+        if (!$directory) {
             throw new \ApiException('NotFound', 404);
         }
 
         $subscription = \app\stores\Subscriptions::get($directory->id, $user->id);
-        if(!$subscription){
+        if (!$subscription) {
             throw new \ApiException('You can\'t unsubscribe to a directory you\'re not subscribed to', 400);
         }
 

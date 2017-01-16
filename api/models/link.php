@@ -2,15 +2,16 @@
 namespace app\models;
 
 use app\Model;
+
 /**
  *
  */
 class Link extends VoteModel
 {
-    static $table = "links";
+    public static $table = "links";
 
 
-    function __construct()
+    public function __construct()
     {
         $this->directory = strtolower($this->directory);
         $this->upvoted = $this->upvoted ? true : false;
@@ -20,21 +21,23 @@ class Link extends VoteModel
             'avatar'
         ]);
 
-        if($this->deleted){
+        if ($this->deleted) {
             $this->deleted = true;
-        }else{
+        } else {
             unset($this->deleted);
         }
     }
 
-    function updateDescription($description){
+    public function updateDescription($description)
+    {
         $this->description = $description;
         return $this->_save([
             'description' => $description
         ]);
     }
 
-    function delete(){
+    public function delete()
+    {
         $this->description = '';
         $this->deleted = true;
         $this->author = null;
@@ -50,8 +53,9 @@ class Link extends VoteModel
         ]);
     }
 
-    function increaseCommentCount(){
-        if($this->comment_count){
+    public function increaseCommentCount()
+    {
+        if ($this->comment_count) {
             $this->comment_count++;
         }
 

@@ -2,17 +2,19 @@
 namespace app\models;
 
 use app\Model;
+
 /**
  *
  */
 class VoteModel extends Model
 {
-    function addVote($vote){
-        if($vote === 1){
+    public function addVote($vote)
+    {
+        if ($vote === 1) {
             $this->upvoted = true;
             $this->votes++;
             $type = 'upvotes';
-        }else{
+        } else {
             $this->downvoted = true;
             $this->votes--;
             $type = 'downvotes';
@@ -33,14 +35,15 @@ class VoteModel extends Model
         }
     }
 
-    function changeVote($newVote){
-        if($newVote === 1){
+    public function changeVote($newVote)
+    {
+        if ($newVote === 1) {
             $this->upvoted = true;
             $this->downvoted = false;
             $this->votes += 2;
             $addVote = 'upvotes';
             $reduceVote = 'downvotes';
-        }else{
+        } else {
             $this->upvoted = false;
             $this->downvoted = true;
             $this->votes -= 2;
@@ -64,5 +67,4 @@ class VoteModel extends Model
             throw new \ApiException('Could not vote', 400);
         }
     }
-
 }

@@ -6,9 +6,10 @@ namespace app\stores;
  */
 class Comments
 {
-    static $users = [];
+    public static $users = [];
 
-    static function add($linkId, $userId, $parentId, $content){
+    public static function add($linkId, $userId, $parentId, $content)
+    {
         return \Database::create('comments', [
             'link_id' => $linkId,
             'user_id' => $userId,
@@ -17,7 +18,8 @@ class Comments
         ]);
     }
 
-    static function get($id){
+    public static function get($id)
+    {
         $user = \Authentication::getUser();
 
         $comment = \Database::queryFetch('
@@ -43,20 +45,21 @@ class Comments
         WHERE comments.id = :id
         ', [
             'id' => $id,
-            'user_id' => $user->id ?? NULL,
+            'user_id' => $user->id ?? null,
             'type' => 1,
         ], '\app\models\Comment');
 
         return $comment;
     }
 
-    static function getComments($linkId, $page, $sortBy){
+    public static function getComments($linkId, $page, $sortBy)
+    {
         $user = \Authentication::getUser();
 
         $perPage = 10;
 
         $values = [
-            'user_id' => $user->id ?? NULL,
+            'user_id' => $user->id ?? null,
             'type' => 1,
             'link_id' => $linkId,
             //'start_index' => 0 + ($page - 1) * $perPage,

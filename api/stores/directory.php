@@ -1,16 +1,15 @@
 <?php
 namespace app\stores;
 
-
 /**
  *
  */
 class Directory
 {
+    public static $model = "\app\models\Directory";
 
-    static $model = "\app\models\Directory";
-
-    static function getDefault(){
+    public static function getDefault()
+    {
         return \Database::fetchAll('directories', [
             'name',
             'description',
@@ -21,7 +20,8 @@ class Directory
         ], ['default' => true], self::$model);
     }
 
-    static function getSubscribed($userId){
+    public static function getSubscribed($userId)
+    {
         $sql = "
             SELECT
                 directories.id,
@@ -43,7 +43,8 @@ class Directory
         return $directories;
     }
 
-    static function getDirectory($name){
+    public static function getDirectory($name)
+    {
         return \Database::fetch('directories', [
             'name',
             'description',

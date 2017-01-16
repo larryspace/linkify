@@ -6,10 +6,10 @@ namespace app\stores;
  */
 class Subscriptions
 {
+    public static $model = "\app\models\Subscription";
 
-    static $model = "\app\models\Subscription";
-
-    static function get($directoryId, $userId){
+    public static function get($directoryId, $userId)
+    {
         return \Database::fetch('subscriptions', [
             'directory_id',
             'user_id'
@@ -19,7 +19,8 @@ class Subscriptions
         ], self::$model);
     }
 
-    static function create($directoryId, $userId){
+    public static function create($directoryId, $userId)
+    {
         return \Database::create('subscriptions', [
             'directory_id' => $directoryId,
             'user_id' => $userId

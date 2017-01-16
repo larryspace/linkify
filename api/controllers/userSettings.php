@@ -6,9 +6,9 @@ namespace app\controllers;
  */
 class UserSettings
 {
-
-    static function updateAvatar($params, $user){
-        if(!isset($_FILES['avatar'])){
+    public static function updateAvatar($params, $user)
+    {
+        if (!isset($_FILES['avatar'])) {
             throw new \ApiException('FormError', 400, ['avatar' => 'No Avatar']);
         }
 
@@ -18,7 +18,7 @@ class UserSettings
         $error = $_FILES['avatar']['error'];
         $size = $_FILES['avatar']['size'];
 
-        if($_FILES['avatar']['error'] > 0){
+        if ($_FILES['avatar']['error'] > 0) {
             switch ($_FILES['avatar']['error']) {
                 case UPLOAD_ERR_OK:
                     break;
@@ -32,7 +32,7 @@ class UserSettings
             }
         }
 
-        if($size > 1024 * 1024 * 5) {
+        if ($size > 1024 * 1024 * 5) {
             //throw new \ApiException('FormError', 400, ['avatar' => 'Max filesize 5MB']);
         }
 
@@ -45,7 +45,7 @@ class UserSettings
             'image/gif' => 'gif'
         ];
 
-        if(!isset($fileTypes[$mime])){
+        if (!isset($fileTypes[$mime])) {
             throw new \ApiException('FormError', 400, ['avatar' => 'Invalid file type']);
         }
 
@@ -58,7 +58,7 @@ class UserSettings
 
         move_uploaded_file($_FILES['avatar']['tmp_name'], $newPath);
 
-        if($user->avatar){
+        if ($user->avatar) {
             unlink($user->avatar);
         }
 
@@ -70,7 +70,8 @@ class UserSettings
         ];
     }
 
-    static function updateInfo($params, $user){
+    public static function updateInfo($params, $user)
+    {
         $postBody = get_json_body(true);
 
         $errors = \FormValidator::validate($postBody,
@@ -81,7 +82,7 @@ class UserSettings
               'last_name' => 'required|string:3,30'
           ]);
 
-        if($errors){
+        if ($errors) {
             throw new \ApiException('FormError', 400, $errors);
         }
 
@@ -102,7 +103,8 @@ class UserSettings
         ];
     }
 
-    static function updatePassword($params, $user){
+    public static function updatePassword($params, $user)
+    {
         $postBody = get_json_body(true);
 
         $userPw = \app\stores\User::fetch($user->id, ['password']);
@@ -113,7 +115,7 @@ class UserSettings
               'new_password' => 'required|password'
           ]);
 
-        if($errors){
+        if ($errors) {
             throw new \ApiException('FormError', 400, $errors);
         }
 
