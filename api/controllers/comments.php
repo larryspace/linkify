@@ -69,7 +69,7 @@ class Comments
             $vote = \app\stores\Votes::create(\app\stores\Votes::COMMENT, $id, $user->id, $voteOption);
             if ($vote) {
                 $comment->addVote($voteOption);
-                $link->author->addTo('karma', $link->upvoted ? 1 : -1);
+                $comment->author->addTo('karma', $comment->upvoted ? 1 : -1);
             }
         } else {
             if ($vote->vote === $voteOption) {
@@ -77,7 +77,7 @@ class Comments
             } else {
                 $comment->changeVote($voteOption);
                 $vote->updateVote($voteOption);
-                $link->author->addTo('karma', $link->upvoted ? 2 : -2);
+                $comment->author->addTo('karma', $comment->upvoted ? 2 : -2);
             }
         }
 
