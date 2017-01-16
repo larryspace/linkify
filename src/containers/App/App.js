@@ -8,24 +8,24 @@ import { connect } from 'react-redux';
 
 import { authUser, logoutUser, getDefaultDirectories, toggleLoginModal, getSubscribedDirectories } from '../../actions';
 
-import LoginContainer from './../Login';
-import RegisterContainer from './../Register';
-import ProfileContainer from './../Profile';
-import AccountContainer from './../Account';
-import DirectoryContainer from './../Directory';
-import LinkContainer from './../Link';
+import LoginContainer from 'linkify/containers/Login';
+import RegisterContainer from 'linkify/containers/Register';
+import ProfileContainer from 'linkify/containers/Profile';
+import AccountContainer from 'linkify/containers/Account';
+import DirectoryContainer from 'linkify/containers/Directory';
+import LinkContainer from 'linkify/containers/Link';
 
-import LoginModal from './../LoginModal';
+import LoginModal from 'linkify/containers/LoginModal';
 
-import Home from '../../components/Home';
-import NotFound from '../../components/NotFound';
+import Home from 'linkify/components/Home';
+import NotFound from 'linkify/components/NotFound';
 
-import NavigationDrawer from '../../components/Navigation';
-import Container from '../../components/Container';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Spinner from '../../components/Spinner';
-import CookieConsent from '../../components/CookieConsent';
+import NavigationDrawer from 'linkify/components/Navigation';
+import Container from 'linkify/components/Container';
+import Header from 'linkify/components/Header';
+import Footer from 'linkify/components/Footer';
+import Spinner from 'linkify/components/Spinner';
+import CookieConsent from 'linkify/components/CookieConsent';
 
 const MatchWhenAuthorized = ({ component: Component, ...rest }) => (
   <Match {...rest} render={props => (

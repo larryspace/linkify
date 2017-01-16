@@ -75,7 +75,10 @@ const config = {
     modules: [
       path.resolve(__dirname, 'node_modules'),
       sourcePath
-    ]
+    ],
+    alias: {
+      linkify: path.resolve(__dirname, 'src')
+    }
   },
   plugins
 };
