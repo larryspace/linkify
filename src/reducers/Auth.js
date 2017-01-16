@@ -1,7 +1,7 @@
 import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   AUTH_USER_REQUEST, AUTH_USER_SUCCESS, AUTH_USER_FAILURE,
-  LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS
+  LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -44,16 +44,21 @@ export default function Auth(state = initialState, action) {
         isAuthenticating: false,
         error: action.error
       }
-/*
+
     case LOGOUT_USER_REQUEST:
-      return {
-        ...initialState
-      }*/
+      return { ...state,
+        isAuthenticating: true
+      }
 
     case LOGOUT_USER_SUCCESS:
       localStorage.removeItem('token');
       return {
         ...initialState
+      }
+
+    case LOGOUT_USER_FAILURE:
+      return { ...state,
+        isAuthenticating: false
       }
     default:
       return state

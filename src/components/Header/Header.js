@@ -1,6 +1,6 @@
 import './header.scss';
 import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import FontAwesome from 'react-fontawesome';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink,
@@ -12,6 +12,7 @@ class Header extends Component {
   static propTypes = {
     onLoginClick: PropTypes.func.isRequired,
     onLogoutClick: PropTypes.func.isRequired,
+    isAuthenticating: PropTypes.bool,
     avatar: PropTypes.string,
     name: PropTypes.string,
     userId: PropTypes.number
@@ -55,6 +56,13 @@ class Header extends Component {
 
   renderDropdownMenu(){
 
+    const {
+      avatar,
+      name,
+      userId,
+      isAuthenticating
+    } = this.props;
+
     const accountMenu = [
       ['/account/settings', 'Account Info'],
       ['/account/avatar', 'Avatar'],
@@ -64,16 +72,16 @@ class Header extends Component {
     return (
     <NavDropdown className="float-right" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown.bind(this)}>
       <DropdownToggle nav className="account-menu-toggler nav-link dropdown-toggle account-dropdown-button">
-        {this.props.avatar && (
-          <img src={'/' + this.props.avatar} className="account-dropdown-image" />
+        {avatar && (
+          <img src={'/' + avatar} className="account-dropdown-image" />
         ) ||
         (
           <FontAwesome name="user" className="account-dropdown-image default" />
         )}
-        { this.props.name }
+        { name }
       </DropdownToggle>
       <DropdownMenu right>
-        <Link to={'/u/' + this.props.userId + '/' + this.props.name.toLowerCase()} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
+        <Link to={'/u/' + userId + '/' + name.toLowerCase()} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>Profile</Link>
         <DropdownItem header>Settings</DropdownItem>
         {accountMenu.map(item => (
           <Link key={item[0]} to={item[0]} className="dropdown-item" onClick={this.toggleDropdown.bind(this)}>{item[1]}</Link>
@@ -84,18 +92,35 @@ class Header extends Component {
     </NavDropdown>);
   }
 
+  renderSpinner(){
+    return (<FontAwesome
+          name='circle-o-notch'
+          spin
+          style={{ fontSize: '38px', color: '#CCC', textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+        />);
+  }
+
   render() {
+
+    const {
+      onHamburgerClick,
+      isAuthenticated,
+      isAuthenticating,
+      title
+    } = this.props;
+
     return (
       <header>
         <nav className="app-navbar navbar-inverse navbar-toggleable bg-inverse navbar-full">
-            <button className="navbar-toggler float-left" type="button" onClick={this.props.onHamburgerClick}>
+            <button className="navbar-toggler float-left" type="button" onClick={ onHamburgerClick }>
               <span className="navbar-toggler-icon"></span>
             </button>
-            <span className="navbar-brand">{ this.props.title }</span>
+            <span className="navbar-brand">{ title }</span>
             <Nav navbar className="float-right">
-              {this.props.isAuthenticated && this.renderDropdownMenu()}
-              {!this.props.isAuthenticated && this.renderRegisterButton()}
-              {!this.props.isAuthenticated && this.renderLoginButton()}
+              {!isAuthenticating && isAuthenticated && this.renderDropdownMenu()}
+              {!isAuthenticating && !isAuthenticated  && this.renderRegisterButton()}
+              {!isAuthenticating && !isAuthenticated && this.renderLoginButton()}
+              {isAuthenticating && this.renderSpinner()}
             </Nav>
           </nav>
         </header>
