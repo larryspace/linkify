@@ -32,7 +32,7 @@ class DirectoryContainer extends Component {
 
   componentDidMount() {
     const {
-      directory
+      directory = 'all'
     } = this.props.params;
 
     this.loadContent(directory);
@@ -44,7 +44,7 @@ class DirectoryContainer extends Component {
     } = nextProps.params;
 
     if(this.props.params.directory != directory || this.props.user.id !== nextProps.user.id){
-      this.loadContent(directory);
+      this.loadContent(directory || 'all');
     }
   }
 
@@ -152,7 +152,7 @@ class DirectoryContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
 
   const {
-    directory,
+    directory = 'all',
   } = ownProps.params;
 
   const {

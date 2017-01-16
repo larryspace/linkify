@@ -87,40 +87,60 @@ class App extends Component {
 
   render() {
 
+    const {
+      defaultDirectories,
+      subscribedDirectories,
+      isFetchingSubscribedDirectories,
+      isFetchingDefaultDirectories,
+      title,
+      userInfo,
+      isAuthenticated,
+      isAuthenticating,
+      toggleLoginModal,
+      logoutUser,
+      user
+    } = this.props;
+
+    const {
+      cookieConsentOpen,
+      fixedDrawer,
+      navOpen
+    } = this.state;
 
     return (
       <BrowserRouter>
           <app>
             <LoginModal />
-            <CookieConsent show={ this.state.cookieConsentOpen } onClose={ this.closeCookieConsent.bind(this) } />
+            <CookieConsent show={ cookieConsentOpen } onClose={ this.closeCookieConsent.bind(this) } />
             <NavigationDrawer
-              defaultDirectories={this.props.defaultDirectories}
-              subscribedDirectories={this.props.subscribedDirectories}
-              isFetchingSubscribedDirectories={this.props.isFetchingSubscribedDirectories}
-              isFetchingDefaultDirectories={this.props.isFetchingDefaultDirectories}
-              fixed={this.state.fixedDrawer}
-              open={this.state.navOpen}
+              defaultDirectories={ defaultDirectories }
+              subscribedDirectories={ subscribedDirectories }
+              isFetchingSubscribedDirectories={ isFetchingSubscribedDirectories }
+              isFetchingDefaultDirectories={ isFetchingDefaultDirectories }
+              fixed={ fixedDrawer }
+              open={ navOpen }
               onClose={this.toggleDrawer.bind(this)}
             />
-            <div className={this.state.fixedDrawer ? 'wrapper pad-left' : 'wrapper'}>
+            <div className={ fixedDrawer ? 'wrapper pad-left' : 'wrapper'}>
               <Header
-                title={this.props.title}
-                userInfo={this.props.userInfo}
-                isAuthenticated={this.props.isAuthenticated}
+                title={ title }
+                userInfo={ userInfo }
+                isAuthenticated={ isAuthenticated }
+                isAuthenticating={ isAuthenticating }
                 onHamburgerClick={this.toggleDrawer.bind(this)}
-                onLoginClick={ this.props.toggleLoginModal }
-                onLogoutClick={ this.props.logoutUser }
-                avatar={ this.props.user.avatar }
-                name={ this.props.user.username }
-                userId={ this.props.user.id }
+                onLoginClick={  toggleLoginModal }
+                onLogoutClick={ logoutUser }
+                avatar={ user.avatar }
+                name={ user.username }
+                userId={ user.id }
                />
-              <Match exactly pattern="/" component={Home}/>
+              <Match exactly pattern="/" component={DirectoryContainer}/>
               <Match exactly pattern="/login" component={LoginContainer}/>
               <Match exactly pattern="/register" component={RegisterContainer}/>
               <Match exactly pattern="/u/:id/:name/:type(links|comments)?" component={ProfileContainer}/>
               <Match exactly pattern="/s/:directory/:sort(hot|latest)?" component={DirectoryContainer}/>
               <Match exactly pattern="/s/:directory/:link/comments" component={LinkContainer}/>
-              <MatchWhenAuthorized isAuthenticating={this.props.isAuthenticating} isAuthenticated={this.props.isAuthenticated} exactly pattern="/account/:setting" component={AccountContainer}/>
+              <MatchWhenAuthorized isAuthenticating={ isAuthenticating } isAuthenticated={ isAuthenticated } exactly pattern="/account/:setting" component={AccountContainer}/>
               <Miss component={NotFound}/>
             </div>
           </app>
