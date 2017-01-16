@@ -31,6 +31,17 @@ class User
         return \Database::fetch('users', $values, ['email' => $email], '\app\models\User');
     }
 
+    public static function getPublicUserInfo($userId){
+        return \Database::fetch('users', [
+            'id',
+            'username',
+            'avatar',
+            'link_count',
+            'comment_count',
+            'karma'
+        ], ['id' => $userId], '\app\models\User');
+    }
+
     public static function getFullUserInfo($userId)
     {
         return \Database::fetch('users', [
@@ -39,7 +50,10 @@ class User
             'email',
             'first_name',
             'last_name',
-            'avatar'
+            'avatar',
+            'link_count',
+            'comment_count',
+            'karma'
         ], ['id' => $userId], '\app\models\User');
     }
 

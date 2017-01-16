@@ -12,11 +12,7 @@ class Comment extends VoteModel
 
     public function __construct()
     {
-        $this->author = \app\stores\User::fetch($this->user_id, [
-            'id',
-            'username',
-            'avatar'
-        ]);
+        $this->author = \app\stores\User::getPublicUserInfo($this->user_id);
 
         $this->upvoted = $this->upvoted ? true : false;
         $this->downvoted = $this->downvoted ? true : false;

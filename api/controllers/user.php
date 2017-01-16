@@ -18,20 +18,13 @@ class User
     {
         $id = (int)$params['id'];
 
-        $user = \app\stores\User::fetch($id, [
-            'username',
-            'avatar'
-        ]);
+        $user = \app\stores\User::getPublicUserInfo($id);
 
         if (!$user) {
             throw new \ApiException('User does not exist', 400);
         }
 
-        return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'avatar' => $user->avatar
-        ];
+        return $user;
     }
     public static function logout($params, $user)
     {

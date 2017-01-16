@@ -17,25 +17,28 @@ export default class ProfileCard extends Component {
     const {
       id,
       username,
-      avatar
+      avatar,
+      link_count,
+      comment_count,
+      karma
     } = this.props;
 
     return (
       <div className="profile-card">
         <img className="profile-card-pic" src={ avatar ? '/' + avatar : '' }>
         </img>
-        <span className="profile-card-name">{ username } <Badge>0</Badge></span>
+        <span className="profile-card-name">{ username } <Badge>{ karma }</Badge></span>
         <ul className="profile-card-info">
           <li>
             <Link to={`/u/${id}/${username.toLowerCase()}/links`}>
               <span className="profile-card-info-title">Links</span>
-              <span className="profile-card-info-value">0</span>
+              <span className="profile-card-info-value">{ link_count }</span>
             </Link>
           </li>
           <li>
             <Link to={`/u/${id}/${username.toLowerCase()}/comments`}>
               <span className="profile-card-info-title">Comments</span>
-              <span className="profile-card-info-value">0</span>
+              <span className="profile-card-info-value">{ comment_count }</span>
             </Link>
           </li>
         </ul>

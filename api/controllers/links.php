@@ -22,10 +22,11 @@ class Links
             throw new \ApiException('Link does not exist', 400);
         }
 
-        if ($link->user_id !== $user->id) {
+        if ($link->author->id !== $user->id) {
             throw new \ApiException('You can not delete a link that are not yours', 400);
         }
 
+        $link->author->addTo('link_count', -1);
         $link->delete();
 
         return $link;
@@ -93,6 +94,7 @@ class Links
         }
 
         $link = \app\stores\Links::get($id);
+        $link->author->addTo('link_count', 1);
 
         return $link;
     }
@@ -173,6 +175,7 @@ class Links
             $vote = \app\stores\Votes::create(\app\stores\Votes::LINK, $id, $user->id, $voteOption);
             if ($vote) {
                 $link->addVote($voteOption);
+                $link->author->addTo('karma', $link->upvoted ? 1 : -1);
             }
         } else {
             if ($vote->vote === $voteOption) {
@@ -180,6 +183,7 @@ class Links
             } else {
                 $link->changeVote($voteOption);
                 $vote->updateVote($voteOption);
+                $link->author->addTo('karma', $link->upvoted ? 2 : -2);
             }
         }
 
@@ -187,7 +191,8 @@ class Links
             'id'=>$link->id,
             'upvoted'=>$link->upvoted,
             'downvoted'=>$link->downvoted,
-            'votes'=>$link->votes
+            'votes'=>$link->votes,
+            'author' => $link->author
         ];
     }
 }

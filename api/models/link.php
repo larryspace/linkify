@@ -16,10 +16,7 @@ class Link extends VoteModel
         $this->directory = strtolower($this->directory);
         $this->upvoted = $this->upvoted ? true : false;
         $this->downvoted = $this->downvoted ? true : false;
-        $this->author = \app\stores\User::fetch($this->user_id, [
-            'username',
-            'avatar'
-        ]);
+        $this->author = \app\stores\User::getPublicUserInfo($this->user_id);
 
         if ($this->deleted) {
             $this->deleted = true;

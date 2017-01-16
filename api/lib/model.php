@@ -12,6 +12,27 @@ class Model
     {
     }
 
+    public function addTo($column, $num)
+    {
+        if (isset($this->{$column})) {
+            $this->{$column} += $num;
+        }
+
+        $sql = "
+            UPDATE `" . get_class($this)::$table . "`
+            SET $column = $column + $num
+            WHERE id = :id
+        ";
+
+        try {
+            \Database::query($sql, [
+                'id' => $this->id
+            ]);
+        } catch (Exception $e) {
+            throw new \ApiException('Could not increase count', 400);
+        }
+    }
+
     public function _save($values)
     {
         return \Database::save(get_class($this)::$table, $values, ['id' => $this->id]);

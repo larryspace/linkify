@@ -33,7 +33,7 @@ class ProfileContainer extends Component {
   render() {
 
     const {
-      user: { id, username, avatar },
+      user: { id, username, avatar, comment_count, karma, link_count},
       isFetchingUser
     } = this.props;
 
@@ -57,6 +57,9 @@ class ProfileContainer extends Component {
             id={ id }
             username={ username }
             avatar={ avatar }
+            comment_count={ comment_count }
+            link_count={ link_count }
+            karma={ karma }
           />
         </Col>
         <Col xs="12" sm="7" lg="9" className="">

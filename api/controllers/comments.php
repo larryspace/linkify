@@ -24,6 +24,8 @@ class Comments
             throw new \ApiException('FormError', 400, ['_error' => 'This is not your comment']);
         }
 
+        $comment->author->addTo('comment_count', -1);
+
         try {
             $comment->delete();
         } catch (Exception $e) {
@@ -67,6 +69,7 @@ class Comments
             $vote = \app\stores\Votes::create(\app\stores\Votes::COMMENT, $id, $user->id, $voteOption);
             if ($vote) {
                 $comment->addVote($voteOption);
+                $link->author->addTo('karma', $link->upvoted ? 1 : -1);
             }
         } else {
             if ($vote->vote === $voteOption) {
@@ -74,6 +77,7 @@ class Comments
             } else {
                 $comment->changeVote($voteOption);
                 $vote->updateVote($voteOption);
+                $link->author->addTo('karma', $link->upvoted ? 2 : -2);
             }
         }
 
@@ -81,7 +85,8 @@ class Comments
             'id'=>$comment->id,
             'upvoted'=>$comment->upvoted,
             'downvoted'=>$comment->downvoted,
-            'votes'=>$comment->votes
+            'votes'=>$comment->votes,
+            'author' => $comment->author
         ];
     }
 
@@ -179,6 +184,7 @@ class Comments
 
         $link->increaseCommentCount();
         $comment = \app\stores\Comments::get($commentId);
+        $comment->author->addTo('comment_count', 1);
 
         return $comment;
     }
