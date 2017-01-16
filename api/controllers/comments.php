@@ -6,6 +6,12 @@ namespace app\controllers;
  */
 class Comments
 {
+    /**
+     * Deletes a comment
+     * @param  Array $params Array with parameters
+     * @param  app\models\User $user  Authenticated user object
+     * @return void
+     */
     public static function deleteComment($params, $user)
     {
         $postBody = get_json_body(true);
@@ -40,6 +46,12 @@ class Comments
         ];
     }
 
+    /**
+     * Up/Downvotes a comment
+     * @param  Array $params Array with parameters
+     * @param  app\models\User $user  Authenticated user object
+     * @return void
+     */
     public static function voteComment($params, $user)
     {
         if (!isset($params['id'])) {
@@ -90,6 +102,12 @@ class Comments
         ];
     }
 
+    /**
+     * Get comments by link id
+     * @param  Array $params Array with parameters
+     * @param  app\models\User $user  Authenticated user object
+     * @return void
+     */
     public static function getLinkComments($params)
     {
         $linkId = (int)$params['link'];
@@ -141,6 +159,12 @@ class Comments
         return $comment;
     }
 
+    /**
+     * Adds new comment
+     * @param  Array $params Array with parameters
+     * @param  app\models\User $user  Authenticated user object
+     * @return void
+     */
     public static function newComment($params, $user)
     {
         $postBody = get_json_body(true);
