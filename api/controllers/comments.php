@@ -185,6 +185,10 @@ class Comments
             throw new \ApiException('FormError', 400, ['_error' => 'Link "' . $params['link'] . '" doesn\'t exist']);
         }
 
+        if($link->deleted){
+            throw new \ApiException('FormError', 400, ['_error' => 'Cant comment on a deleted link']);
+        }
+
         $errors = \FormValidator::validate($postBody,
           [
               'content' => 'required|string:3,256'
