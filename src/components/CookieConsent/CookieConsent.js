@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import './cookieConsent.scss';
+import './CookieConsent.scss';
 
 export default class CookieConsent extends Component {
 

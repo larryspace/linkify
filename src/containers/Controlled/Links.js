@@ -62,7 +62,7 @@ class LinksContainer extends Component {
     this.loadContent({id, type, sort});
   }
 
-  renderLink({ id, directory, title, url, score, comment_count, votes, image, upvoted, downvoted, user_id, username }){
+  renderLink({ id, directory, title, url, score, created_at, comment_count, votes, image, upvoted, downvoted, user_id, username }){
     return (
       <LinkItem key={ 'link_' + id }
         onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
@@ -73,6 +73,7 @@ class LinksContainer extends Component {
         directory={ directory }
         title={ title }
         url={ url }
+        date_created={ created_at }
         image={ image }
         voteCount={ votes }
         commentCount={ comment_count }

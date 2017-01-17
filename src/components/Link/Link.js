@@ -15,6 +15,7 @@ export default class LinkItem extends Component {
     voteCount: PropTypes.number,
     url: PropTypes.string,
     title: PropTypes.string,
+    date_created: PropTypes.string,
     commentCount: PropTypes.number,
     directory: PropTypes.string,
     user_id: PropTypes.number
@@ -31,6 +32,7 @@ export default class LinkItem extends Component {
       voteCount,
       url,
       title,
+      date_created,
       user_id,
       commentCount,
       directory,
@@ -49,6 +51,7 @@ export default class LinkItem extends Component {
           {image && (<div className="sub-list-image"></div>)}
           <div className="link-title">{ title }</div>
           <div className="link-desc">{ url }</div>
+          <div className="link-date">{ date_created }</div>
         </a>
         <div className="sub-list-item-meta">
           <Link to={`/u/${user_id}/${username}`} className="sub-list-item-author">

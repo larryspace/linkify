@@ -51,13 +51,14 @@
 
 .sub-list-item-link{
   display: block;
+  position: relative;
   width: calc(100% - 150px);
   &:hover{
     background: rgba(0,0,0,.05);
     text-decoration:none;
   }
 
-  & > .link-title{
+  .link-title{
     padding: 0 5px;
     font-size: 24px;
   }
@@ -66,9 +67,19 @@
     text-decoration: underline;
   }
 
-  & > .link-desc{
+  .link-desc{
     padding: 0 5px;
     text-decoration: none;
+  }
+
+  .link-date{
+    position: absolute;
+    bottom: 0;
+    margin-left: 5px;
+    color: #555;
+    font-size: 13px;
+    border-top: 1px solid #CCC;
+    width: calc(100% - 10px);
   }
 }
 
