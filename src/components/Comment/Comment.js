@@ -82,7 +82,7 @@ export default class Comment extends Component {
         <Media body className="comment-body">
           <Media heading className="comment-heading">
             <button disabled={deleted } onClick={!upvoted ? onUpvoteClick : onUnvoteClick} className={upvoted ? 'voted' : ''}><FontAwesome name="arrow-up" /></button>
-            { votes }
+            <span className="vote-count">{ votes }</span>
             <button disabled={ deleted } onClick={!downvoted ? onDownvoteClick : onUnvoteClick} className={downvoted ? 'voted' : ''}><FontAwesome name="arrow-down" /></button>
             {deleted  && (<span>Deleted</span>) || (<Link to={`/u/${author_id}/${author.toLowerCase()}`}>{ author  }</Link>)}
             {!deleted && (<button onClick={this.toggleReplyMode.bind(this)}>Reply</button>)}
