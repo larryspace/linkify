@@ -4,7 +4,7 @@ import { Form, Input, FormGroup, Col, Label,
 
 import FontAwesome from 'react-fontawesome';
 
-export default ({ input, label, name, type, icon, onChangeValue, meta: { touched, error, warning } }) => {
+export default ({ input, label, name, type, icon, height, onChangeValue, meta: { touched, error, warning } }) => {
   if(type === 'file'){
     return (
       <FormGroup row color={touched && (error && 'danger' || warning && 'danger') || ''}>
@@ -25,7 +25,7 @@ export default ({ input, label, name, type, icon, onChangeValue, meta: { touched
         <Col sm={10}>
           <InputGroup>
             {icon && <InputGroupAddon><FontAwesome name={icon} /></InputGroupAddon>}
-            <Input {...input} type={type} placeholder={label} />
+            <Input style={{height}} {...input} type={type} placeholder={label} />
           </InputGroup>
 
           {touched && ((error && <FormFeedback>{error}</FormFeedback>) || (warning && <FormFeedback>{warning}</FormFeedback>))}

@@ -28,6 +28,7 @@ class EditLinkForm extends Component {
         <Field
           name="description"
           type="textarea"
+          height="250px"
           component={renderField}
           validate={[ required ]}
         />
