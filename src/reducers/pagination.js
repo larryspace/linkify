@@ -40,6 +40,7 @@ const paginate = ({ types, mapActionToKey }) => {
       case failureType:
         return {
           ...state,
+          canFetchMore: false,
           isFetching: false
         }
       case refreshType:

@@ -198,6 +198,9 @@ class miniRoute
                 } catch (ApiException $e) {
                     //output error to client if an exception was cought
                     $this->error($e->getStatus(), $e->getMessage(), $e->getResponse());
+                } catch (Exception $e) {
+                    //output error to client if an exception was cought
+                    $this->error(500, "A really bad error occured");
                 }
                 exit;
             }

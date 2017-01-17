@@ -12,12 +12,13 @@ class Authentication
     {
         $headers = getallheaders();
 
-        if (!isset($headers['authorization'])) {
+        if (!isset($headers['authorization']) && !isset($headers['Authorization'])) {
             throw new ApiException("Unauthorized", 401);
         }
 
+        $authHeader = $headers['authorization'] ?? $headers['Authorization'];
         $matches = array();
-        preg_match('/Token (.*)/', $headers['authorization'], $matches);
+        preg_match('/Token (.*)/', $authHeader, $matches);
         if (isset($matches[1])) {
             $token = $matches[1];
         }

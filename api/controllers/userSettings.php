@@ -49,8 +49,10 @@ class UserSettings
             throw new \ApiException('FormError', 400, ['avatar' => 'Invalid file type']);
         }
 
-        if (!file_exists('uploads/avatars/')) {
-            mkdir('uploads/avatars/', 0777, true);
+        $folder = __DIR__ . '/../uploads/avatars/';
+
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
         }
 
         $ext = $fileTypes[$mime];
@@ -60,7 +62,7 @@ class UserSettings
                             $ext
                         );
 
-        move_uploaded_file($_FILES['avatar']['tmp_name'], $newPath);
+        move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/../' . $newPath);
 
         if ($user->avatar) {
             unlink($user->avatar);
