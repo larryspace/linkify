@@ -1,0 +1,41 @@
+
+.cookie-consent{
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 10px;
+  background: #382DA7;
+  color: #FFF;
+  transition: opacity 0.3s, margin-bottom 0.5s;
+  z-index: 9999;
+  bottom: 0;
+
+  &.removed{
+    opacity: 0;
+    margin-bottom: -50px;
+  }
+
+  .info{
+    font-size: 15px;
+  }
+
+  button{
+    background: #EB1473;
+    padding: 6px 15px;
+    border: none;
+    cursor: pointer;
+    color: #FFF;
+    font-size: 15px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    outline: none;
+  }
+
+  button:hover{
+    background-image: linear-gradient(
+                        rgba(0, 0, 0, 0.05),
+                        rgba(0, 0, 0, 0.1)
+                      );
+  }
+}
