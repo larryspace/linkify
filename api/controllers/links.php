@@ -186,6 +186,7 @@ class Links
         } else {
             if($voteOption === 2){
                 $link->removeVote($vote->vote);
+                $link->author->addTo('karma', $vote->vote ? -1 : 1);
                 $vote->_delete();
             } else if ($vote->vote === $voteOption) {
                 throw new \ApiException('You can not vote on the same option twice', 400);
