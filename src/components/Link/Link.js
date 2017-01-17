@@ -4,6 +4,19 @@ import FontAwesome from 'react-fontawesome';
 
 import './Link.scss';
 
+var getLocation = function(href) {
+    var l = document.createElement("a");
+    l.href = href;
+    return l;
+};
+
+function cutString(str, len){
+  if(str.length > len){
+    return str.slice(0, len) + '...';
+  }
+  return str;
+}
+
 export default class LinkItem extends Component {
 
   static propTypes = {
@@ -32,6 +45,7 @@ export default class LinkItem extends Component {
       voteCount,
       url,
       title,
+      description,
       date_created,
       user_id,
       commentCount,
@@ -50,8 +64,8 @@ export default class LinkItem extends Component {
         <a className="sub-list-item-link" href={ url } target="_blank">
           {image && (<div className="sub-list-image"></div>)}
           <div className="link-title">{ title }</div>
-          <div className="link-desc">{ url }</div>
-          <div className="link-date">{ date_created }</div>
+          <div className="link-desc">{ cutString(description, 40) }</div>
+          <div className="link-date"><b>{ getLocation(url).hostname }</b> { date_created }</div>
         </a>
         <div className="sub-list-item-meta">
           <Link to={`/u/${user_id}/${username}`} className="sub-list-item-author">

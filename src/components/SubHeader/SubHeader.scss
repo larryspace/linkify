@@ -3,7 +3,11 @@
   background-size: cover;
   height: 150px;
 
-  & > .btn-group{
+  .container{
+    margin: 0 auto;
+  }
+
+  .container > .btn-group{
     position: absolute;
     margin-top: 100px;
     right: 20px;
