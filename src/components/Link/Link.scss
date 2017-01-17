@@ -72,10 +72,31 @@
   }
 }
 
-.sub-list-item-comments{
+.sub-list-item-meta{
   width: 100px;
   border-left: 1px solid #CCC;
   color: #333;
+  height: 100px;
+}
+
+.sub-list-item-author{
+  display: block;
+  text-align: center;
+  padding-top: 4%;
+  border-bottom: 1px solid #CCC;
+  height: 40%;
+  &:hover{
+    text-decoration: none;
+    background: rgba(0,0,0,.05);
+    color: #333;
+  }
+}
+
+.sub-list-item-comments{
+  display: block;
+  width: 100px;
+  color: #333;
+  height: 60%;
 
   &:hover{
     text-decoration: none;
@@ -83,18 +104,15 @@
     color: #333;
   }
 
-  & > .comments-count{
+  .comments-count{
     display: block;
-    height: 70%;
     text-align: center;
-    font-size: 30px;
-    padding-top: 5%;
+    font-size: 20px;
     border-bottom: 1px solid #CCC;
   }
 
-  & > .comments-button{
+  .comments-button{
     display: block;
-    height: 30%;
     text-align: center;
     border-top: 1px solid #EEE;
   }

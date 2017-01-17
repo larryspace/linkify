@@ -16,7 +16,8 @@ export default class LinkItem extends Component {
     url: PropTypes.string,
     title: PropTypes.string,
     commentCount: PropTypes.number,
-    directory: PropTypes.string
+    directory: PropTypes.string,
+    user_id: PropTypes.number
   }
 
   render() {
@@ -30,6 +31,7 @@ export default class LinkItem extends Component {
       voteCount,
       url,
       title,
+      user_id,
       commentCount,
       directory,
       image,
@@ -47,12 +49,17 @@ export default class LinkItem extends Component {
           {image && (<div className="sub-list-image"></div>)}
           <div className="link-title">{ title }</div>
           <div className="link-desc">{ url }</div>
-          <div className="link-owner">{ username }</div>
         </a>
-        <Link to={'/s/' + directory + '/' + id + '/comments'} className="sub-list-item-comments">
-          <span className="comments-count">{ commentCount }</span>
-          <span className="comments-button">Comments</span>
-        </Link>
+        <div className="sub-list-item-meta">
+          <Link to={`/u/${user_id}/${username}`} className="sub-list-item-author">
+            { username }
+          </Link>
+          <Link to={`/s/${directory}/${id}/comments`} className="sub-list-item-comments">
+            <span className="comments-count">{ commentCount }</span>
+            <span className="comments-button">Comments</span>
+          </Link>
+        </div>
+
       </div>
     );
   }
