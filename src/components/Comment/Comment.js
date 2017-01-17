@@ -75,7 +75,7 @@ export default class Comment extends Component {
     } = this.props;
 
     return (
-      <Media className={'comment' + (level % 2 == 0 ? ' odd' : '') + (level > 3 ? ' normalize' : '') }>
+      <Media className={'comment' + (level % 2 == 0 ? ' odd' : '') + (level > 4 ? ' normalize' : '') }>
         <Media left top href={!deleted && '#'} tag={deleted ? 'div' : 'a'} className="comment-image">
           {(deleted && (<div className="media-object"></div>)) || (<Media object src={avatar} alt="Profile Picture" />)}
         </Media>
@@ -88,6 +88,7 @@ export default class Comment extends Component {
             {!deleted && (<button onClick={this.toggleReplyMode.bind(this)}>Reply</button>)}
             {!deleted && showEditButton && (<button onClick={this.toggleEditMode.bind(this)}>Edit</button>)}
             {!deleted && showDeleteButton && (<button onClick={ onDeleteClick }>Delete</button>)}
+            {level > 4 && [...Array(level-4)].map((x, i) => (<span key={id + '_' + i}>•</span>))}
           </Media>
           <div className="comment-content">
             { !deleted && content || 'Deleted...' }
