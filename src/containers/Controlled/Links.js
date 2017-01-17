@@ -67,8 +67,9 @@ class LinksContainer extends Component {
       <LinkItem key={ 'link_' + id }
         onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
         onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
-        upvoteDisabled={ upvoted }
-        downvoteDisabled={ downvoted }
+        onUnvote={ () => this.props.voteLink({id, vote: 'unvote'}) }
+        upvoted={ upvoted }
+        downvoted={ downvoted }
         id={ id }
         directory={ directory }
         title={ title }

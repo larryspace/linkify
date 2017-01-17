@@ -21,10 +21,11 @@ export default class LinkItem extends Component {
 
   static propTypes = {
     id: PropTypes.number,
-    upVote: PropTypes.func,
-    downVote: PropTypes.func,
-    upvoteDisabled: PropTypes.bool,
-    downvoteDisabled: PropTypes.bool,
+    onUpvote: PropTypes.func,
+    onDownvote: PropTypes.func,
+    onUnvote: PropTypes.func,
+    upvoted: PropTypes.bool,
+    downvoted: PropTypes.bool,
     voteCount: PropTypes.number,
     url: PropTypes.string,
     title: PropTypes.string,
@@ -40,8 +41,9 @@ export default class LinkItem extends Component {
       id,
       onUpvote,
       onDownvote,
-      upvoteDisabled,
-      downvoteDisabled,
+      onUnvote,
+      upvoted,
+      downvoted,
       voteCount,
       url,
       title,
@@ -57,9 +59,9 @@ export default class LinkItem extends Component {
     return (
       <div className="sub-list-item">
         <div className="sub-list-vote">
-          <button disabled={ upvoteDisabled } onClick={ onUpvote }><FontAwesome name="arrow-up"/></button>
+          <button className={upvoted ? 'voted' : ''} onClick={ !upvoted ? onUpvote : onUnvote }><FontAwesome name="arrow-up"/></button>
           <span className="upvote-count">{ voteCount }</span>
-          <button disabled={ downvoteDisabled } onClick={ onDownvote }><FontAwesome name="arrow-down" /></button>
+          <button className={downvoted ? 'voted' : ''} onClick={ !downvoted ? onDownvote : onUnvote }><FontAwesome name="arrow-down" /></button>
         </div>
         <a className="sub-list-item-link" href={ url } target="_blank">
           {image && (<div className="sub-list-image"></div>)}

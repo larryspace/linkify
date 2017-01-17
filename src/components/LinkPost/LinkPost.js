@@ -10,8 +10,9 @@ import './linkPost.scss';
 export default class LinkPost extends Component {
 
   static propTypes = {
-    upVote: PropTypes.func,
-    downVote: PropTypes.func,
+    onUpvote: PropTypes.func,
+    onDownvote: PropTypes.func,
+    onUnvote: PropTypes.func,
     onEditSubmit: PropTypes.func,
     onDelete: PropTypes.func,
     owner: PropTypes.bool,
@@ -34,6 +35,7 @@ export default class LinkPost extends Component {
     const {
       onUpvote,
       onDownvote,
+      onUnvote,
       onEditSubmit,
       onDelete,
       owner
@@ -70,9 +72,9 @@ export default class LinkPost extends Component {
           {!deleted && ( <img src={ '/' + avatar } className="avatar" /> )}
           <ul className="sidemenu">
             <li><Link to={`/u/${this.props.author.id}/${username}`}>{ username }</Link></li>
-            <li><button onClick={ onUpvote } disabled={ deleted || upvoted }><FontAwesome name="arrow-up" /></button></li>
+            <li><button className={upvoted ? 'voted' : ''} onClick={ !upvoted ? onUpvote : onUnvote } disabled={ deleted }><FontAwesome name="arrow-up" /></button></li>
             <li>{ votes }</li>
-            <li><button onClick={ onDownvote } disabled={ deleted || downvoted }><FontAwesome name="arrow-down" /></button></li>
+            <li><button className={downvoted ? 'voted' : ''} onClick={ !downvoted ? onDownvote : onUnvote } disabled={ deleted }><FontAwesome name="arrow-down" /></button></li>
             <li className="dropdown-divider"></li>
             {!deleted && owner && ( <li><button onClick={ this.toggleEditMode.bind(this) }>Edit</button></li> )}
             {!deleted && owner && ( <li><button onClick={ onDelete }>Remove</button></li> )}

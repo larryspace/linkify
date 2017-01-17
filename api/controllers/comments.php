@@ -58,12 +58,18 @@ class Comments
             throw new \ApiException('Did not get a link id', 400);
         }
 
-        if (!isset($params['vote']) || $params['vote'] !== 'upvote' && $params['vote'] !== 'downvote') {
+        $voteOptions = [
+            'upvote' => 1,
+            'downvote' => 0,
+            'unvote' => 2
+        ];
+
+        if (!isset($voteOptions[$params['vote']])) {
             throw new \ApiException('Did not get a valid vote', 400);
         }
 
         $id = (int)$params['id'];
-        $voteOption = $params['vote'] === 'upvote' ? 1 : 0;
+        $voteOption = $voteOptions[$params['vote']];
 
         $comment = \app\stores\Comments::get($id);
 
@@ -84,7 +90,10 @@ class Comments
                 $comment->author->addTo('karma', $comment->upvoted ? 1 : -1);
             }
         } else {
-            if ($vote->vote === $voteOption) {
+            if($voteOption === 2){
+                $comment->removeVote($vote->vote);
+                $vote->_delete();
+            } else if ($vote->vote === $voteOption) {
                 throw new \ApiException('You can not vote on the same option twice', 400);
             } else {
                 $comment->changeVote($voteOption);

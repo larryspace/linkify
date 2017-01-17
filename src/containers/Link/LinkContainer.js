@@ -84,6 +84,7 @@ class LinkContainer extends Component {
           <LinkPost
             onUpvote={ () => this.props.voteLink({id, vote: 'upvote'}) }
             onDownvote={ () => this.props.voteLink({id, vote: 'downvote'}) }
+            onUnvote={ () => this.props.voteLink({id, vote: 'unvote'}) }
             owner={ user_id === this.props.user.id }
             onEditSubmit={ values => this.props.editLink({id, ...values}) }
             onDelete={() => this.props.deleteLink({ id })}

@@ -43,6 +43,7 @@ class CommentsContainer extends Component {
     const edit = values => this.props.editComment({id, ...values});
     const upvote = () => this.props.voteComment({id, vote: 'upvote'});
     const downvote = () => this.props.voteComment({id, vote: 'downvote'});
+    const unvote = () => this.props.voteComment({id, vote: 'unvote'});
 
     const authedUser = this.props.user || false;
     const deleteComment = () => this.props.deleteComment({ id });
@@ -65,6 +66,7 @@ class CommentsContainer extends Component {
           onEditSubmit={ edit }
           onUpvoteClick={ upvote }
           onDownvoteClick={ downvote }
+          onUnvoteClick={ unvote }
           showDeleteButton={ authedUser && authedUser.id === author.id }
           onDeleteClick={ deleteComment }
         >
