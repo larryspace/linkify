@@ -1,21 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FontAwesome from 'react-fontawesome';
+import { getLocation, cutString } from 'linkify/utils';
 
 import './Link.scss';
-
-var getLocation = function(href) {
-    var l = document.createElement("a");
-    l.href = href;
-    return l;
-};
-
-function cutString(str, len){
-  if(str.length > len){
-    return str.slice(0, len) + '...';
-  }
-  return str;
-}
 
 export default class LinkItem extends Component {
 

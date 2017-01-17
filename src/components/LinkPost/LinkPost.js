@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FontAwesome from 'react-fontawesome';
+import { getLocation } from 'linkify/utils';
 import { Row, Col } from 'reactstrap';
 
 import EditLinkForm from '../../components/Forms/EditLinkForm';
@@ -100,7 +101,7 @@ export default class LinkPost extends Component {
           </div>
           <ul className="footer">
             <li>Comments: { comment_count }</li>
-            <li>Edited: { created_at }</li>
+            <li><b>{ getLocation(url).hostname }</b></li>
           </ul>
         </Col>
       </Row>
