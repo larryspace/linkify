@@ -90,11 +90,11 @@ class Comments
                 $comment->author->addTo('karma', $comment->upvoted ? 1 : -1);
             }
         } else {
-            if($voteOption === 2){
+            if ($voteOption === 2) {
                 $comment->removeVote($vote->vote);
                 $comment->author->addTo('karma', $vote->vote ? -1 : 1);
                 $vote->_delete();
-            } else if ($vote->vote === $voteOption) {
+            } elseif ($vote->vote === $voteOption) {
                 throw new \ApiException('You can not vote on the same option twice', 400);
             } else {
                 $comment->changeVote($voteOption);
@@ -185,7 +185,7 @@ class Comments
             throw new \ApiException('FormError', 400, ['_error' => 'Link "' . $params['link'] . '" doesn\'t exist']);
         }
 
-        if($link->deleted){
+        if ($link->deleted) {
             throw new \ApiException('FormError', 400, ['_error' => 'Cant comment on a deleted link']);
         }
 

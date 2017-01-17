@@ -35,7 +35,8 @@ class VoteModel extends Model
         }
     }
 
-    public function removeVote($voteOption){
+    public function removeVote($voteOption)
+    {
         if ($voteOption === 1) {
             $this->upvoted = false;
             $this->votes--;

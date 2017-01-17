@@ -31,7 +31,8 @@ class User
         return \Database::fetch('users', $values, ['email' => $email], '\app\models\User');
     }
 
-    public static function getPublicUserInfo($userId){
+    public static function getPublicUserInfo($userId)
+    {
         return \Database::fetch('users', [
             'id',
             'username',
