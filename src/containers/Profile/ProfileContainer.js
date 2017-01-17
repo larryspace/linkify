@@ -71,7 +71,7 @@ class ProfileContainer extends Component {
             />
           )}
           {type === 'comments' && id && (
-            <span>Comments...</span>
+            <span>Component not finished. GO AWAY</span>
           )}
         </Col>
       </Row>
