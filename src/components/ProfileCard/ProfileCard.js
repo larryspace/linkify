@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { Badge } from 'reactstrap';
+import { Badge, Tooltip } from 'reactstrap';
 
 import './ProfileCard.scss';
 
@@ -10,6 +10,14 @@ export default class ProfileCard extends Component {
     id: PropTypes.number,
     username: PropTypes.string,
     avatar: PropTypes.string,
+  }
+
+  state = {
+    tooltipOpen: false,
+  }
+
+  toggleTooltip(){
+    this.setState({ tooltipOpen: !this.state.tooltipOpen});
   }
 
   render() {
@@ -27,7 +35,11 @@ export default class ProfileCard extends Component {
       <div className="profile-card">
         <img className="profile-card-pic" src={ avatar ? '/' + avatar : '' }>
         </img>
-        <span className="profile-card-name">{ username } <Badge>{ karma }</Badge></span>
+        <span className="profile-card-name">{ username } <Badge id="karma-tooltip">{ karma }</Badge>
+        <Tooltip placement="top" isOpen={ this.state.tooltipOpen } target="karma-tooltip" toggle={this.toggleTooltip.bind(this)}>
+          Karma
+        </Tooltip>
+        </span>
         <ul className="profile-card-info">
           <li>
             <Link to={`/u/${id}/${username.toLowerCase()}/links`}>
