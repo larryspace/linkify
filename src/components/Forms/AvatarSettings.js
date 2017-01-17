@@ -37,7 +37,8 @@ class AvatarSettings extends Component {
             submitting,
             submitFailed,
             submitSucceeded,
-            error
+            error,
+            hideSubmit
       } = this.props;
 
     return (
@@ -68,8 +69,8 @@ class AvatarSettings extends Component {
           </Alert>
         )}
 
-        <ButtonGroup>
-          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
+        <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
+          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
         </ButtonGroup>
 
       </Form>

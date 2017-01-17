@@ -61,11 +61,9 @@ class LoginForm extends Component {
           </Alert>
         )}
 
-        {!hideSubmit && (
-          <ButtonGroup>
-            <Button type="submit" color="primary" disabled={submitting}>Login</Button>
-          </ButtonGroup>
-        )}
+        <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
+          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+        </ButtonGroup>
 
       </Form>
     );

@@ -17,11 +17,12 @@ class AccountSettings extends Component {
             submitting,
             submitFailed,
             submitSucceeded,
-            error
+            error,
+            hideSubmit
       } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="app-form">
         <Field
           icon="user"
           name="username"
@@ -71,8 +72,8 @@ class AccountSettings extends Component {
           </Alert>
         )}
 
-        <ButtonGroup>
-          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
+        <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
+          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
         </ButtonGroup>
 
       </Form>

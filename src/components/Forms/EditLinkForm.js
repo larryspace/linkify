@@ -49,12 +49,9 @@ class EditLinkForm extends Component {
           </Alert>
         )}
 
-        {!hideSubmit && (
-          <ButtonGroup>
-            <Button type="submit" color="primary" disabled={submitting}>Save</Button>
-            {showCancel && (<Button type="button" color="warning" onClick={onCancelClick}>Cancel</Button>)}
-          </ButtonGroup>
-        )}
+        <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
+          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+        </ButtonGroup>
 
       </Form>
     );
