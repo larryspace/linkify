@@ -49,6 +49,10 @@ class UserSettings
             throw new \ApiException('FormError', 400, ['avatar' => 'Invalid file type']);
         }
 
+        if (!file_exists('uploads/avatars/')) {
+            mkdir('uploads/avatars/', 0777, true);
+        }
+
         $ext = $fileTypes[$mime];
         $newPath = sprintf('uploads/avatars/%s.%s.%s',
                             sha1_file($_FILES['avatar']['tmp_name']),
