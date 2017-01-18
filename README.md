@@ -4,9 +4,8 @@ Supposed to be a reddit clone
 ## Setup
 1. `composer install`
 1. `npm install`
-1. Copy `.env.example` to `.env` and edit it with your environment config.
-1. `vendor/bin/phinx init`
-1. Edit phinx.yml with your environment settings
+1. Copy `api/.env.example` to `api/.env` and edit it with your environment config.
+1. Copy `phinx.yml.example` to `phinx.yml` and edit it with your settings.
 1. `vendor/bin/phinx migrate`
 1. start web server and point it to project root
 1. `npm start`
