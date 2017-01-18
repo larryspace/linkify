@@ -47,15 +47,17 @@ class App extends Component {
   };
 
   componentWillMount() {
-    this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
 
     this.props.getDefaultDirectories();
 
     if(localStorage.getItem('token')){
       this.props.authUser();
     }
+  }
 
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
   }
 
   componentWillReceiveProps(nextProps){
@@ -66,7 +68,7 @@ class App extends Component {
   }
 
   updateDimensions(){
-    if(window.innerWidth > 575){
+    if(window.innerWidth > 576){
       this.setState({fixedDrawer: true});
     }else{
       this.setState({fixedDrawer: false});
