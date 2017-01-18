@@ -70,7 +70,7 @@ class AvatarSettings extends Component {
         )}
 
         <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
-          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+          <Button type="submit" color="primary" disabled={submitting}>Save</Button>
         </ButtonGroup>
 
       </Form>

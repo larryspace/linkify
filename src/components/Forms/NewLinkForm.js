@@ -76,7 +76,7 @@ class NewLinkForm extends Component {
         )}
 
         <ButtonGroup className={hideSubmit ? 'hidden' : ''}>
-          <Button type="submit" color="primary" disabled={submitting}>Login</Button>
+          <Button type="submit" color="primary" disabled={submitting}>Post</Button>
         </ButtonGroup>
 
       </Form>
