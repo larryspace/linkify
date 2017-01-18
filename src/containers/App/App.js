@@ -56,7 +56,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.updateDimensions();
+    setTimeout(this.updateDimensions.bind(this), 200);
     window.addEventListener("resize", this.updateDimensions.bind(this));
   }
 
