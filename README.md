@@ -2,16 +2,18 @@
 Supposed to be a reddit clone
 
 ## Setup
-1. `composer install`
-1. `npm install`
+1. Clone `https://github.com/thehink/linkify.git`
+1. Run `composer install`
+1. Run `npm install`
 1. Copy `api/.env.example` to `api/.env` and edit it with your environment config.
-1. Copy `phinx.yml.example` to `phinx.yml` and edit it with your settings.
-1. `vendor/bin/phinx migrate`
-1. start web server and point it to project root
-1. `npm start`
+1. Copy `phinx.yml.example` to `phinx.yml` and edit it with your database settings.
+1. Run `vendor/bin/phinx migrate`
+1. Start webserver and point it to project root
+1. Run `npm start` to start dev environment
 
 ## Build Production
-1. `npm run dist`
+1. Run `npm run dist` to build production
+2. Start webserver and point it to project root
 
 ## Features
 - [x] As a user I should be able to create an account.
