@@ -44,6 +44,5 @@ phinx.yml
 .php_cs.cache
 
 /vendor/
-composer.lock
 
 api/uploads
