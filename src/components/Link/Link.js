@@ -52,7 +52,7 @@ export default class LinkItem extends Component {
           <button className={downvoted ? 'voted' : ''} onClick={ !downvoted ? onDownvote : onUnvote }><FontAwesome name="arrow-down" /></button>
         </div>
         <a className="sub-list-item-link" href={ url } target="_blank">
-          {image && (<div className="sub-list-image"></div>)}
+          {image && (<img className="sub-list-image" src={image}></img>)}
           <div className="link-title">{ title }</div>
           <div className="link-desc">{ cutString(description, 40) }</div>
           <div className="link-date"><b>{ getLocation(url).hostname }</b> { date_created }</div>

@@ -87,8 +87,32 @@ class Links
             throw new \ApiException('FormError', 400, $errors);
         }
 
+        $imagePath = null;
+        $metaData = getUrlMetaData($postBody['link']);
+        if($metaData && isset($metaData->image)){
+            //put file in temporary folder until we can verify its an actual image
+            $tempFile = sys_get_temp_dir() . '/' . uniqid();
+            file_put_contents($tempFile, fopen($metaData->image, 'r'));
+            if($ext = verifyImage($tempFile)){
+                $folder = __DIR__ . '/../uploads/links/';
+
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0777, true);
+                }
+
+                $imagePath = sprintf('uploads/avatars/%s.%s',
+                                    sha1_file($tempFile),
+                                    $ext
+                                );
+
+                rename($tempFile, $imagePath);
+
+                $imagePath = '/' . $imagePath;
+            }
+        }
+
         try {
-            $id = \app\stores\Links::add($directory->id, $user->id, $postBody['title'], $postBody['link'], $postBody['description']);
+            $id = \app\stores\Links::add($directory->id, $user->id, $postBody['title'], $postBody['link'], $postBody['description'], $imagePath);
         } catch (Exception $e) {
             throw new \ApiException('FormError', 400, ['_error' => 'Could not add link!']);
         }

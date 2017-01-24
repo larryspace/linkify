@@ -18,3 +18,31 @@ function get_json_body($assoc = false)
     }
     return $input;
 }
+
+function getUrlMetaData($url){
+    try {
+        $response = file_get_contents("https://api.urlmeta.org/?url=$url");
+    } catch (Exception $e) {
+        return;
+    }
+
+    $responseData = json_decode($response);
+    if($responseData && $responseData->result->status === "OK")
+    {
+        return $responseData->meta;
+    }
+}
+
+function verifyImage($filePath){
+    $fileTypes = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif'
+    ];
+    $finfo = new \finfo(FILEINFO_MIME_TYPE);
+    $mime = $finfo->file($filePath);
+
+    if (isset($fileTypes[$mime])) {
+        return $fileTypes[$mime];
+    }
+}
