@@ -178,13 +178,17 @@ class Links
         $vote = \app\stores\Votes::get(\app\stores\Votes::LINK, $id, $user->id);
 
         if (!$vote) {
+            if($voteOption === $voteOptions["unvote"]){
+                throw new \ApiException('You cant remove vote on a link you didnt vote on', 400);
+            }
+
             $vote = \app\stores\Votes::create(\app\stores\Votes::LINK, $id, $user->id, $voteOption);
             if ($vote) {
                 $link->addVote($voteOption);
                 $link->author->addTo('karma', $link->upvoted ? 1 : -1);
             }
         } else {
-            if ($voteOption === 2) {
+            if ($voteOption === $voteOptions["unvote"]) {
                 $link->removeVote($vote->vote);
                 $link->author->addTo('karma', $vote->vote ? -1 : 1);
                 $vote->_delete();

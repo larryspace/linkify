@@ -84,13 +84,17 @@ class Comments
         $vote = \app\stores\Votes::get(\app\stores\Votes::COMMENT, $id, $user->id);
 
         if (!$vote) {
+            if($voteOption === $voteOptions["unvote"]){
+                throw new \ApiException('You cant remove vote on a comment you didnt vote on', 400);
+            }
+
             $vote = \app\stores\Votes::create(\app\stores\Votes::COMMENT, $id, $user->id, $voteOption);
             if ($vote) {
                 $comment->addVote($voteOption);
                 $comment->author->addTo('karma', $comment->upvoted ? 1 : -1);
             }
         } else {
-            if ($voteOption === 2) {
+            if ($voteOption === $voteOptions["unvote"]) {
                 $comment->removeVote($vote->vote);
                 $comment->author->addTo('karma', $vote->vote ? -1 : 1);
                 $vote->_delete();
