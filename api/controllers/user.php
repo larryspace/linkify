@@ -40,7 +40,7 @@ class User
           [
               'email' => 'required|email|unique:users.email',
               'password' => 'required|password',
-              'username' => 'required|string|unique:users.username'
+              'username' => 'required|username|string:3,20|unique:users.username'
           ]);
 
         if ($errors) {

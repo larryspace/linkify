@@ -13,7 +13,8 @@ class FormValidator
     'confirm' => 'FormValidator::validateConfirm',
     'verify_password' => 'FormValidator::verifyPassword',
     'url' => 'FormValidator::validateUrl',
-    'unique' => 'FormValidator::validateUnique'
+    'unique' => 'FormValidator::validateUnique',
+    'username' => 'FormValidator::validateUsername'
   ];
 
     public static function validate($arr, $validation)
@@ -114,16 +115,21 @@ class FormValidator
     private static function validateRegex($value, $regex)
     {
         $options = [
-      "options"=> [
-        "regexp" => $regexp
-      ]
-    ];
+          "options"=> [
+            "regexp" => $regex
+          ]
+        ];
 
         $valid = filter_var($value, FILTER_VALIDATE_REGEXP, $options);
 
         if (!$valid) {
             return 'INVALID_' . $regex;
         }
+    }
+
+    private static function validateUsername($value)
+    {
+        return self::validateRegex($value, '/^[A-z0-9-_]+$/');
     }
 
     private static function validateString($value, $meta)
@@ -144,6 +150,15 @@ class FormValidator
 
     private static function validateUrl($value)
     {
+        if (!$value) {
+            return false;
+        }
+
+        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+            return 'INVALID_URL';
+        }
+
+        return false;
     }
 
     private static function validateEmail($value)
