@@ -5,10 +5,12 @@ Supposed to be a reddit clone
 1. Clone `https://github.com/thehink/linkify.git`
 1. Run `composer install`
 1. Run `npm install`
+1. Create a mysql database.
 1. Copy `api/.env.example` to `api/.env` and edit it with your environment config.
+1. Skip step 7 and 8 if you import the db/dump/linkify.sql dump instead of running migrate.
 1. Copy `phinx.yml.example` to `phinx.yml` and edit it with your database settings.
 1. Run `vendor/bin/phinx migrate`
-1. Start webserver and point it to project root
+1. Start webserver at localhost:80 and point it to project root
 1. Run `npm start` to start dev environment
 
 ## Build Production
