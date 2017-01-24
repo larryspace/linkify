@@ -1,4 +1,3 @@
-import './header.scss';
 import React, {Component, PropTypes} from 'react';
 import { Link } from 'react-router';
 
@@ -6,6 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink,
   NavbarToggler, Collapse, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
+import './Header.scss';
 
 class Header extends Component {
 
@@ -112,7 +112,7 @@ class Header extends Component {
     return (
       <header>
         <nav className="app-navbar navbar-inverse navbar-toggleable bg-inverse navbar-full">
-            <button className="navbar-toggler float-left" type="button" onClick={ onHamburgerClick }>
+            <button className="drawer-toggler float-left hidden-md-up" type="button" onClick={ onHamburgerClick }>
               <span className="navbar-toggler-icon"></span>
             </button>
             <span className="navbar-brand">{ title }</span>

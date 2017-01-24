@@ -52,7 +52,7 @@
 .sub-list-item-link{
   display: block;
   position: relative;
-  width: calc(100% - 150px);
+  width: calc(100% - 120px);
   &:hover{
     background: rgba(0,0,0,.05);
     text-decoration:none;
@@ -60,7 +60,7 @@
 
   .link-title{
     padding: 0 5px;
-    font-size: 1.3em;
+    font-size: 1em;
   }
 
   &:hover > .link-title{
@@ -88,7 +88,7 @@
 }
 
 .sub-list-item-meta{
-  width: 100px;
+  width: 70px;
   border-left: 1px solid #CCC;
   color: #333;
 
@@ -109,7 +109,7 @@
 
 .sub-list-item-comments{
   display: block;
-  width: 100px;
+  width: 70px;
   color: #333;
   height: 60%;
 

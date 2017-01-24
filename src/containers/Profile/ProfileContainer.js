@@ -51,8 +51,8 @@ class ProfileContainer extends Component {
 
     return (
       <Container>
-      <Row className="linkpost">
-        <Col xs="12" sm="5" lg="3" className="">
+      <Row>
+        <Col xs="12" sm="12" lg="3" className="">
           <ProfileCard
             id={ id }
             username={ username }
@@ -62,7 +62,7 @@ class ProfileContainer extends Component {
             karma={ karma }
           />
         </Col>
-        <Col xs="12" sm="7" lg="9" className="">
+        <Col xs="12" sm="12" lg="9">
           {type === 'links' && id && (
             <LinksContainer
               id={ id }
