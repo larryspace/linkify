@@ -1,10 +1,5 @@
 <?php
 require_once __DIR__ . '/lib/autoload.php';
-require_once __DIR__ . '/controllers/user.php';
-require_once __DIR__ . '/controllers/userSettings.php';
-require_once __DIR__ . '/controllers/directory.php';
-require_once __DIR__ . '/controllers/links.php';
-require_once __DIR__ . '/controllers/comments.php';
 
 $router = new miniRoute();
 
