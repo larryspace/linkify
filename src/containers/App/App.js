@@ -68,7 +68,7 @@ class App extends Component {
   }
 
   updateDimensions(){
-    if(window.innerWidth > 768){
+    if(window.innerWidth >= 768){
       this.setState({fixedDrawer: true});
     }else{
       this.setState({fixedDrawer: false});
